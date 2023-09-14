@@ -1,4 +1,3 @@
-import { useEffect } from "react"
 import { Edit, Upload } from "react-feather"
 import { Link, useLocation } from "react-router-dom"
 

@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react'
+import {useState} from 'react'
 import {CheckSquare, Edit, XSquare} from 'react-feather'
 
 import {useDraggable} from '@neodrag/react'
@@ -8,11 +8,7 @@ import { ICanvasChildProps } from '../../types/ComponentProps'
 function TextField({ id, x, y, dragHandler }: ICanvasChildProps) {
 	const [isEditing, setIsEditing] = useState<boolean>(false)
 	const [value, setValue] = useState<string>('Click to add text')
-	const [position, setPosition] = useState({x: 0, y: 0})
-
-	useEffect(() => {
-        setPosition({x, y})
-	}, [])
+	const [position, setPosition] = useState({x, y})
 
 	const [inputFieldValue, setInputFieldValue] = useState<string>(value)
 

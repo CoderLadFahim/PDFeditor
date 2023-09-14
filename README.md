@@ -8,7 +8,7 @@
     <!-- - Create the left sidebar that has the two links -->
     <!-- - Create the two routes that are linked in the sidebar -->
     <!-- - Design the CanvasControl component with all the elements -->
-    - Design the document canvas which is just a blank div
+    <!-- - Design the document canvas which is just a blank div -->
 
 # CanvasContext
     - Create a context that stores the n of elements in the document 
@@ -16,7 +16,7 @@
     - The context should link with localStorage
 
 # Text
-    - Create a text field component with just hard coded text that can be dragged around in the document
+    <!-- - Create a text field component with just hard coded text that can be dragged around in the document -->
     - Make the text field something that can be interacted with using inputs
     - Implement the same logic but with the dimensions of the component
     - User should be able to click and create this component as many times as they want all over the document  

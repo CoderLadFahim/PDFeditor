@@ -21,3 +21,11 @@
     height: var(--navbar-height);
     width: var(--sidebar-width);
 }
+
+.nav-link {
+    @apply flex space-x-4 pl-10 py-4 bg-gray-300 text-gray-900;
+}
+
+.active-nav-link {
+    @apply bg-green-600 text-white;
+}

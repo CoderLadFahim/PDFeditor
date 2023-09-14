@@ -18,7 +18,7 @@
 # Text
     <!-- - Create a text field component with just hard coded text that can be dragged around in the document -->
     <!-- - Make the text field something that can be interacted with using inputs -->
-    - User should be able to click and create this component as many times as they want all over the document  
+    <!-- - User should be able to click and create this component as many times as they want all over the document   -->
     - Retain the component and its state in the document on refresh
 
 # Image
@@ -32,11 +32,10 @@
     - Display the coords of the seleted component in CanvasControl
     - User should be able to edit the coords directly from CanvasControl
     - User should be able to edit the dimensions directly from CanvasControl
-    - User should be able to delete any component on delete keypress 
+    - User should be able to delete any component on delete icon click
     - User should be able to zoom in and out anywhere in the document
     - Show the name of the document in the navbar
     - Show the coords of the selected component in the right sidebar
-    - Retain the state of the canvas on refresh
     - Hide the sidebar and canvas control on preview click
     - Print the document when user clicks download
     - Clear everything when user presses the clear button

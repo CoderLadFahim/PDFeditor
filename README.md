@@ -7,7 +7,7 @@
 # Layout
     <!-- - Create the left sidebar that has the two links -->
     <!-- - Create the two routes that are linked in the sidebar -->
-    - Design the CanvasControl component with all the elements
+    <!-- - Design the CanvasControl component with all the elements -->
     - Design the document canvas which is just a blank div
 
 # CanvasContext

@@ -11,6 +11,10 @@
 	--content-wrapper-additional-y-margin: 1.5rem;
 }
 
+body {
+    background: #c5c5c5;
+}
+
 .app-sidebar {
     width: var(--sidebar-width);
     height: calc(100vh - var(--navbar-height));
@@ -42,3 +46,5 @@
     width:var(--sidebar-width);
     height: calc(100vh - var(--navbar-height));
 }
+
+.app-canvas { margin: var(--content-wrapper-additional-y-margin) auto; }

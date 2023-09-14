@@ -20,9 +20,17 @@ body {
     height: calc(100vh - var(--navbar-height));
     position: fixed;
     left: 0;
+    top: var(--navbar-height);
 }
 
-.app-navbar { height: var(--navbar-height); }
+.app-navbar {
+    height: var(--navbar-height); 
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+
+}
 
 .app-navbar .logo-wrapper {
     height: var(--navbar-height);
@@ -35,16 +43,18 @@ body {
 .content-wrapper {
     margin-left: calc(var(--sidebar-width) + var(--content-wrapper-additional-x-margin)); 
     margin-right: calc(var(--content-wrapper-additional-x-margin)); 
-    margin-top: var(--content-wrapper-additional-y-margin);
+    margin-top: calc(var(--navbar-height) + var(--content-wrapper-additional-x-margin)); 
 }
 
 
 .app-canvas-control {
-    position: absolute;
+    position: fixed;
     top: var(--navbar-height);
     right: 0;
     width:var(--sidebar-width);
     height: calc(100vh - var(--navbar-height));
 }
 
-.app-canvas { margin: var(--content-wrapper-additional-y-margin) auto; }
+.app-canvas { 
+    margin: calc(var(--navbar-height) + var(--content-wrapper-additional-x-margin)) auto; 
+}

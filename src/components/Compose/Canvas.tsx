@@ -9,10 +9,11 @@ function Canvas() {
 		{
 			type: 'text',
 			id: v4(),
-			x: 4,
-			y: 75,
+			x: 26,
+			y: 440,
 		},
 	])
+	const [key, setKey] = useState<number>(0)
 
 	const handleDrag = (x: number, y: number, id: string): void => {
 		console.log({x, y, id})
@@ -31,7 +32,7 @@ function Canvas() {
 			y,
 		}
 
-		// return console.log(newCanvasChild)
+		console.log(newCanvasChild)
 		setCanvasChildren((prevChildren: ICanvasChild[]): ICanvasChild[] => [
 			...prevChildren,
 			newCanvasChild,
@@ -43,6 +44,7 @@ function Canvas() {
 			ref={canvasComponent}
 			className="app-canvas bg-white shadow w-[595px] h-[842px]"
 			onClick={handleCanvasClick}
+			key={key}
 		>
 			{canvasChildren.map((child) => (
 				<TextField

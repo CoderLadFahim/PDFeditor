@@ -1,14 +1,18 @@
-import {useEffect, useLayoutEffect, useState} from 'react'
+import {useEffect, useState} from 'react'
 import {CheckSquare, Edit, XSquare} from 'react-feather'
 
 import {useDraggable} from '@neodrag/react'
 import {useRef} from 'react'
-import { ICanvasChildProps } from '../../types/Reusables'
+import { ICanvasChildProps } from '../../types/ComponentProps'
 
 function TextField({ id, x, y, dragHandler }: ICanvasChildProps) {
 	const [isEditing, setIsEditing] = useState<boolean>(false)
 	const [value, setValue] = useState<string>('Click to add text')
-	const [position, setPosition] = useState({x, y})
+	const [position, setPosition] = useState({x: 0, y: 0})
+
+	useEffect(() => {
+        setPosition({x, y})
+	}, [])
 
 	const [inputFieldValue, setInputFieldValue] = useState<string>(value)
 
@@ -22,10 +26,9 @@ function TextField({ id, x, y, dragHandler }: ICanvasChildProps) {
 	}
 
 	const draggableRef = useRef(null)
-	const {isDragging, dragState} = useDraggable(draggableRef, {
+	const {isDragging} = useDraggable(draggableRef, {
 		bounds: 'parent',
 		position,
-		// grid: [10, 10],
 		onDrag: ({offsetY, offsetX, rootNode}) => {
             setPosition({ x: offsetX, y: offsetY }); 
             const selectedNode = rootNode
@@ -41,28 +44,27 @@ function TextField({ id, x, y, dragHandler }: ICanvasChildProps) {
                 Math.floor(currentNodeClientRect.left - parentNodeOffsetLeft),
                 Math.floor(currentNodeClientRect.top - parentNodeOffsetTop)
             ]
-            // console.log(dragHandler)
             dragHandler(x, y, id)
         }
 	})
 
-	const handleCheckSqClick = (e) => {
+	const handleCheckSqClick = (e: { stopPropagation: () => void }) => {
         e.stopPropagation()
         setTextFieldValue()
 	}
 
-	const handleXSqClick = (e) => {
+	const handleXSqClick = (e: { stopPropagation: () => void }) => {
         e.stopPropagation()
 	    setIsEditing(() => false)
 	}
 
-	const handleEditBtnClick = (e) => {
+	const handleEditBtnClick = (e: { stopPropagation: () => void }) => {
         e.stopPropagation()
 	    setIsEditing(() => true)
 	}
 
 	return (
-		<div ref={draggableRef} className={`inline-block ${isDragging ? 'border border-blue-400' : ''}`}>
+		<div onClick={e => e.stopPropagation()} ref={draggableRef} className={`inline-block absolute ${isDragging ? 'border border-blue-400' : ''}`}>
 			{isEditing ? (
 				<div className="flex items-center space-x-2">
 					<input

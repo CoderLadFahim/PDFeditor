@@ -1,27 +1,44 @@
-# React + TypeScript + Vite
+# Dependencies
+    - Install tailwind
+    - Install neodrag
+    - Install react-router
+    - Install react-feather
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+# Layout
+    - Create the left sidebar that has the two links
+    - Create the two routes that are linked in the sidebar
+    - Design the CanvasControl component with all the elements
+    - Design the document canvas which is just a blank div
 
-Currently, two official plugins are available:
+# CanvasContext
+    - Create a context that stores the n of elements in the document 
+    - The context should keep track of every component's coords and dimensions
+    - The context should link with localStorage
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+# Text
+    - Create a text field component with just hard coded text that can be dragged around in the document
+    - Make the text field something that can be interacted with using inputs
+    - Implement the same logic but with the dimensions of the component
+    - User should be able to click and create this component as many times as they want all over the document  
+    - Retain the component and its state in the document on refresh
 
-## Expanding the ESLint configuration
+# Image
+    - Create and image component takes in an image as user input
+    - Show the uploaded image in the
+    - Store this image in localstorage
+    - Retain the image component and its state in the document on refresh
+    - User should be able to click and create this component as many times as they want all over the document  
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
-
-- Configure the top-level `parserOptions` property like this:
-
-```js
-   parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-   },
-```
-
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+# Canvas
+    - Display the coords of the seleted component in CanvasControl
+    - User should be able to edit the coords directly from CanvasControl
+    - User should be able to edit the dimensions directly from CanvasControl
+    - User should be able to delete any component on delete keypress 
+    - User should be able to zoom in and out anywhere in the document
+    - Show the name of the document in the navbar
+    - Show the coords of the selected component in the right sidebar
+    - Retain the state of the canvas on refresh
+    - Hide the sidebar and canvas control on preview click
+    - Print the document when user clicks download
+    - Clear everything when user presses the clear button
+    - Add a confirmation for clearing

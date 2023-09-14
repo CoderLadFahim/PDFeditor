@@ -6,15 +6,22 @@
 	font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
 	--sidebar-width: 17rem;
 	--navbar-height: 3.5rem;
+
+	--content-wrapper-additional-x-margin: 2rem;
+	--content-wrapper-additional-y-margin: 1.5rem;
 }
 
 .app-sidebar {
     width: var(--sidebar-width);
     height: calc(100vh - var(--navbar-height));
+    position: fixed;
+    left: 0;
 }
 
 .app-navbar {
     height: var(--navbar-height);
+    /* position: absolute; */
+    /* top: 0; */
 }
 
 .app-navbar .logo-wrapper {
@@ -28,4 +35,10 @@
 
 .active-nav-link {
     @apply bg-green-600 text-white;
+}
+
+.content-wrapper {
+    margin-left: calc(var(--sidebar-width) + var(--content-wrapper-additional-x-margin)); 
+    margin-right: calc(var(--content-wrapper-additional-x-margin)); 
+    margin-top: var(--content-wrapper-additional-y-margin);
 }

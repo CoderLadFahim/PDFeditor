@@ -5,7 +5,7 @@ function Compose() {
         console.log('compose component');
     }, [])
   return (
-    <div className="ml-96">Compose</div>
+    <div className="content-wrapper">Compose</div>
   )
 }
 

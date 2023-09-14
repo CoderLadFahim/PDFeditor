@@ -5,7 +5,7 @@ function Upload() {
         console.log('upload component');
     }, [])
   return (
-    <div>Upload</div>
+    <div className='content-wrapper'>Upload</div>
   )
 }
 

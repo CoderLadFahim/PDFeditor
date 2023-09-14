@@ -10,8 +10,9 @@ function CanvasControl() {
 				<CanvasInput
 					label="X"
 					value={val}
-					onChange={(e: ChangeEvent<HTMLInputElement>) =>
-						setVal(+e.target.value)
+					onChange={(e: ChangeEvent<HTMLInputElement>) => {
+						    if (/^\d+$/.test(e.target.value)) setVal(+e.target.value)
+                        }
 					}
 				/>
 

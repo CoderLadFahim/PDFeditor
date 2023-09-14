@@ -36,38 +36,11 @@ function Canvas() {
 			x: Math.floor(Math.random() * 100),
 			y: Math.floor(Math.random() * 700),
 		},
-
-		{
-			type: 'text',
-			id: v4(),
-			x: Math.floor(Math.random() * 100),
-			y: Math.floor(Math.random() * 700),
-		},
-		{
-			type: 'text',
-			id: v4(),
-			x: Math.floor(Math.random() * 100),
-			y: Math.floor(Math.random() * 700),
-		},
-		{
-			type: 'text',
-			id: v4(),
-			x: Math.floor(Math.random() * 100),
-			y: Math.floor(Math.random() * 700),
-		},
-		{
-			type: 'text',
-			id: v4(),
-			x: Math.floor(Math.random() * 100),
-			y: Math.floor(Math.random() * 700),
-		},
-		{
-			type: 'text',
-			id: v4(),
-			x: Math.floor(Math.random() * 100),
-			y: Math.floor(Math.random() * 700),
-		},
 	]
+
+	const handleDrag = (x: number, y: number, id: string): void => {
+	    console.log({x, y, id});
+	}
 
 	return (
 		<div
@@ -75,7 +48,7 @@ function Canvas() {
 			className="app-canvas bg-white shadow w-[595px] h-[842px]"
 		>
 			{canvasChildren.map((child) => (
-				<TextField {...child} />
+				<TextField {...child} key={child.id} dragHandler={handleDrag} />
 			))}
 		</div>
 	)

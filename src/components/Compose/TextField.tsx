@@ -3,9 +3,9 @@ import {CheckSquare, Edit, XSquare} from 'react-feather'
 
 import {useDraggable} from '@neodrag/react'
 import {useRef} from 'react'
-import { ICanvasChild } from '../../types/Reusables'
+import { ICanvasChildProps } from '../../types/Reusables'
 
-function TextField({ type, id, x, y }: ICanvasChild) {
+function TextField({ id, x, y, dragHandler }: ICanvasChildProps) {
 	const [isEditing, setIsEditing] = useState<boolean>(false)
 	const [value, setValue] = useState<string>('Click to add text')
 	const [position, setPosition] = useState({x, y})
@@ -41,7 +41,8 @@ function TextField({ type, id, x, y }: ICanvasChild) {
                 Math.floor(currentNodeClientRect.left - parentNodeOffsetLeft),
                 Math.floor(currentNodeClientRect.top - parentNodeOffsetTop)
             ]
-            console.log({x, y})
+            // console.log(dragHandler)
+            dragHandler(x, y, id)
         }
 	})
 

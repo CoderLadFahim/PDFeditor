@@ -1,8 +1,8 @@
-# Dependencies
-    - Install tailwind
-    - Install neodrag
-    - Install react-router
-    - Install react-feather
+# Setup Dependencies
+    <!-- - Install tailwind -->
+    <!-- - Install neodrag -->
+    <!-- - Install react-router -->
+    <!-- - Install react-feather -->
 
 # Layout
     - Create the left sidebar that has the two links

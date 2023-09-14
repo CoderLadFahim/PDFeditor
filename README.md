@@ -24,7 +24,7 @@
 
 # Image
     - Create and image component takes in an image as user input
-    - Show the uploaded image in the
+    - Show the uploaded image in the document
     - Store this image in localstorage
     - Retain the image component and its state in the document on refresh
     - User should be able to click and create this component as many times as they want all over the document  

@@ -9,7 +9,7 @@ function CanvasInput({label, value, onChange}: ICanvasInputProps) {
 		>
 			<span>{label}</span>
 			<input
-				className="bg-inherit w-1/2 text-right text-green-400 outline-none"
+				className="bg-inherit w-full text-right text-green-400 outline-none"
 				type="text"
 				id={identifier}
 				value={value}

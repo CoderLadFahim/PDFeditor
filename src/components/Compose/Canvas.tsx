@@ -1,5 +1,6 @@
 import {useDraggable} from '@neodrag/react'
 import React, { useRef } from 'react'
+import TextField from './TextField'
 
 function Canvas() {
 	const draggableRef = useRef(null)
@@ -14,6 +15,7 @@ function Canvas() {
 	return (
 		<div className="app-canvas bg-white shadow w-[595px] h-[842px]">
 			<p className="inline-block" ref={draggableRef}>drag me daddy</p>
+			<TextField />
 		</div>
 	)
 }

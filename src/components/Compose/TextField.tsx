@@ -46,6 +46,21 @@ function TextField({ id, x, y, dragHandler }: ICanvasChildProps) {
         }
 	})
 
+	const handleCheckSqClick = (e) => {
+        e.stopPropagation()
+        setTextFieldValue()
+	}
+
+	const handleXSqClick = (e) => {
+        e.stopPropagation()
+	    setIsEditing(() => false)
+	}
+
+	const handleEditBtnClick = (e) => {
+        e.stopPropagation()
+	    setIsEditing(() => true)
+	}
+
 	return (
 		<div ref={draggableRef} className={`inline-block ${isDragging ? 'border border-blue-400' : ''}`}>
 			{isEditing ? (
@@ -62,13 +77,13 @@ function TextField({ id, x, y, dragHandler }: ICanvasChildProps) {
 					<div className="flex items-center space-x-1">
 						<button
 							className="text-green-500"
-							onClick={() => setTextFieldValue()}
+							onClick={handleCheckSqClick}
 						>
 							<CheckSquare />
 						</button>
 						<button
 							className="text-red-500"
-							onClick={() => setIsEditing(() => false)}
+							onClick={handleXSqClick}
 						>
 							<XSquare />
 						</button>
@@ -79,7 +94,7 @@ function TextField({ id, x, y, dragHandler }: ICanvasChildProps) {
 					<p className="cursor-pointer">{value}</p>
 					<button
 						className="text-gray-600 transition absolute -right-5 top-1/2 transform -translate-y-1/2 opacity-0 group-hover:opacity-100"
-						onClick={() => setIsEditing(() => true)}
+						onClick={handleEditBtnClick}
 					>
 						<Edit size={15} />
 					</button>

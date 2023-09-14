@@ -17,8 +17,7 @@
 
 # Text
     <!-- - Create a text field component with just hard coded text that can be dragged around in the document -->
-    - Make the text field something that can be interacted with using inputs
-    - Implement the same logic but with the dimensions of the component
+    <!-- - Make the text field something that can be interacted with using inputs -->
     - User should be able to click and create this component as many times as they want all over the document  
     - Retain the component and its state in the document on refresh
 

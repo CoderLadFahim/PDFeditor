@@ -1,12 +1,14 @@
-import {useState} from 'react'
+import {useEffect, useLayoutEffect, useState} from 'react'
 import {CheckSquare, Edit, XSquare} from 'react-feather'
 
 import {useDraggable} from '@neodrag/react'
 import {useRef} from 'react'
+import { ICanvasChild } from '../../types/Reusables'
 
-function TextField() {
+function TextField({ type, id, x, y }: ICanvasChild) {
 	const [isEditing, setIsEditing] = useState<boolean>(false)
 	const [value, setValue] = useState<string>('Click to add text')
+	const [position, setPosition] = useState({x, y})
 
 	const [inputFieldValue, setInputFieldValue] = useState<string>(value)
 
@@ -20,14 +22,31 @@ function TextField() {
 	}
 
 	const draggableRef = useRef(null)
-	useDraggable(draggableRef, {
+	const {isDragging, dragState} = useDraggable(draggableRef, {
 		bounds: 'parent',
-		// defaultPosition: { x, y, },
-		grid: [10, 10],
+		position,
+		// grid: [10, 10],
+		onDrag: ({offsetY, offsetX, rootNode}) => {
+            setPosition({ x: offsetX, y: offsetY }); 
+            const selectedNode = rootNode
+            // @ts-ignore
+            const selectedNodeParent: (HTMLElement | null) = selectedNode.parentNode;
+
+            const parentNodeOffsetLeft = selectedNodeParent?.offsetLeft
+            const parentNodeOffsetTop = selectedNodeParent?.offsetTop
+            const currentNodeClientRect = selectedNode?.getBoundingClientRect()
+
+            if (!parentNodeOffsetLeft || !parentNodeOffsetTop) return;
+            const [x, y] = [
+                Math.floor(currentNodeClientRect.left - parentNodeOffsetLeft),
+                Math.floor(currentNodeClientRect.top - parentNodeOffsetTop)
+            ]
+            console.log({x, y})
+        }
 	})
 
 	return (
-		<div ref={draggableRef} className="inline-block">
+		<div ref={draggableRef} className={`inline-block ${isDragging ? 'border border-blue-400' : ''}`}>
 			{isEditing ? (
 				<div className="flex items-center space-x-2">
 					<input

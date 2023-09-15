@@ -2,6 +2,7 @@ import {useRef, useState} from 'react'
 import TextField from './TextField'
 import {ICanvasChild} from '../../types/Reusables'
 import {v4} from 'uuid'
+import _ from 'lodash'
 
 function Canvas() {
 	const canvasComponent = useRef(null)
@@ -14,15 +15,17 @@ function Canvas() {
 		},
 	])
 
-	const handleDrag = (x: number, y: number, id: string): void => {
+	const handleDrag = _.debounce((x: number, y: number, id: string): void => {
 		console.log({x, y, id})
-	}
+	}, 500)
 
 	const handleDel = (id: string): void => {
-		setCanvasChildren(prevChildren => prevChildren.filter(child => child.id !== id));
+		setCanvasChildren((prevChildren: ICanvasChild[]): ICanvasChild[] =>
+			prevChildren.filter((child) => child.id !== id)
+		)
 	}
 
-	const handleCanvasClick = (e: { clientX: number; clientY: number }) => {
+	const handleCanvasClick = (e: {clientX: number; clientY: number}) => {
 		// @ts-ignore
 		const rect = canvasComponent.current?.getBoundingClientRect()
 		const x = Math.floor(e.clientX - rect.left)

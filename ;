@@ -1,0 +1,26 @@
+import React from "react";
+import { ICanvasState } from "../types/Reusables";
+
+
+export function canvasReducer(state: ICanvasState, action: {type: string, payload: any}) {
+	switch (action.type) {
+		case 'increment':
+			return {state, count1: state.count1++}
+			break
+		case 'decrement':
+			return {state, count1: state.count1--}
+			break
+		default:
+			break
+	}
+}
+
+export const initialCanvasState: ICanvasState = {
+    documents: [
+        {
+            selectedTool: 'text'
+        }
+    ]
+}
+
+export const CanvasContext = React.createContext(initialCanvasState)

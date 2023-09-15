@@ -43,6 +43,22 @@ export function canvasReducer(
 				],
 			}
 			break
+		case 'EDIT_TEXT_FIELD_CONTENT':
+			const textFieldToUpdateTheValueOf = state.canvasChildren.find(
+				(canvasChild: ICanvasChild) =>
+					canvasChild.id === action.payload.id
+			)
+			return {
+				...state,
+				canvasChildren: [
+					...state.canvasChildren.filter(
+						(child: ICanvasChild) =>
+							child.id !== action.payload.id
+					),
+					{...textFieldToUpdateTheValueOf, value: action.payload.value },
+				],
+			}
+			break
 		case 'CHANGE_SELECTED_TOOL':
 			return {
 				...state,

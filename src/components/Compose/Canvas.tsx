@@ -15,10 +15,6 @@ function Canvas() {
 		dispatch({type: 'CHANGE_CANVAS_CHILD_COORDS', payload: {x, y, id}})
 	}, 100)
 
-	const handleDel = (id: string): void => {
-		dispatch({type: 'DELETE_CANVAS_CHILD', payload: id})
-	}
-
 	const handleCanvasClick = (e: {clientX: number; clientY: number}) => {
 		const rect = canvasComponent.current?.getBoundingClientRect()
 		if (!rect) return
@@ -27,6 +23,7 @@ function Canvas() {
 
 		const newCanvasChild: ICanvasChild = {
 			type: 'text',
+			value: 'Click to add text',
 			id: v4(),
 			x,
 			y,
@@ -46,7 +43,6 @@ function Canvas() {
 					{...child}
 					key={child.id}
 					dragHandler={handleDrag}
-					delHandler={handleDel}
 				/>
 			))}
 		</div>

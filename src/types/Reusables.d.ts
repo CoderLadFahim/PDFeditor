@@ -11,6 +11,7 @@ export interface ICanvasChild {
 	id: string
 	x: number
 	y: number
+	value: string
 	width?: number
 	height?: number
 }

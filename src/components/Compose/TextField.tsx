@@ -1,71 +1,94 @@
-import {useState} from 'react'
+import {useContext, useState} from 'react'
 import {CheckSquare, Edit, Trash, XSquare} from 'react-feather'
 
 import {useDraggable} from '@neodrag/react'
 import {useRef} from 'react'
-import { ICanvasChildProps } from '../../types/ComponentProps'
+import {ICanvasChildProps} from '../../types/ComponentProps'
+import {CanvasContext} from '../../contexts/CanvasContext'
 
-function TextField({ id, x, y, dragHandler, delHandler }: ICanvasChildProps) {
+function TextField({id, x, y, dragHandler}: ICanvasChildProps) {
+	const {state, dispatch} = useContext(CanvasContext)
+
+	const objectInContext = state.canvasChildren.find(
+		(canvasChild) => canvasChild.id === id
+	)
+	const value = objectInContext?.value
+
 	const [isEditing, setIsEditing] = useState<boolean>(false)
-	const [value, setValue] = useState<string>('Click to add text')
-	const [position, setPosition] = useState({x, y})
+	const [position, setPosition] = useState<{x: number; y: number}>({x, y})
 
-	const [inputFieldValue, setInputFieldValue] = useState<string>(value)
-
+	const [inputFieldValue, setInputFieldValue] = useState<string>(
+		value ?? 'Click to add text'
+	)
 	const handleKeyDown = (e: any): void => {
 		if (e.key.toLowerCase() === 'enter') setTextFieldValue()
 	}
 
 	const setTextFieldValue = (): void => {
 		setIsEditing(() => false)
-		setValue(() => inputFieldValue)
+		dispatch({
+			type: 'EDIT_TEXT_FIELD_CONTENT',
+			payload: {id, value: inputFieldValue},
+		})
 	}
 
 	const draggableRef = useRef(null)
-	const {isDragging} = useDraggable(draggableRef, {
+	useDraggable(draggableRef, {
 		bounds: 'parent',
 		position,
 		onDrag: ({offsetY, offsetX, rootNode}) => {
-            setPosition({ x: offsetX, y: offsetY }); 
-            const selectedNode = rootNode
-            // @ts-ignore
-            const selectedNodeParent: (HTMLElement | null) = selectedNode.parentNode;
+			setPosition({x: offsetX, y: offsetY})
+			const selectedNode = rootNode
+			// @ts-ignore
+			const selectedNodeParent: HTMLElement | null =
+				selectedNode.parentNode
 
-            const parentNodeOffsetLeft = selectedNodeParent?.offsetLeft
-            const parentNodeOffsetTop = selectedNodeParent?.offsetTop
-            const currentNodeClientRect = selectedNode?.getBoundingClientRect()
+			const parentNodeOffsetLeft = selectedNodeParent?.offsetLeft
+			const parentNodeOffsetTop = selectedNodeParent?.offsetTop
+			const currentNodeClientRect =
+				selectedNode?.getBoundingClientRect()
 
-            if (!parentNodeOffsetLeft || !parentNodeOffsetTop) return;
-            const [x, y] = [
-                Math.floor(currentNodeClientRect.left - parentNodeOffsetLeft),
-                Math.floor(currentNodeClientRect.top - parentNodeOffsetTop)
-            ]
-            dragHandler(x, y, id)
-        }
+			if (!parentNodeOffsetLeft || !parentNodeOffsetTop) return
+			const [x, y] = [
+				Math.floor(
+					currentNodeClientRect.left - parentNodeOffsetLeft
+				),
+				Math.floor(currentNodeClientRect.top - parentNodeOffsetTop),
+			]
+			dragHandler(x, y, id)
+		},
 	})
 
-	const handleCheckSqClick = (e: { stopPropagation: () => void }) => {
-        e.stopPropagation()
-        setTextFieldValue()
+	const handleCheckSqClick = (e: {stopPropagation: () => void}) => {
+		e.stopPropagation()
+		setTextFieldValue()
 	}
 
-	const handleXSqClick = (e: { stopPropagation: () => void }) => {
-        e.stopPropagation()
-	    setIsEditing(() => false)
+	const handleXSqClick = (e: {stopPropagation: () => void}) => {
+		e.stopPropagation()
+		setIsEditing(() => false)
 	}
 
-	const handleEditBtnClick = (e: { stopPropagation: () => void }) => {
-        e.stopPropagation()
-	    setIsEditing(() => true)
+	const handleEditBtnClick = (e: {stopPropagation: () => void}) => {
+		e.stopPropagation()
+		setIsEditing(() => true)
 	}
 
-	const handleDelBtnClick = (e: { stopPropagation: () => void }) => {
-        e.stopPropagation()
-        delHandler(id);
+	const handleDelBtnClick = (e: {stopPropagation: () => void}) => {
+		e.stopPropagation()
+		dispatch({type: 'DELETE_CANVAS_CHILD', payload: id})
 	}
 
 	return (
-		<div onClick={e => e.stopPropagation()} ref={draggableRef} className="inline-block absolute">
+		<div
+			onClick={(e) => e.stopPropagation()}
+			ref={draggableRef}
+			className={`absolute ${
+				!isEditing
+					? 'border border-transparent hover:border-blue-400 rounded'
+					: ''
+			}`}
+		>
 			{isEditing ? (
 				<div className="flex items-center space-x-2">
 					<input
@@ -93,20 +116,22 @@ function TextField({ id, x, y, dragHandler, delHandler }: ICanvasChildProps) {
 					</div>
 				</div>
 			) : (
-				<div className="flex space-x-2 group relative">
+				<div className="flex relative group">
 					<p className="cursor-pointer">{value}</p>
-					<button
-						className="text-green-600 transition absolute -right-5 top-1/2 transform -translate-y-1/2 opacity-0 group-hover:opacity-100"
-						onClick={handleEditBtnClick}
-					>
-						<Edit size={15} />
-					</button>
-                        <button
-						    className="text-red-600 transition absolute -right-9 top-1/2 transform -translate-y-1/2 opacity-0 group-hover:opacity-100"
-						    onClick={handleDelBtnClick}
-					        >
-						    <Trash size={15} />
-					    </button>
+					<div className="absolute space-x-1 -right-11 top-1/2 transform -translate-y-1/2 opacity-0 group-hover:opacity-100">
+						<button
+							className="text-green-600 transition group-hover:opacity-100"
+							onClick={handleEditBtnClick}
+						>
+							<Edit size={15} />
+						</button>
+						<button
+							className="text-red-600 transition group-hover:opacity-100"
+							onClick={handleDelBtnClick}
+						>
+							<Trash size={15} />
+						</button>
+					</div>
 				</div>
 			)}
 		</div>

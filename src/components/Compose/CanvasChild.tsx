@@ -6,7 +6,7 @@ import {useRef} from 'react'
 import {ICanvasChildProps} from '../../types/ComponentProps'
 import {CanvasContext} from '../../contexts/CanvasContext'
 
-function TextField({id, x, y, dragHandler, type}: ICanvasChildProps) {
+function CanvasChild({id, x, y, dragHandler, type}: ICanvasChildProps) {
 	const {state, dispatch} = useContext(CanvasContext)
 
 	const objectInContext = state.canvasChildren.find(
@@ -21,10 +21,10 @@ function TextField({id, x, y, dragHandler, type}: ICanvasChildProps) {
 		value ?? 'Click to add text'
 	)
 	const handleKeyDown = (e: any): void => {
-		if (e.key.toLowerCase() === 'enter') setTextFieldValue()
+		if (e.key.toLowerCase() === 'enter') setCanvasChildValue()
 	}
 
-	const setTextFieldValue = (): void => {
+	const setCanvasChildValue = (): void => {
 		setIsEditing(() => false)
 		dispatch({
 			type: 'EDIT_TEXT_FIELD_CONTENT',
@@ -61,7 +61,7 @@ function TextField({id, x, y, dragHandler, type}: ICanvasChildProps) {
 
 	const handleCheckSqClick = (e: {stopPropagation: () => void}) => {
 		e.stopPropagation()
-		setTextFieldValue()
+		setCanvasChildValue()
 	}
 
 	const handleXSqClick = (e: {stopPropagation: () => void}) => {
@@ -147,4 +147,4 @@ function TextField({id, x, y, dragHandler, type}: ICanvasChildProps) {
 	)
 }
 
-export default TextField
+export default CanvasChild

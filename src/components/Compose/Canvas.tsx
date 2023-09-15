@@ -1,5 +1,5 @@
 import {useContext, useEffect, useRef, useState} from 'react'
-import TextField from './TextField'
+import CanvasChild from './CanvasChild'
 import {ICanvasChild} from '../../types/Reusables'
 import {v4} from 'uuid'
 import _ from 'lodash'
@@ -19,7 +19,7 @@ function Canvas() {
 		if (e.ctrlKey) return zoom()
 		if (state.previewMode) return
 		const newCanvasChild: ICanvasChild = {
-			type: 'text',
+			type: state.selectedTool,
 			value: 'Click to add text',
 			id: v4(),
 			x,
@@ -54,7 +54,7 @@ function Canvas() {
 			onClick={handleCanvasClick}
 		>
 			{state.canvasChildren.map((child, i) => (
-				<TextField
+				<CanvasChild
 					{...child}
 					key={i}
 					dragHandler={handleDrag}

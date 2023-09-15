@@ -24,7 +24,7 @@
 # Image
     - Create and image component takes in an image as user input
     - Show the uploaded image in the document
-    - Replicate the same behaviour as Text component but also keeping track of the dimensions
+    - Replicate the same behaviour as Text component
 
 # Canvas
 <!-- - Display the coords of the seleted component in CanvasControl -->
@@ -33,8 +33,7 @@
 <!-- - Hide the sidebar and canvas control on preview click -->
 <!-- - Add a confirmation for clearing -->
 <!-- - Clear everything when user presses the clear button -->
-    - User should be able to edit the coords directly from CanvasControl
-    - User should be able to edit the dimensions directly from CanvasControl
     - User should be able to zoom in and out anywhere in the document
     - Print the document when user clicks download
+    - Implement a selected tool indicator
     - Use custom hooks !!

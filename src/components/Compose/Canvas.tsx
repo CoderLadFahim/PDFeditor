@@ -14,6 +14,7 @@ function Canvas() {
 	}, 100)
 
 	const handleCanvasClick = (e: {clientX: number; clientY: number}) => {
+		if (state.previewMode) return;
 		const rect = canvasComponent.current?.getBoundingClientRect()
 		if (!rect) return
 		const x = Math.floor(e.clientX - rect.left)

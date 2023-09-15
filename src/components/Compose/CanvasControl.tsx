@@ -47,7 +47,7 @@ function CanvasControl() {
 	}
 
 	return (
-		<section className={`app-canvas-control bg-gray-800 px-6 pt-6 text-white relative ${ state.previewMode ? 'opacity-0' : '' }`}>
+		<section className={`app-canvas-control transition bg-gray-800 px-6 pt-6 text-white relative ${ state.previewMode ? 'opacity-0' : '' }`}>
 			<div className="coord-inputs space-y-6 mb-10">
 				<CanvasInput
 					label="X"

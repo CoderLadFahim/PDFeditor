@@ -29,10 +29,10 @@
 <!-- - Display the coords of the seleted component in CanvasControl -->
 <!-- - Show the coords of the selected component in the right sidebar -->
 <!-- - User should be able to delete any component on delete icon click -->
+<!-- - Hide the sidebar and canvas control on preview click -->
     - User should be able to edit the coords directly from CanvasControl
     - User should be able to edit the dimensions directly from CanvasControl
     - User should be able to zoom in and out anywhere in the document
-    - Hide the sidebar and canvas control on preview click
     - Print the document when user clicks download
     - Clear everything when user presses the clear button
     - Add a confirmation for clearing

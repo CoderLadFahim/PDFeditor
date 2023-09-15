@@ -30,7 +30,7 @@ function CanvasChild({id, x, y, dragHandler, type}: ICanvasChildProps) {
 			type: 'EDIT_CANVAS_CHILD_VALUE',
 			payload: {
 				id,
-				value: textInputFieldValue
+				value: textInputFieldValue,
 			},
 		})
 	}
@@ -93,6 +93,21 @@ function CanvasChild({id, x, y, dragHandler, type}: ICanvasChildProps) {
 		})
 	}
 
+	const [imgSrc, setImgSrc] = useState<any>('')
+	const handleImageUpload = (event) => {
+		const file = event.target.files[0]
+		const reader = new FileReader()
+
+		reader.onload = () => {
+			setImgSrc(reader.result)
+			setIsEditing(false)
+		}
+
+		if (file) {
+			reader.readAsDataURL(file)
+		}
+	}
+
 	return (
 		<div
 			onClick={handleCanvasChildClick}
@@ -110,54 +125,49 @@ function CanvasChild({id, x, y, dragHandler, type}: ICanvasChildProps) {
 			{isEditing ? (
 				<div className="flex items-center space-x-2">
 					{type === 'text' ? (
-						<input
-							className="border border-green-400 p-1 rounded outline-none"
-							type="text"
-							value={textInputFieldValue}
-							onKeyDown={handleKeyDown}
-							onChange={(e) =>
-								setTextInputFieldValue(
-									() => e.target.value
-								)
-							}
-						/>
+						<>
+							<input
+								className="border border-green-400 p-1 rounded outline-none"
+								type="text"
+								value={textInputFieldValue}
+								onKeyDown={handleKeyDown}
+								onChange={(e) =>
+									setTextInputFieldValue(
+										() => e.target.value
+									)
+								}
+							/>
+
+							<div className="flex items-center space-x-1">
+								<button
+									className="text-green-500"
+									onClick={handleCheckSqClick}
+								>
+									<CheckSquare />
+								</button>
+								<button
+									className="text-red-500"
+									onClick={handleXSqClick}
+								>
+									<XSquare />
+								</button>
+							</div>
+						</>
 					) : (
 						<input
 							className="border border-green-400 p-1 rounded outline-none"
 							type="file"
-							// onChange={(e) =>
-							// 	setFileInputFieldValue(() =>
-							// 		e?.target?.files?.length
-							// 			? e.target.files[0]
-							// 			: ''
-							// 	)
-							// }
+							onChange={handleImageUpload}
 						/>
 					)}
-					<div className="flex items-center space-x-1">
-						<button
-							className="text-green-500"
-							onClick={handleCheckSqClick}
-						>
-							<CheckSquare />
-						</button>
-						<button
-							className="text-red-500"
-							onClick={handleXSqClick}
-						>
-							<XSquare />
-						</button>
-					</div>
 				</div>
 			) : (
 				<div className="flex relative group">
 					{type === 'text' ? (
 						<p className="cursor-pointer">{value}</p>
-					) : true ? (
+					) : imgSrc ? (
 						<img
-							// src={URL.createObjectURL(
-							// 	fileInputFieldValue
-							// )}
+							src={imgSrc}
 							alt="sample image"
 							width="100"
 							height="100"

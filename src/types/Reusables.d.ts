@@ -7,7 +7,8 @@ export type TCanvasContextActionType =
 	| 'SET_CANVAS'
 	| 'EDIT_TEXT_FIELD_CONTENT'
     | 'SET_PREVIEW_MODE'
-    | 'SET_SELECTED_COMPONENT_ID'
+    | 'SET_SELECTED_COMPONENT_ID' 
+    | 'EDIT_CANVAS_CHILD_VALUE'
 
 export interface ICanvasChild {
 	type: TCanvasChildType

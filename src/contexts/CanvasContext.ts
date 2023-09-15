@@ -25,6 +25,20 @@ export function canvasReducer(
 				),
 			}
 			break
+		case 'EDIT_CANVAS_CHILD_VALUE':
+			console.log('this is being run', action.payload);
+			return {
+				...state,
+				canvasChildren: state.canvasChildren.map((canvasChild) =>
+					canvasChild.id !== action.payload.id
+						? canvasChild
+						: {
+								...canvasChild,
+							value: action.payload.value
+						  }
+				),
+			}
+			break
 		case 'CREATE_CANVAS_CHILD':
 			return {
 				...state,

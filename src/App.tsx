@@ -4,11 +4,28 @@ import Upload from './components/Upload/Index'
 import Compose from './components/Compose/Index'
 
 import {BrowserRouter as Router, Route, Routes} from 'react-router-dom'
-import { useReducer } from 'react'
-import { CanvasContext, canvasReducer, initialCanvasState } from './contexts/CanvasContext'
+import {useEffect, useReducer, useRef} from 'react'
+import {
+	CanvasContext,
+	canvasReducer,
+	initialCanvasState,
+} from './contexts/CanvasContext'
 
 function App() {
 	const [state, dispatch] = useReducer(canvasReducer, initialCanvasState)
+	const hasMounted = useRef<boolean | null>(false)
+
+	useEffect(() => {
+		const canvasStateInLocalStorage = localStorage.getItem('canvasState')
+		if (canvasStateInLocalStorage && !hasMounted.current) {
+			dispatch({
+				type: 'SET_CANVAS',
+				payload: JSON.parse(canvasStateInLocalStorage),
+			})
+			hasMounted.current = true;
+		}
+		localStorage.setItem('canvasState', JSON.stringify(state));
+	}, [state])
 
 	return (
 		<>

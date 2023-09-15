@@ -4,6 +4,7 @@ export type TCanvasContextTypes =
 	| 'CREATE_CANVAS_CHILD'
 	| 'DELETE_CANVAS_CHILD'
 	| 'CHANGE_SELECTED_TOOL'
+	| 'SET_CANVAS'
 
 export interface ICanvasChild {
 	type: TCanvasElementType

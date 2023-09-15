@@ -49,6 +49,9 @@ export function canvasReducer(
 				selectedTool: action.payload
 			}
 			break
+		case 'SET_CANVAS':
+			return action.payload; 
+			break
 		default:
 			return state
 			break
@@ -58,12 +61,12 @@ export function canvasReducer(
 export const initialCanvasState: ICanvasState = {
 	selectedTool: 'text',
 	canvasChildren: [
-		{
-			type: 'text',
-			id: v4(),
-			x: 10,
-			y: 10,
-		},
+		// {
+		// 	type: 'text',
+		// 	id: v4(),
+		// 	x: 10,
+		// 	y: 10,
+		// },
 	],
 }
 

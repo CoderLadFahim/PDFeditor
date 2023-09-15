@@ -40,3 +40,4 @@
     - Print the document when user clicks download
     - Clear everything when user presses the clear button
     - Add a confirmation for clearing
+    - Use custom hooks !!

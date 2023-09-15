@@ -13,7 +13,7 @@ function Canvas() {
 		console.log({x, y, id})
 
 		dispatch({type: 'CHANGE_CANVAS_CHILD_COORDS', payload: {x, y, id}})
-	}, 500)
+	}, 100)
 
 	const handleDel = (id: string): void => {
 		dispatch({type: 'DELETE_CANVAS_CHILD', payload: id})

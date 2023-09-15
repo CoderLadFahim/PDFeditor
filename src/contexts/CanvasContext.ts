@@ -61,7 +61,7 @@ export function canvasReducer(
 		case 'SET_SELECTED_COMPONENT_ID':
 			return {
 				...state,
-				selectedCanvasChildId: action.payload
+				selectedCanvasChild: action.payload
 			}
 			break
 		case 'CHANGE_SELECTED_TOOL':
@@ -81,7 +81,7 @@ export function canvasReducer(
 
 export const initialCanvasState: ICanvasState = {
 	selectedTool: 'text',
-	selectedCanvasChildId: null,
+	selectedCanvasChild: null,
 	canvasChildren: [
 		// {
 		// 	type: 'text',

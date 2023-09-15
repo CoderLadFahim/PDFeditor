@@ -95,7 +95,7 @@ function TextField({id, x, y, dragHandler, type}: ICanvasChildProps) {
 				!isEditing
 					? 'border hover:border-blue-400 rounded'
 					: ''
-			} border-${id === state.selectedCanvasChildId.id ? 'green-400 border-2' : 'transparent'} `}
+			} border-${id === state.selectedCanvasChild?.id ? 'green-400 border-2' : 'transparent'} `}
 		>
 			{isEditing ? (
 				<div className="flex items-center space-x-2">

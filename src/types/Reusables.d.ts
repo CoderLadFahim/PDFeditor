@@ -20,7 +20,7 @@ export interface ICanvasChild {
 export interface ICanvasState {
 	selectedTool: TCanvasChildType
 	canvasChildren: ICanvasChild[]
-	selectedCanvasChildId: {type: ICanvasChildType, id: string} | null
+	selectedCanvasChild: {type: ICanvasChildType, id: string} | null
 }
 
 export interface ICanvasContext {

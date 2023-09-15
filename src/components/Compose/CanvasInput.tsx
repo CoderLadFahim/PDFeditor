@@ -1,7 +1,11 @@
 import {ICanvasInputProps} from '../../types/ComponentProps'
 
-function CanvasInput({label, value, onChange}: ICanvasInputProps) {
+function CanvasInput({label, value, onChange, onEnter}: ICanvasInputProps) {
 	const identifier: string = label.toLowerCase()
+
+	const handleKeyDown = (e) => {
+		if (e.key.toLowerCase() === 'enter') onEnter(+e.target.value)
+	}
 	return (
 		<label
 			className="bg-gray-700 text-gray-400 flex items-center justify-between px-3 py-2 rounded-md"
@@ -14,6 +18,7 @@ function CanvasInput({label, value, onChange}: ICanvasInputProps) {
 				id={identifier}
 				value={value}
 				onChange={onChange}
+				onKeyDown={handleKeyDown}
 			/>
 		</label>
 	)

@@ -128,21 +128,6 @@ function CanvasControl() {
 				>
 					<Image size={20} />
 				</button>
-				<button
-					className={`rounded p-2 bg-gray-700 ${
-						state.selectedTool === 'zoom'
-							? 'bg-green-500'
-							: ''
-					}`}
-					onClick={() =>
-						dispatch({
-							type: 'CHANGE_SELECTED_TOOL',
-							payload: 'zoom',
-						})
-					}
-				>
-					<ZoomIn size={20} />
-				</button>
 			</div>
 
 			{!showClearConfirmation ? (
@@ -163,7 +148,7 @@ function CanvasControl() {
 						onClick={() =>
 							setShowClearConfirmation(() => true)
 						}
-						className="p-3 grid place-items-center bg-slate-700 hover:bg-red-600 flex-1"
+						className={`p-3 grid place-items-center bg-slate-700 hover:bg-red-600 flex-1 ${!Boolean(state.canvasChildren.length) ? 'opacity-30 pointer-events-none' : ''}`}
 					>
 						<Trash />
 					</button>

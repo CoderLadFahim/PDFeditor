@@ -80,6 +80,7 @@ function TextField({id, x, y, dragHandler, type}: ICanvasChildProps) {
 	}
 
     const handleCanvasChildClick = (e: { stopPropagation: () => void }) => {
+        if (e.ctrlKey) return;
         e.stopPropagation();
         dispatch({
             type: 'SET_SELECTED_COMPONENT_ID',

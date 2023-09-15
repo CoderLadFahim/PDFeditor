@@ -53,10 +53,10 @@ function Canvas() {
 			style={enableZoom ? { transformOrigin: `${coordsToZoomFrom.x}px ${coordsToZoomFrom.y}px` } : {}}
 			onClick={handleCanvasClick}
 		>
-			{state.canvasChildren.map((child) => (
+			{state.canvasChildren.map((child, i) => (
 				<TextField
 					{...child}
-					key={child.id}
+					key={i}
 					dragHandler={handleDrag}
 				/>
 			))}

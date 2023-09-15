@@ -9,13 +9,13 @@ function Sidebar() {
 	const {state} = useContext(CanvasContext)
 
 	return (
-		<nav className={`app-sidebar transition bg-gray-200 text-white ${state.previewMode ? 'opacity-0' : '' }`}>
+		<nav className={`app-sidebar bg-gray-900 text-white ${state.previewMode ? 'opacity-0' : '' }`}>
 			<ul>
-				<li className={`${location.pathname === '/' ? 'active-nav-link' : ''} nav-link transition`}>
+				<li className={`${location.pathname === '/' ? 'active-nav-link' : ''} nav-link`}>
 				    <Upload />
 				    <p className="nav-link-text"><Link to="/">Upload</Link></p>
 				</li>
-                <li className={`${location.pathname === '/compose' ? 'active-nav-link' : ''} nav-link transition`}>
+                <li className={`${location.pathname === '/compose' ? 'active-nav-link' : ''} nav-link`}>
 				    <Edit />
 				    <p className="nav-link-text"><Link to="/compose">Compose</Link></p>
 				</li>

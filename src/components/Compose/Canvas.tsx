@@ -10,8 +10,6 @@ function Canvas() {
 	const {state, dispatch} = useContext(CanvasContext)
 
 	const handleDrag = _.debounce((x: number, y: number, id: string): void => {
-		console.log({x, y, id})
-
 		dispatch({type: 'CHANGE_CANVAS_CHILD_COORDS', payload: {x, y, id}})
 	}, 100)
 

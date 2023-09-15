@@ -1,23 +1,35 @@
-import {ChangeEvent, useContext, useState} from 'react'
+import {ChangeEvent, useContext, useEffect, useState} from 'react'
 import CanvasInput from './CanvasInput'
 import {Download, Eye, Image, Trash, Type} from 'react-feather'
 import {CanvasContext} from '../../contexts/CanvasContext'
+import {ICanvasChild} from '../../types/Reusables'
 
 function CanvasControl() {
 	const {state, dispatch} = useContext(CanvasContext)
 
-	const selectedCanvasChildObj = state.canvasChildren.find(childComponent => childComponent.id === state.selectedCanvasChild?.id)
+	const selectedCanvasChild: ICanvasChild | undefined =
+		state.canvasChildren.find(
+			(childComponent: ICanvasChild) =>
+				childComponent.id === state.selectedCanvasChild?.id
+		)
 
-	const [x, setX] = useState<number>(selectedCanvasChildObj?.x ?? 0)
-	const [y, setY] = useState<number>(selectedCanvasChildObj?.y ?? 0)
-	const handleCoordChange = (value: number) => {
-		if (!state.selectedCanvasChild) return;
+	const [x, setX] = useState<number>(selectedCanvasChild?.x ?? 0)
+	const [y, setY] = useState<number>(selectedCanvasChild?.y ?? 0)
+
+	const handleCoordChange = () => {
+		if (!state.selectedCanvasChild) return
 		console.log({x, y})
 		dispatch({
 			type: 'CHANGE_CANVAS_CHILD_COORDS',
 			payload: {x, y, id: state.selectedCanvasChild.id},
 		})
 	}
+
+	useEffect(() => {
+		if (!selectedCanvasChild) return
+		setX(() => selectedCanvasChild.x)
+		setY(() => selectedCanvasChild.y)
+	}, [selectedCanvasChild])
 
 	const handleXChange = (e: ChangeEvent<HTMLInputElement>) => {
 		if (/^\d+$/.test(e.target.value)) setX(+e.target.value)
@@ -37,9 +49,9 @@ function CanvasControl() {
 					onEnter={handleCoordChange}
 				/>
 
-				<CanvasInput 
-				    label="Y"
-				    value={y} 
+				<CanvasInput
+					label="Y"
+					value={y}
 					onChange={handleYChange}
 					onEnter={handleCoordChange}
 				/>

@@ -16,6 +16,9 @@ function CanvasControl() {
 	const [x, setX] = useState<number>(selectedCanvasChild?.x ?? 0)
 	const [y, setY] = useState<number>(selectedCanvasChild?.y ?? 0)
 
+	const [showClearConfirmation, setShowClearConfirmation] =
+		useState<boolean>(false)
+
 	const handleCoordChange = () => {
 		if (!state.selectedCanvasChild) return
 		console.log({x, y})
@@ -40,14 +43,18 @@ function CanvasControl() {
 	}
 
 	const handlePreviewBtnClick = () => {
-	    dispatch({
-	        type: 'SET_PREVIEW_MODE',
-	        payload: true
-	    })
+		dispatch({
+			type: 'SET_PREVIEW_MODE',
+			payload: true,
+		})
 	}
 
 	return (
-		<section className={`app-canvas-control transition bg-gray-800 px-6 pt-6 text-white relative ${ state.previewMode ? 'opacity-0' : '' }`}>
+		<section
+			className={`app-canvas-control transition bg-gray-800 px-6 pt-6 text-white relative ${
+				state.previewMode ? 'opacity-0' : ''
+			}`}
+		>
 			<div className="coord-inputs space-y-6 mb-10">
 				<CanvasInput
 					label="X"
@@ -98,17 +105,36 @@ function CanvasControl() {
 				</button>
 			</div>
 
-			<div className="absolute flex left-0 right-0 bottom-0">
-				<button className="p-3 grid place-items-center bg-slate-700 hover:bg-blue-600 flex-1" onClick={handlePreviewBtnClick}>
-					<Eye />
-				</button>
-				<button className="p-3 grid place-items-center bg-slate-900 hover:bg-green-600 flex-1">
-					<Download />
-				</button>
-				<button className="p-3 grid place-items-center bg-slate-700 hover:bg-red-600 flex-1">
-					<Trash />
-				</button>
-			</div>
+			{!showClearConfirmation ? (
+				<div className="absolute flex left-0 right-0 bottom-0">
+					<button
+						className="p-3 grid place-items-center bg-slate-700 hover:bg-blue-600 flex-1"
+						onClick={handlePreviewBtnClick}
+					>
+						<Eye />
+					</button>
+					<button className="p-3 grid place-items-center bg-slate-900 hover:bg-green-600 flex-1">
+						<Download />
+					</button>
+					<button onClick={() => setShowClearConfirmation(() => true)} className="p-3 grid place-items-center bg-slate-700 hover:bg-red-600 flex-1">
+						<Trash />
+					</button>
+				</div>
+			) : (
+				<div className="flex flex-col absolute left-0 right-0 bottom-0 --border border-white">
+					<p className="prompt p-3 bg-gray-700 text-center">
+						Clear document?
+					</p>
+					<div className="flex">
+						<button className="p-3 grid place-items-center bg-red-500 hover:bg-red-600 flex-1">
+							Clear
+						</button>
+						<button className="p-3 grid place-items-center bg-sky-500 hover:bg-sky-600 transition flex-1" onClick={() => setShowClearConfirmation(() => false)}>
+							Keep
+						</button>
+					</div>
+				</div>
+			)}
 		</section>
 	)
 }

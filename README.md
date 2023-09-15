@@ -30,10 +30,10 @@
 <!-- - Show the coords of the selected component in the right sidebar -->
 <!-- - User should be able to delete any component on delete icon click -->
 <!-- - Hide the sidebar and canvas control on preview click -->
+<!-- - Add a confirmation for clearing -->
     - User should be able to edit the coords directly from CanvasControl
     - User should be able to edit the dimensions directly from CanvasControl
     - User should be able to zoom in and out anywhere in the document
     - Print the document when user clicks download
     - Clear everything when user presses the clear button
-    - Add a confirmation for clearing
     - Use custom hooks !!

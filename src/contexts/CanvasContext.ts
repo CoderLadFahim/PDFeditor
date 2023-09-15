@@ -1,5 +1,4 @@
 import React from 'react'
-import {v4} from 'uuid'
 import {ICanvasChild, ICanvasContext, ICanvasState, TCanvasContextType} from '../types/Reusables'
 
 export function canvasReducer(
@@ -59,6 +58,12 @@ export function canvasReducer(
 				],
 			}
 			break
+		case 'SET_SELECTED_COMPONENT_ID':
+			return {
+				...state,
+				selectedCanvasChildId: action.payload
+			}
+			break
 		case 'CHANGE_SELECTED_TOOL':
 			return {
 				...state,
@@ -76,6 +81,7 @@ export function canvasReducer(
 
 export const initialCanvasState: ICanvasState = {
 	selectedTool: 'text',
+	selectedCanvasChildId: null,
 	canvasChildren: [
 		// {
 		// 	type: 'text',

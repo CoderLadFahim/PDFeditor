@@ -79,15 +79,23 @@ function TextField({id, x, y, dragHandler}: ICanvasChildProps) {
 		dispatch({type: 'DELETE_CANVAS_CHILD', payload: id})
 	}
 
+    const handleCanvasChildClick = (e: { stopPropagation: () => void }) => {
+        e.stopPropagation();
+        dispatch({
+            type: 'SET_SELECTED_COMPONENT_ID',
+            payload: id
+        })
+    }
+
 	return (
 		<div
-			onClick={(e) => e.stopPropagation()}
+			onClick={handleCanvasChildClick}
 			ref={draggableRef}
 			className={`absolute ${
 				!isEditing
-					? 'border border-transparent hover:border-blue-400 rounded'
+					? 'border hover:border-blue-400 rounded'
 					: ''
-			}`}
+			} border-${id === state.selectedCanvasChildId ? 'green-400 border-2' : 'transparent'} `}
 		>
 			{isEditing ? (
 				<div className="flex items-center space-x-2">

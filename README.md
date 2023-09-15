@@ -25,6 +25,7 @@
 <!-- - Create and image component takes in an image as user input -->
 <!-- - Show the uploaded image in the document -->
     - Replicate the same behaviour as Text component
+    - Coordinates of other components get updated
 
 # Canvas
 <!-- - Display the coords of the seleted component in CanvasControl -->

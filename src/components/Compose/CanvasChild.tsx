@@ -1,4 +1,4 @@
-import {useContext, useEffect, useState} from 'react'
+import {useContext, useState} from 'react'
 import {Camera, CheckSquare, Edit, Trash, XSquare} from 'react-feather'
 
 import {useDraggable} from '@neodrag/react'
@@ -41,9 +41,6 @@ function CanvasChild({id, x, y, dragHandler, type}: ICanvasChildProps) {
 	const [fileInputFieldValue, setFileInputFieldValue] = useState<
 		Blob | MediaSource
 	>(value ?? null)
-	useEffect(() => {
-		console.log({value})
-	}, [])
 
 	const draggableRef = useRef(null)
 	useDraggable(draggableRef, {

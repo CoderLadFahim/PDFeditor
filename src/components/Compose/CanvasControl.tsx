@@ -128,7 +128,7 @@ function CanvasControl() {
 					>
 						<Eye />
 					</button>
-					<button className="p-3 grid place-items-center bg-slate-900 hover:bg-green-600 flex-1">
+					<button className="p-3 grid place-items-center bg-slate-900 hover:bg-green-600 flex-1" onClick={() => window.print()}>
 						<Download />
 					</button>
 					<button onClick={() => setShowClearConfirmation(() => true)} className="p-3 grid place-items-center bg-slate-700 hover:bg-red-600 flex-1">

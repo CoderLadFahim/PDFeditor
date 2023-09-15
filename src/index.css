@@ -64,3 +64,19 @@ body {
     transform: scale(0.65);
     transform-origin: 50% 10%;
 }
+
+@media print {
+    .app-canvas-control, .app-sidebar, .app-navbar {
+        @apply print:hidden;
+    }
+
+    .app-canvas {
+        @apply w-auto h-auto;
+        margin: 0;
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+    }
+}

@@ -33,7 +33,7 @@
 <!-- - Hide the sidebar and canvas control on preview click -->
 <!-- - Add a confirmation for clearing -->
 <!-- - Clear everything when user presses the clear button -->
+<!-- - Print the document when user clicks download -->
     - User should be able to zoom in and out anywhere in the document
-    - Print the document when user clicks download
-    - Implement a selected tool indicator
+    - Children insertiong should be drag and drop
     - Use custom hooks !!

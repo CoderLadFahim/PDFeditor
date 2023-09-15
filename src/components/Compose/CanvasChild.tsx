@@ -84,7 +84,10 @@ function CanvasChild({id, x, y, dragHandler, type}: ICanvasChildProps) {
 		dispatch({type: 'DELETE_CANVAS_CHILD', payload: id})
 	}
 
-	const handleCanvasChildClick = (e: { ctrlKey: any; stopPropagation: () => void }) => {
+	const handleCanvasChildClick = (e: {
+		ctrlKey: any
+		stopPropagation: () => void
+	}) => {
 		if (e.ctrlKey) return
 		e.stopPropagation()
 		dispatch({
@@ -94,22 +97,22 @@ function CanvasChild({id, x, y, dragHandler, type}: ICanvasChildProps) {
 	}
 
 	const [imgSrc, setImgSrc] = useState<any>(value ?? '')
-	const handleImageUpload = (event: { target: { files: any[] } }) => {
+	const handleImageUpload = (event: {target: {files: any[]}}) => {
 		const file = event.target.files[0]
 		const reader = new FileReader()
 
 		reader.onload = () => {
 			setImgSrc(reader.result)
 			setIsEditing(false)
-		    dispatch({
-			    type: 'EDIT_CANVAS_CHILD_VALUE',
-			    payload: {
-				    id,
-				    value: reader.result,
-			    },
-		    })
+			dispatch({
+				type: 'EDIT_CANVAS_CHILD_VALUE',
+				payload: {
+					id,
+					value: reader.result,
+				},
+			})
 
-		    console.log(state.canvasChildren)
+			console.log(state.canvasChildren)
 		}
 
 		if (file) {
@@ -146,21 +149,6 @@ function CanvasChild({id, x, y, dragHandler, type}: ICanvasChildProps) {
 									)
 								}
 							/>
-
-							<div className="flex items-center space-x-1">
-								<button
-									className="text-green-500"
-									onClick={handleCheckSqClick}
-								>
-									<CheckSquare />
-								</button>
-								<button
-									className="text-red-500"
-									onClick={handleXSqClick}
-								>
-									<XSquare />
-								</button>
-							</div>
 						</>
 					) : (
 						<input
@@ -169,6 +157,25 @@ function CanvasChild({id, x, y, dragHandler, type}: ICanvasChildProps) {
 							onChange={handleImageUpload}
 						/>
 					)}
+
+					<div className="flex items-center space-x-1">
+						{type === 'text' ? (
+							<button
+								className="text-green-500"
+								onClick={handleCheckSqClick}
+							>
+								<CheckSquare />
+							</button>
+						) : (
+							''
+						)}
+						<button
+							className="text-red-500"
+							onClick={handleXSqClick}
+						>
+							<XSquare />
+						</button>
+					</div>
 				</div>
 			) : (
 				<div className="flex relative group">

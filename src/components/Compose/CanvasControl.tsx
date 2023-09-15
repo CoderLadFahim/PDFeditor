@@ -1,11 +1,17 @@
-import {ChangeEvent, useContext, useEffect, useState} from 'react'
+import {ChangeEvent, useContext, useEffect, useRef, useState} from 'react'
 import CanvasInput from './CanvasInput'
-import {AlertCircle, Download, Eye, Image, Trash, Type, ZoomIn} from 'react-feather'
+import {AlertCircle, Download, Eye, Image, Trash, Type} from 'react-feather'
 import {CanvasContext} from '../../contexts/CanvasContext'
 import {ICanvasChild} from '../../types/Reusables'
+import CanvasTool from './CanvasTool'
+import {useDraggable} from '@neodrag/react'
 
 function CanvasControl() {
 	const {state, dispatch} = useContext(CanvasContext)
+	const canvasTools = [
+		{type: 'text', icon: () => <Type size={20} />},
+		{type: 'image', icon: () => <Image size={20} />},
+	]
 
 	const selectedCanvasChild: ICanvasChild | undefined =
 		state.canvasChildren.find(
@@ -18,11 +24,6 @@ function CanvasControl() {
 
 	const [showClearConfirmation, setShowClearConfirmation] =
 		useState<boolean>(false)
-
-	const handleCoordChange = () => {
-		if (!state.selectedCanvasChild) return
-		console.log({x, y})
-	}
 
 	useEffect(() => {
 		if (!selectedCanvasChild) return
@@ -60,76 +61,25 @@ function CanvasControl() {
 
 	return (
 		<section
-			className={`app-canvas-control transition bg-gray-800 px-6 pt-6 text-white relative ${
-				state.previewMode ? 'opacity-0' : ''
+			className={`app-canvas-control transition bg-gray-800 px-6 pt-6 text-white relative z-10 ${
+				state.previewMode ? 'hidden' : ''
 			}`}
 		>
 			<div className="coord-inputs space-y-6 mb-10">
-				<CanvasInput
-					label="X"
-					value={x}
-					onChange={handleXChange}
-					onEnter={handleCoordChange}
-				/>
+				<CanvasInput label="X" value={x} onChange={handleXChange} />
 
-				<CanvasInput
-					label="Y"
-					value={y}
-					onChange={handleYChange}
-					onEnter={handleCoordChange}
-				/>
+				<CanvasInput label="Y" value={y} onChange={handleYChange} />
 			</div>
-
 
 			<div className="coord-inputs space-x-4 mb-4">
-				<button
-					className={`rounded p-2 bg-gray-700 ${
-						state.selectedTool === 'text'
-							? 'bg-green-500'
-							: ''
-					}`}
-					onClick={() =>
-						dispatch({
-							type: 'CHANGE_SELECTED_TOOL',
-							payload: 'text',
-						})
-					}
-				>
-					<Type size={20} />
-				</button>
-
-				<button
-					className={`rounded p-2 bg-gray-700 ${
-						state.selectedTool === 'image'
-							? 'bg-green-500'
-							: ''
-					}`}
-					onClick={() =>
-						dispatch({
-							type: 'CHANGE_SELECTED_TOOL',
-							payload: 'image',
-						})
-					}
-				>
-					<Image size={20} />
-				</button>
+				{canvasTools.map((tool, i) => (
+					<CanvasTool key={i} {...tool} />
+				))}
 			</div>
-			<div className='flex items-center space-x-2 text-gray-500 mb-10'>
-			    <AlertCircle size={13} />
-			    <span className='italic text-sm'>Ctrl+Click to zoom</span>
+			<div className="flex items-center space-x-2 text-gray-500 mb-10">
+				<AlertCircle size={13} />
+				<span className="italic text-sm">Ctrl+Click to zoom</span>
 			</div>
-
-			{/* {(() => { */}
-			{/* 	if (!state.selectedCanvasChild) return */}
-			{/* 	if (state.selectedCanvasChild?.type !== 'image') return */}
-			{/* 	return ( */}
-			{/* 		<div className="coord-inputs space-y-6 mb-9"> */}
-			{/* 			<CanvasInput label="W" value={x} /> */}
-			{/**/}
-			{/* 			<CanvasInput label="H" value={x} /> */}
-			{/* 		</div> */}
-			{/* 	) */}
-			{/* })()} */}
 
 			{!showClearConfirmation ? (
 				<div className="absolute flex left-0 right-0 bottom-0">
@@ -149,7 +99,11 @@ function CanvasControl() {
 						onClick={() =>
 							setShowClearConfirmation(() => true)
 						}
-						className={`p-3 grid place-items-center bg-slate-700 hover:bg-red-600 flex-1 ${!Boolean(state.canvasChildren.length) ? 'opacity-30 pointer-events-none' : ''}`}
+						className={`p-3 grid place-items-center bg-slate-700 hover:bg-red-600 flex-1 ${
+							!Boolean(state.canvasChildren.length)
+								? 'opacity-30 pointer-events-none'
+								: ''
+						}`}
 					>
 						<Trash />
 					</button>

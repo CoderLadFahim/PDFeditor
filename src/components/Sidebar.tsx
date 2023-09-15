@@ -9,7 +9,7 @@ function Sidebar() {
 	const {state} = useContext(CanvasContext)
 
 	return (
-		<nav className={`app-sidebar bg-gray-900 text-white ${state.previewMode ? 'opacity-0' : '' }`}>
+		<nav className={`app-sidebar bg-gray-900 z-10 text-white ${state.previewMode ? 'hidden' : '' }`}>
 			<ul>
 				<li className={`${location.pathname === '/' ? 'active-nav-link' : ''} nav-link`}>
 				    <Upload />

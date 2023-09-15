@@ -49,6 +49,7 @@ function Canvas() {
 			} ${enableZoom ? `transform scale-[2]` : ''}`}
 			style={enableZoom ? { transformOrigin: `${coordsToZoomFrom.x}px ${coordsToZoomFrom.y}px` } : {}}
 			onClick={handleCanvasClick}
+			onMouseUp={() => console.log('this is running')}
 		>
 			{state.canvasChildren.map((child, i) => (
 				<CanvasChild

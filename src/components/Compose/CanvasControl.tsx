@@ -1,6 +1,6 @@
 import {ChangeEvent, useContext, useEffect, useState} from 'react'
 import CanvasInput from './CanvasInput'
-import {Download, Eye, Image, Trash, Type} from 'react-feather'
+import {Download, Eye, Image, Trash, Type, ZoomIn} from 'react-feather'
 import {CanvasContext} from '../../contexts/CanvasContext'
 import {ICanvasChild} from '../../types/Reusables'
 
@@ -53,13 +53,13 @@ function CanvasControl() {
 		dispatch({
 			type: 'SET_CANVAS',
 			payload: {
-	            selectedTool: state.selectedTool,
-	            selectedCanvasChild: null,
-	            previewMode: false,
-	            canvasChildren: []
+				selectedTool: state.selectedTool,
+				selectedCanvasChild: null,
+				previewMode: false,
+				canvasChildren: [],
 			},
 		})
-        setShowClearConfirmation(() => false)
+		setShowClearConfirmation(() => false)
 	}
 
 	return (
@@ -103,7 +103,12 @@ function CanvasControl() {
 							? 'bg-green-500'
 							: ''
 					}`}
-					onClick={() => dispatch({type: 'CHANGE_SELECTED_TOOL', payload: 'text'})}
+					onClick={() =>
+						dispatch({
+							type: 'CHANGE_SELECTED_TOOL',
+							payload: 'text',
+						})
+					}
 				>
 					<Type size={20} />
 				</button>
@@ -114,9 +119,29 @@ function CanvasControl() {
 							? 'bg-green-500'
 							: ''
 					}`}
-					onClick={() => dispatch({type: 'CHANGE_SELECTED_TOOL', payload: 'image'})}
+					onClick={() =>
+						dispatch({
+							type: 'CHANGE_SELECTED_TOOL',
+							payload: 'image',
+						})
+					}
 				>
 					<Image size={20} />
+				</button>
+				<button
+					className={`rounded p-2 bg-gray-700 ${
+						state.selectedTool === 'zoom'
+							? 'bg-green-500'
+							: ''
+					}`}
+					onClick={() =>
+						dispatch({
+							type: 'CHANGE_SELECTED_TOOL',
+							payload: 'zoom',
+						})
+					}
+				>
+					<ZoomIn size={20} />
 				</button>
 			</div>
 
@@ -128,10 +153,18 @@ function CanvasControl() {
 					>
 						<Eye />
 					</button>
-					<button className="p-3 grid place-items-center bg-slate-900 hover:bg-green-600 flex-1" onClick={() => window.print()}>
+					<button
+						className="p-3 grid place-items-center bg-slate-900 hover:bg-green-600 flex-1"
+						onClick={() => window.print()}
+					>
 						<Download />
 					</button>
-					<button onClick={() => setShowClearConfirmation(() => true)} className="p-3 grid place-items-center bg-slate-700 hover:bg-red-600 flex-1">
+					<button
+						onClick={() =>
+							setShowClearConfirmation(() => true)
+						}
+						className="p-3 grid place-items-center bg-slate-700 hover:bg-red-600 flex-1"
+					>
 						<Trash />
 					</button>
 				</div>
@@ -141,10 +174,18 @@ function CanvasControl() {
 						Clear document?
 					</p>
 					<div className="flex">
-						<button className="p-3 grid place-items-center bg-red-500 hover:bg-red-600 flex-1" onClick={handleDocumentClearClick}>
+						<button
+							className="p-3 grid place-items-center bg-red-500 hover:bg-red-600 flex-1"
+							onClick={handleDocumentClearClick}
+						>
 							Clear
 						</button>
-						<button className="p-3 grid place-items-center bg-sky-500 hover:bg-sky-600 transition flex-1" onClick={() => setShowClearConfirmation(() => false)}>
+						<button
+							className="p-3 grid place-items-center bg-sky-500 hover:bg-sky-600 transition flex-1"
+							onClick={() =>
+								setShowClearConfirmation(() => false)
+							}
+						>
 							Keep
 						</button>
 					</div>

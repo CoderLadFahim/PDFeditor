@@ -1,4 +1,4 @@
-export type TCanvasChildType = 'image' | 'text'
+export type TCanvasChildType = 'image' | 'text' | 'zoom'
 export type TCanvasContextActionType =
 	| 'CHANGE_CANVAS_CHILD_COORDS'
 	| 'CREATE_CANVAS_CHILD'

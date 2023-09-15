@@ -34,6 +34,6 @@
 <!-- - Add a confirmation for clearing -->
 <!-- - Clear everything when user presses the clear button -->
 <!-- - Print the document when user clicks download -->
+<!-- - Use custom hooks !! -->
     - User should be able to zoom in and out anywhere in the document
-    - Children insertiong should be drag and drop
-    - Use custom hooks !!
+    - Children insertion should be drag and drop

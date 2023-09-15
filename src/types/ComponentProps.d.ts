@@ -8,4 +8,5 @@ export interface ICanvasInputProps {
 
 export interface ICanvasChildProps extends ICanvasChild {
 	dragHandler: Function
+	delHandler: Function
 }

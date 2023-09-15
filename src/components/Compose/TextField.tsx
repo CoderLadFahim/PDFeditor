@@ -1,11 +1,11 @@
 import {useState} from 'react'
-import {CheckSquare, Edit, XSquare} from 'react-feather'
+import {CheckSquare, Edit, Trash, XSquare} from 'react-feather'
 
 import {useDraggable} from '@neodrag/react'
 import {useRef} from 'react'
 import { ICanvasChildProps } from '../../types/ComponentProps'
 
-function TextField({ id, x, y, dragHandler }: ICanvasChildProps) {
+function TextField({ id, x, y, dragHandler, delHandler }: ICanvasChildProps) {
 	const [isEditing, setIsEditing] = useState<boolean>(false)
 	const [value, setValue] = useState<string>('Click to add text')
 	const [position, setPosition] = useState({x, y})
@@ -59,8 +59,13 @@ function TextField({ id, x, y, dragHandler }: ICanvasChildProps) {
 	    setIsEditing(() => true)
 	}
 
+	const handleDelBtnClick = (e: { stopPropagation: () => void }) => {
+        e.stopPropagation()
+        delHandler(id);
+	}
+
 	return (
-		<div onClick={e => e.stopPropagation()} ref={draggableRef} className={`inline-block absolute ${isDragging ? 'border border-blue-400' : ''}`}>
+		<div onClick={e => e.stopPropagation()} ref={draggableRef} className="inline-block absolute">
 			{isEditing ? (
 				<div className="flex items-center space-x-2">
 					<input
@@ -91,11 +96,17 @@ function TextField({ id, x, y, dragHandler }: ICanvasChildProps) {
 				<div className="flex space-x-2 group relative">
 					<p className="cursor-pointer">{value}</p>
 					<button
-						className="text-gray-600 transition absolute -right-5 top-1/2 transform -translate-y-1/2 opacity-0 group-hover:opacity-100"
+						className="text-green-600 transition absolute -right-5 top-1/2 transform -translate-y-1/2 opacity-0 group-hover:opacity-100"
 						onClick={handleEditBtnClick}
 					>
 						<Edit size={15} />
 					</button>
+                        <button
+						    className="text-red-600 transition absolute -right-9 top-1/2 transform -translate-y-1/2 opacity-0 group-hover:opacity-100"
+						    onClick={handleDelBtnClick}
+					        >
+						    <Trash size={15} />
+					    </button>
 				</div>
 			)}
 		</div>

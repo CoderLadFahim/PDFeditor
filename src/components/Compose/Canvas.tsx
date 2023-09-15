@@ -1,4 +1,4 @@
-import {useEffect, useRef, useState} from 'react'
+import {useRef, useState} from 'react'
 import TextField from './TextField'
 import {ICanvasChild} from '../../types/Reusables'
 import {v4} from 'uuid'
@@ -13,13 +13,16 @@ function Canvas() {
 			y: 440,
 		},
 	])
-	const [key, setKey] = useState<number>(0)
 
 	const handleDrag = (x: number, y: number, id: string): void => {
 		console.log({x, y, id})
 	}
 
-	const handleCanvasClick = (e) => {
+	const handleDel = (id: string): void => {
+		setCanvasChildren(prevChildren => prevChildren.filter(child => child.id !== id));
+	}
+
+	const handleCanvasClick = (e: { clientX: number; clientY: number }) => {
 		// @ts-ignore
 		const rect = canvasComponent.current?.getBoundingClientRect()
 		const x = Math.floor(e.clientX - rect.left)
@@ -32,7 +35,6 @@ function Canvas() {
 			y,
 		}
 
-		console.log(newCanvasChild)
 		setCanvasChildren((prevChildren: ICanvasChild[]): ICanvasChild[] => [
 			...prevChildren,
 			newCanvasChild,
@@ -44,13 +46,13 @@ function Canvas() {
 			ref={canvasComponent}
 			className="app-canvas bg-white shadow w-[595px] h-[842px]"
 			onClick={handleCanvasClick}
-			key={key}
 		>
 			{canvasChildren.map((child) => (
 				<TextField
 					{...child}
 					key={child.id}
 					dragHandler={handleDrag}
+					delHandler={handleDel}
 				/>
 			))}
 		</div>

@@ -1,4 +1,4 @@
-export type TCanvasElementType = 'image' | 'text'
+export type TCanvasChildType = 'image' | 'text'
 export type TCanvasContextActionType =
 	| 'CHANGE_CANVAS_CHILD_COORDS'
 	| 'CREATE_CANVAS_CHILD'
@@ -8,7 +8,7 @@ export type TCanvasContextActionType =
 	| 'EDIT_TEXT_FIELD_CONTENT'
 
 export interface ICanvasChild {
-	type: TCanvasElementType
+	type: TCanvasChildType
 	id: string
 	x: number
 	y: number
@@ -18,9 +18,9 @@ export interface ICanvasChild {
 }
 
 export interface ICanvasState {
-	selectedTool: TCanvasElementType
+	selectedTool: TCanvasChildType
 	canvasChildren: ICanvasChild[]
-	selectedCanvasChildId: null | string
+	selectedCanvasChildId: {type: ICanvasChildType, id: string} | null
 }
 
 export interface ICanvasContext {

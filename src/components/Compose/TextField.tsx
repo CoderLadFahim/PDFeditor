@@ -6,7 +6,7 @@ import {useRef} from 'react'
 import {ICanvasChildProps} from '../../types/ComponentProps'
 import {CanvasContext} from '../../contexts/CanvasContext'
 
-function TextField({id, x, y, dragHandler}: ICanvasChildProps) {
+function TextField({id, x, y, dragHandler, type}: ICanvasChildProps) {
 	const {state, dispatch} = useContext(CanvasContext)
 
 	const objectInContext = state.canvasChildren.find(
@@ -83,7 +83,7 @@ function TextField({id, x, y, dragHandler}: ICanvasChildProps) {
         e.stopPropagation();
         dispatch({
             type: 'SET_SELECTED_COMPONENT_ID',
-            payload: id
+            payload: { id, type }
         })
     }
 
@@ -95,7 +95,7 @@ function TextField({id, x, y, dragHandler}: ICanvasChildProps) {
 				!isEditing
 					? 'border hover:border-blue-400 rounded'
 					: ''
-			} border-${id === state.selectedCanvasChildId ? 'green-400 border-2' : 'transparent'} `}
+			} border-${id === state.selectedCanvasChildId.id ? 'green-400 border-2' : 'transparent'} `}
 		>
 			{isEditing ? (
 				<div className="flex items-center space-x-2">

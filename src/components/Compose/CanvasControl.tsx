@@ -16,13 +16,13 @@ function CanvasControl() {
 					}
 				/>
 
-				{/* <CanvasInput label="Y" value={val} /> */}
+				<CanvasInput label="Y" value={val} />
 			</div>
 
 			<div className="coord-inputs space-y-6 mb-9">
-				{/* <CanvasInput label="W" value={val} /> */}
+				<CanvasInput label="W" value={val} />
 
-				{/* <CanvasInput label="H" value={val} /> */}
+				<CanvasInput label="H" value={val} />
 			</div>
 
 			<div className="coord-inputs space-x-4">

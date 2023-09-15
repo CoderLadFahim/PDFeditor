@@ -1,10 +1,15 @@
+import { useContext } from "react"
 import { Edit, Upload } from "react-feather"
 import { Link, useLocation } from "react-router-dom"
+import { CanvasContext } from "../contexts/CanvasContext"
 
 function Sidebar() {
     const location = useLocation()
+
+	const {state} = useContext(CanvasContext)
+
 	return (
-		<nav className="app-sidebar bg-gray-200 text-white">
+		<nav className={`app-sidebar transition bg-gray-200 text-white ${state.previewMode ? 'opacity-0' : '' }`}>
 			<ul>
 				<li className={`${location.pathname === '/' ? 'active-nav-link' : ''} nav-link transition`}>
 				    <Upload />

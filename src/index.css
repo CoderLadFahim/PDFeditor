@@ -58,3 +58,9 @@ body {
 .app-canvas { 
     margin: calc(var(--navbar-height) + var(--content-wrapper-additional-x-margin)) auto; 
 }
+
+.app-canvas.preview-mode {
+    margin: 0 auto;
+    transform: scale(0.65);
+    transform-origin: 50% 10%;
+}

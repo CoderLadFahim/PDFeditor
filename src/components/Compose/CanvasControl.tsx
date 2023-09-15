@@ -39,8 +39,15 @@ function CanvasControl() {
 		if (/^\d+$/.test(e.target.value)) setY(+e.target.value)
 	}
 
+	const handlePreviewBtnClick = () => {
+	    dispatch({
+	        type: 'SET_PREVIEW_MODE',
+	        payload: true
+	    })
+	}
+
 	return (
-		<section className="app-canvas-control bg-gray-800 px-6 pt-6 text-white relative">
+		<section className={`app-canvas-control bg-gray-800 px-6 pt-6 text-white relative ${ state.previewMode ? 'opacity-0' : '' }`}>
 			<div className="coord-inputs space-y-6 mb-10">
 				<CanvasInput
 					label="X"
@@ -70,17 +77,29 @@ function CanvasControl() {
 			})()}
 
 			<div className="coord-inputs space-x-4">
-				<button className="rounded p-2 bg-gray-700 bg-green-500">
+				<button
+					className={`rounded p-2 bg-gray-700 ${
+						state.selectedTool === 'text'
+							? 'bg-green-500'
+							: ''
+					}`}
+				>
 					<Type size={20} />
 				</button>
 
-				<button className="rounded p-2 bg-gray-700">
+				<button
+					className={`rounded p-2 bg-gray-700 ${
+						state.selectedTool === 'image'
+							? 'bg-green-500'
+							: ''
+					}`}
+				>
 					<Image size={20} />
 				</button>
 			</div>
 
 			<div className="absolute flex left-0 right-0 bottom-0">
-				<button className="p-3 grid place-items-center bg-slate-700 hover:bg-blue-600 flex-1">
+				<button className="p-3 grid place-items-center bg-slate-700 hover:bg-blue-600 flex-1" onClick={handlePreviewBtnClick}>
 					<Eye />
 				</button>
 				<button className="p-3 grid place-items-center bg-slate-900 hover:bg-green-600 flex-1">

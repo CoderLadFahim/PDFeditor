@@ -33,7 +33,7 @@ function Canvas() {
 	return (
 		<div
 			ref={canvasComponent}
-			className="app-canvas bg-white shadow w-[595px] h-[842px]"
+			className={ `app-canvas transition bg-white shadow w-[595px] h-[842px] ${state.previewMode ? 'preview-mode' : ''}` }
 			onClick={handleCanvasClick}
 		>
 			{state.canvasChildren.map((child) => (

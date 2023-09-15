@@ -1,9 +1,9 @@
 import React from 'react'
-import {ICanvasChild, ICanvasContext, ICanvasState, TCanvasContextType} from '../types/Reusables'
+import {ICanvasChild, ICanvasContext, ICanvasState, TCanvasContextActionType} from '../types/Reusables'
 
 export function canvasReducer(
 	state: ICanvasState,
-	action: {type: TCanvasContextType; payload: any}
+	action: {type: TCanvasContextActionType; payload: any}
 ) {
 	switch (action.type) {
 		case 'CHANGE_CANVAS_CHILD_COORDS':
@@ -73,6 +73,12 @@ export function canvasReducer(
 		case 'SET_CANVAS':
 			return action.payload; 
 			break
+		case 'SET_PREVIEW_MODE':
+			return {
+			    ...state,
+			    previewMode: action.payload
+			}
+			break
 		default:
 			return state
 			break
@@ -80,8 +86,9 @@ export function canvasReducer(
 }
 
 export const initialCanvasState: ICanvasState = {
-	selectedTool: 'text',
+	selectedTool: 'image',
 	selectedCanvasChild: null,
+	previewMode: false,
 	canvasChildren: [
 		// {
 		// 	type: 'text',

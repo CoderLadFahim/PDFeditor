@@ -6,6 +6,8 @@ export type TCanvasContextActionType =
 	| 'CHANGE_SELECTED_TOOL'
 	| 'SET_CANVAS'
 	| 'EDIT_TEXT_FIELD_CONTENT'
+    | 'SET_PREVIEW_MODE'
+    | 'SET_SELECTED_COMPONENT_ID'
 
 export interface ICanvasChild {
 	type: TCanvasChildType
@@ -21,6 +23,7 @@ export interface ICanvasState {
 	selectedTool: TCanvasChildType
 	canvasChildren: ICanvasChild[]
 	selectedCanvasChild: {type: ICanvasChildType, id: string} | null
+	previewMode: boolean
 }
 
 export interface ICanvasContext {

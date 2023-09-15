@@ -5,7 +5,7 @@ import {v4} from 'uuid'
 import _ from 'lodash'
 
 function Canvas() {
-	const canvasComponent = useRef(null)
+	const canvasComponent = useRef<HTMLDivElement>(null)
 	const [canvasChildren, setCanvasChildren] = useState<ICanvasChild[]>([
 		{
 			type: 'text',
@@ -26,8 +26,8 @@ function Canvas() {
 	}
 
 	const handleCanvasClick = (e: {clientX: number; clientY: number}) => {
-		// @ts-ignore
 		const rect = canvasComponent.current?.getBoundingClientRect()
+		if (!rect) return;
 		const x = Math.floor(e.clientX - rect.left)
 		const y = Math.floor(e.clientY - rect.top)
 

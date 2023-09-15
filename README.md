@@ -22,8 +22,8 @@
 <!-- - Retain the component and its state in the document on refresh -->
 
 # Image
-    - Create and image component takes in an image as user input
-    - Show the uploaded image in the document
+<!-- - Create and image component takes in an image as user input -->
+<!-- - Show the uploaded image in the document -->
     - Replicate the same behaviour as Text component
 
 # Canvas

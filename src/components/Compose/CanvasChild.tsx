@@ -1,5 +1,5 @@
 import {useContext, useEffect, useState} from 'react'
-import {CheckSquare, Edit, Trash, XSquare} from 'react-feather'
+import {Camera, CheckSquare, Edit, Trash, XSquare} from 'react-feather'
 
 import {useDraggable} from '@neodrag/react'
 import {useRef} from 'react'
@@ -17,7 +17,7 @@ function CanvasChild({id, x, y, dragHandler, type}: ICanvasChildProps) {
 	const [isEditing, setIsEditing] = useState<boolean>(false)
 	const [position, setPosition] = useState<{x: number; y: number}>({x, y})
 
-	const [inputFieldValue, setInputFieldValue] = useState<string>(
+	const [textInputFieldValue, setTextInputFieldValue] = useState<string>(
 		value ?? 'Click to add text'
 	)
 	const handleKeyDown = (e: any): void => {
@@ -27,10 +27,23 @@ function CanvasChild({id, x, y, dragHandler, type}: ICanvasChildProps) {
 	const setCanvasChildValue = (): void => {
 		setIsEditing(() => false)
 		dispatch({
-			type: 'EDIT_TEXT_FIELD_CONTENT',
-			payload: {id, value: inputFieldValue},
+			type: 'EDIT_CANVAS_CHILD_VALUE',
+			payload: {
+				id,
+				value:
+					type === 'text'
+						? textInputFieldValue
+						: fileInputFieldValue,
+			},
 		})
 	}
+
+	const [fileInputFieldValue, setFileInputFieldValue] = useState<
+		Blob | MediaSource
+	>(value ?? null)
+	useEffect(() => {
+		console.log({value})
+	}, [])
 
 	const draggableRef = useRef(null)
 	useDraggable(draggableRef, {
@@ -79,14 +92,14 @@ function CanvasChild({id, x, y, dragHandler, type}: ICanvasChildProps) {
 		dispatch({type: 'DELETE_CANVAS_CHILD', payload: id})
 	}
 
-    const handleCanvasChildClick = (e: { stopPropagation: () => void }) => {
-        if (e.ctrlKey) return;
-        e.stopPropagation();
-        dispatch({
-            type: 'SET_SELECTED_COMPONENT_ID',
-            payload: { id, type }
-        })
-    }
+	const handleCanvasChildClick = (e) => {
+		if (e.ctrlKey) return
+		e.stopPropagation()
+		dispatch({
+			type: 'SET_SELECTED_COMPONENT_ID',
+			payload: {id, type},
+		})
+	}
 
 	return (
 		<div
@@ -96,19 +109,39 @@ function CanvasChild({id, x, y, dragHandler, type}: ICanvasChildProps) {
 				!isEditing
 					? 'border hover:border-blue-400 rounded'
 					: 'border-transparent'
-			} border-${id === state.selectedCanvasChild?.id ? 'green-400 border-2' : 'transparent'} `}
+			} border-${
+				id === state.selectedCanvasChild?.id
+					? 'green-400 border-2'
+					: 'transparent'
+			} `}
 		>
 			{isEditing ? (
 				<div className="flex items-center space-x-2">
-					<input
-						className="border border-green-400 p-1 rounded outline-none"
-						type="text"
-						value={inputFieldValue}
-						onKeyDown={handleKeyDown}
-						onChange={(e) =>
-							setInputFieldValue(() => e.target.value)
-						}
-					/>
+					{type === 'text' ? (
+						<input
+							className="border border-green-400 p-1 rounded outline-none"
+							type="text"
+							value={textInputFieldValue}
+							onKeyDown={handleKeyDown}
+							onChange={(e) =>
+								setTextInputFieldValue(
+									() => e.target.value
+								)
+							}
+						/>
+					) : (
+						<input
+							className="border border-green-400 p-1 rounded outline-none"
+							type="file"
+							onChange={(e) =>
+								setFileInputFieldValue(() =>
+									e?.target?.files?.length
+										? e.target.files[0]
+										: ''
+								)
+							}
+						/>
+					)}
 					<div className="flex items-center space-x-1">
 						<button
 							className="text-green-500"
@@ -126,7 +159,29 @@ function CanvasChild({id, x, y, dragHandler, type}: ICanvasChildProps) {
 				</div>
 			) : (
 				<div className="flex relative group">
-					<p className="cursor-pointer">{value}</p>
+					{type === 'text' ? (
+						<p className="cursor-pointer">{value}</p>
+					) : fileInputFieldValue ? (
+						<img
+							src={URL.createObjectURL(
+								fileInputFieldValue
+							)}
+							alt="sample image"
+							width="100"
+							height="100"
+							onDragStart={(e) => e.preventDefault()}
+						/>
+					) : (
+						<div
+							className="w-[100px] h-[100px] bg-gray-100 flex flex-col items-center justify-center space-y-2 cursor-pointer"
+							onClick={handleEditBtnClick}
+						>
+							<Camera />
+							<p className="text-center text-sm">
+								Upload image
+							</p>
+						</div>
+					)}
 					<div className="absolute space-x-1 -right-11 top-1/2 transform -translate-y-1/2 opacity-0 group-hover:opacity-100">
 						<button
 							className="text-green-600 transition group-hover:opacity-100"

@@ -20,7 +20,7 @@ function Canvas() {
 		if (state.previewMode) return
 		const newCanvasChild: ICanvasChild = {
 			type: state.selectedTool,
-			value: 'Click to add text',
+			value: state.selectedTool === 'text' ? 'Click to add text' : null,
 			id: v4(),
 			x,
 			y,

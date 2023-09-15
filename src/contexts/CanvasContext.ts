@@ -42,7 +42,7 @@ export function canvasReducer(
 				],
 			}
 			break
-		case 'EDIT_TEXT_FIELD_CONTENT':
+		case 'EDIT_CANVAS_CHILD_VALUE':
 			const textFieldToUpdateTheValueOf = state.canvasChildren.find(
 				(canvasChild: ICanvasChild) =>
 					canvasChild.id === action.payload.id

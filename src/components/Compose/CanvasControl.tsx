@@ -84,17 +84,17 @@ function CanvasControl() {
 				/>
 			</div>
 
-			{(() => {
-				if (!state.selectedCanvasChild) return
-				if (state.selectedCanvasChild?.type !== 'image') return
-				return (
-					<div className="coord-inputs space-y-6 mb-9">
-						<CanvasInput label="W" value={x} />
-
-						<CanvasInput label="H" value={x} />
-					</div>
-				)
-			})()}
+			{/* {(() => { */}
+			{/* 	if (!state.selectedCanvasChild) return */}
+			{/* 	if (state.selectedCanvasChild?.type !== 'image') return */}
+			{/* 	return ( */}
+			{/* 		<div className="coord-inputs space-y-6 mb-9"> */}
+			{/* 			<CanvasInput label="W" value={x} /> */}
+			{/**/}
+			{/* 			<CanvasInput label="H" value={x} /> */}
+			{/* 		</div> */}
+			{/* 	) */}
+			{/* })()} */}
 
 			<div className="coord-inputs space-x-4">
 				<button

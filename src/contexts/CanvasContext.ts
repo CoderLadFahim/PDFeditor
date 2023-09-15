@@ -1,10 +1,10 @@
 import React from 'react'
 import {v4} from 'uuid'
-import {ICanvasChild, ICanvasContext, ICanvasState} from '../types/Reusables'
+import {ICanvasChild, ICanvasContext, ICanvasState, TCanvasContextType} from '../types/Reusables'
 
 export function canvasReducer(
 	state: ICanvasState,
-	action: {type: string; payload: any}
+	action: {type: TCanvasContextType; payload: any}
 ) {
 	switch (action.type) {
 		case 'CHANGE_CANVAS_CHILD_COORDS':
@@ -41,6 +41,12 @@ export function canvasReducer(
 							canvasChild.id !== action.payload
 					),
 				],
+			}
+			break
+		case 'CHANGE_SELECTED_TOOL':
+			return {
+				...state,
+				selectedTool: action.payload
 			}
 			break
 		default:

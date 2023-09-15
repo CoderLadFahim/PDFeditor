@@ -14,12 +14,18 @@ const useMousePosition = (element) => {
 	}
 
 	useEffect(() => {
-		element.current.addEventListener('mousemove', handleMouseMove)
-		return () =>
+		if (element.current)
 			element.current.addEventListener('mousemove', handleMouseMove)
+		return () => {
+			if (element.current)
+				element.current.addEventListener(
+					'mousemove',
+					handleMouseMove
+				)
+		}
 	}, [])
 
 	return mousePosition
 }
 
-export default useMousePosition;
+export default useMousePosition

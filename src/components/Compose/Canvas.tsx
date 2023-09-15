@@ -11,6 +11,12 @@ function Canvas() {
 	const {state, dispatch} = useContext(CanvasContext)
 	const {x, y} = useMousePosition(canvasComponent)
 
+	const [enableZoom, setZoom] = useState<boolean>(false)
+	const [coordsToZoomFrom, setCoordsToZoomFrom] = useState<{x: (null | number), y: (null | number)}>({
+	    x: null,
+	    y: null
+	});
+
 	const handleDrag = _.debounce((x: number, y: number, id: string): void => {
 		dispatch({type: 'CHANGE_CANVAS_CHILD_COORDS', payload: {x, y, id}})
 	}, 100)
@@ -29,16 +35,7 @@ function Canvas() {
 		dispatch({type: 'CREATE_CANVAS_CHILD', payload: newCanvasChild})
 	}
 
-	const [enableZoom, setZoom] = useState<boolean>(false)
-	const [coordsToZoomFrom, setCoordsToZoomFrom] = useState<{x: (null | number), y: (null | number)}>({
-	    x: null,
-	    y: null
-	});
-
-
-	const zoom = () => {
-	    setZoom(prevValue => !prevValue)
-	}
+	const zoom = () => setZoom(prevValue => !prevValue)
 
 	useEffect(() => {
 	    setCoordsToZoomFrom(() => ({x, y}))

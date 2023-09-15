@@ -1,6 +1,6 @@
 import {ChangeEvent, useContext, useEffect, useState} from 'react'
 import CanvasInput from './CanvasInput'
-import {Download, Eye, Image, Trash, Type, ZoomIn} from 'react-feather'
+import {AlertCircle, Download, Eye, Image, Trash, Type, ZoomIn} from 'react-feather'
 import {CanvasContext} from '../../contexts/CanvasContext'
 import {ICanvasChild} from '../../types/Reusables'
 
@@ -84,19 +84,8 @@ function CanvasControl() {
 				/>
 			</div>
 
-			{/* {(() => { */}
-			{/* 	if (!state.selectedCanvasChild) return */}
-			{/* 	if (state.selectedCanvasChild?.type !== 'image') return */}
-			{/* 	return ( */}
-			{/* 		<div className="coord-inputs space-y-6 mb-9"> */}
-			{/* 			<CanvasInput label="W" value={x} /> */}
-			{/**/}
-			{/* 			<CanvasInput label="H" value={x} /> */}
-			{/* 		</div> */}
-			{/* 	) */}
-			{/* })()} */}
 
-			<div className="coord-inputs space-x-4">
+			<div className="coord-inputs space-x-4 mb-4">
 				<button
 					className={`rounded p-2 bg-gray-700 ${
 						state.selectedTool === 'text'
@@ -129,6 +118,22 @@ function CanvasControl() {
 					<Image size={20} />
 				</button>
 			</div>
+			<div className='flex items-center space-x-2 text-gray-500 mb-10'>
+			    <AlertCircle size={13} />
+			    <span className='italic text-sm'>Ctrl+Click to zoom</span>
+			</div>
+
+			{(() => {
+				if (!state.selectedCanvasChild) return
+				if (state.selectedCanvasChild?.type !== 'image') return
+				return (
+					<div className="coord-inputs space-y-6 mb-9">
+						<CanvasInput label="W" value={x} />
+
+						<CanvasInput label="H" value={x} />
+					</div>
+				)
+			})()}
 
 			{!showClearConfirmation ? (
 				<div className="absolute flex left-0 right-0 bottom-0">

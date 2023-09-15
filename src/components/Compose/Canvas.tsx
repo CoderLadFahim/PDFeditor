@@ -1,33 +1,27 @@
-import {useRef, useState} from 'react'
+import {useContext, useRef, useState} from 'react'
 import TextField from './TextField'
 import {ICanvasChild} from '../../types/Reusables'
 import {v4} from 'uuid'
 import _ from 'lodash'
+import {CanvasContext} from '../../contexts/CanvasContext'
 
 function Canvas() {
 	const canvasComponent = useRef<HTMLDivElement>(null)
-	const [canvasChildren, setCanvasChildren] = useState<ICanvasChild[]>([
-		{
-			type: 'text',
-			id: v4(),
-			x: 26,
-			y: 440,
-		},
-	])
+	const {state, dispatch} = useContext(CanvasContext)
 
 	const handleDrag = _.debounce((x: number, y: number, id: string): void => {
 		console.log({x, y, id})
+
+		dispatch({type: 'CHANGE_CANVAS_CHILD_COORDS', payload: {x, y, id}})
 	}, 500)
 
 	const handleDel = (id: string): void => {
-		setCanvasChildren((prevChildren: ICanvasChild[]): ICanvasChild[] =>
-			prevChildren.filter((child) => child.id !== id)
-		)
+		dispatch({type: 'DELETE_CANVAS_CHILD', payload: id})
 	}
 
 	const handleCanvasClick = (e: {clientX: number; clientY: number}) => {
 		const rect = canvasComponent.current?.getBoundingClientRect()
-		if (!rect) return;
+		if (!rect) return
 		const x = Math.floor(e.clientX - rect.left)
 		const y = Math.floor(e.clientY - rect.top)
 
@@ -38,10 +32,7 @@ function Canvas() {
 			y,
 		}
 
-		setCanvasChildren((prevChildren: ICanvasChild[]): ICanvasChild[] => [
-			...prevChildren,
-			newCanvasChild,
-		])
+		dispatch({type: 'CREATE_CANVAS_CHILD', payload: newCanvasChild})
 	}
 
 	return (
@@ -50,7 +41,7 @@ function Canvas() {
 			className="app-canvas bg-white shadow w-[595px] h-[842px]"
 			onClick={handleCanvasClick}
 		>
-			{canvasChildren.map((child) => (
+			{state.canvasChildren.map((child) => (
 				<TextField
 					{...child}
 					key={child.id}

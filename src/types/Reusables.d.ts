@@ -9,13 +9,9 @@ export interface ICanvasChild {
     height?: number
 }
 
-export interface IDocument {
-    selectedTool: TCanvasElementType
-
-}
-
 export interface ICanvasState {
-    documents: IDocument[]
+    selectedTool: TCanvasElementType
+    canvasChildren: ICanvasChild[]
 }
 
 export interface ICanvasContext {

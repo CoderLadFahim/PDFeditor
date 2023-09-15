@@ -49,6 +49,19 @@ function CanvasControl() {
 		})
 	}
 
+	const handleDocumentClearClick = () => {
+		dispatch({
+			type: 'SET_CANVAS',
+			payload: {
+	            selectedTool: state.selectedTool,
+	            selectedCanvasChild: null,
+	            previewMode: false,
+	            canvasChildren: []
+			},
+		})
+        setShowClearConfirmation(() => false)
+	}
+
 	return (
 		<section
 			className={`app-canvas-control transition bg-gray-800 px-6 pt-6 text-white relative ${
@@ -90,6 +103,7 @@ function CanvasControl() {
 							? 'bg-green-500'
 							: ''
 					}`}
+					onClick={() => dispatch({type: 'CHANGE_SELECTED_TOOL', payload: 'text'})}
 				>
 					<Type size={20} />
 				</button>
@@ -100,6 +114,7 @@ function CanvasControl() {
 							? 'bg-green-500'
 							: ''
 					}`}
+					onClick={() => dispatch({type: 'CHANGE_SELECTED_TOOL', payload: 'image'})}
 				>
 					<Image size={20} />
 				</button>
@@ -126,7 +141,7 @@ function CanvasControl() {
 						Clear document?
 					</p>
 					<div className="flex">
-						<button className="p-3 grid place-items-center bg-red-500 hover:bg-red-600 flex-1">
+						<button className="p-3 grid place-items-center bg-red-500 hover:bg-red-600 flex-1" onClick={handleDocumentClearClick}>
 							Clear
 						</button>
 						<button className="p-3 grid place-items-center bg-sky-500 hover:bg-sky-600 transition flex-1" onClick={() => setShowClearConfirmation(() => false)}>

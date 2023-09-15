@@ -37,3 +37,4 @@
 <!-- - Use custom hooks !! -->
 <!-- - User should be able to zoom in and out anywhere in the document -->
     - Children insertion should be drag and drop
+    - Ctrl hold should change when cursor when inside the canvas

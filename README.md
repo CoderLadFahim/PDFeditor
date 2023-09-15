@@ -24,8 +24,8 @@
 # Image
 <!-- - Create and image component takes in an image as user input -->
 <!-- - Show the uploaded image in the document -->
+<!-- - Coordinates of other components get updated -->
     - Replicate the same behaviour as Text component
-    - Coordinates of other components get updated
 
 # Canvas
 <!-- - Display the coords of the seleted component in CanvasControl -->
@@ -37,5 +37,5 @@
 <!-- - Print the document when user clicks download -->
 <!-- - Use custom hooks !! -->
 <!-- - User should be able to zoom in and out anywhere in the document -->
-    - Children insertion should be drag and drop
+    <!-- - Children insertion should be drag and drop -->
     - Ctrl hold should change when cursor when inside the canvas

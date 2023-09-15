@@ -30,17 +30,12 @@ function CanvasChild({id, x, y, dragHandler, type}: ICanvasChildProps) {
 			type: 'EDIT_CANVAS_CHILD_VALUE',
 			payload: {
 				id,
-				value:
-					type === 'text'
-						? textInputFieldValue
-						: fileInputFieldValue,
+				value: textInputFieldValue
 			},
 		})
 	}
 
-	const [fileInputFieldValue, setFileInputFieldValue] = useState<
-		Blob | MediaSource
-	>(value ?? null)
+	// const [fileInputFieldValue, setFileInputFieldValue] = useState<any>(value ?? null)
 
 	const draggableRef = useRef(null)
 	useDraggable(draggableRef, {
@@ -130,13 +125,13 @@ function CanvasChild({id, x, y, dragHandler, type}: ICanvasChildProps) {
 						<input
 							className="border border-green-400 p-1 rounded outline-none"
 							type="file"
-							onChange={(e) =>
-								setFileInputFieldValue(() =>
-									e?.target?.files?.length
-										? e.target.files[0]
-										: ''
-								)
-							}
+							// onChange={(e) =>
+							// 	setFileInputFieldValue(() =>
+							// 		e?.target?.files?.length
+							// 			? e.target.files[0]
+							// 			: ''
+							// 	)
+							// }
 						/>
 					)}
 					<div className="flex items-center space-x-1">
@@ -158,21 +153,18 @@ function CanvasChild({id, x, y, dragHandler, type}: ICanvasChildProps) {
 				<div className="flex relative group">
 					{type === 'text' ? (
 						<p className="cursor-pointer">{value}</p>
-					) : fileInputFieldValue ? (
+					) : true ? (
 						<img
-							src={URL.createObjectURL(
-								fileInputFieldValue
-							)}
+							// src={URL.createObjectURL(
+							// 	fileInputFieldValue
+							// )}
 							alt="sample image"
 							width="100"
 							height="100"
 							onDragStart={(e) => e.preventDefault()}
 						/>
 					) : (
-						<div
-							className="w-[100px] h-[100px] bg-gray-100 flex flex-col items-center justify-center space-y-2 cursor-pointer"
-							onClick={handleEditBtnClick}
-						>
+						<div className="w-[100px] h-[100px] bg-gray-100 flex flex-col items-center justify-center space-y-2 cursor-pointer">
 							<Camera />
 							<p className="text-center text-sm">
 								Upload image

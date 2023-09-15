@@ -22,10 +22,6 @@ function CanvasControl() {
 	const handleCoordChange = () => {
 		if (!state.selectedCanvasChild) return
 		console.log({x, y})
-		dispatch({
-			type: 'CHANGE_CANVAS_CHILD_COORDS',
-			payload: {x, y, id: state.selectedCanvasChild.id},
-		})
 	}
 
 	useEffect(() => {
@@ -123,17 +119,17 @@ function CanvasControl() {
 			    <span className='italic text-sm'>Ctrl+Click to zoom</span>
 			</div>
 
-			{(() => {
-				if (!state.selectedCanvasChild) return
-				if (state.selectedCanvasChild?.type !== 'image') return
-				return (
-					<div className="coord-inputs space-y-6 mb-9">
-						<CanvasInput label="W" value={x} />
-
-						<CanvasInput label="H" value={x} />
-					</div>
-				)
-			})()}
+			{/* {(() => { */}
+			{/* 	if (!state.selectedCanvasChild) return */}
+			{/* 	if (state.selectedCanvasChild?.type !== 'image') return */}
+			{/* 	return ( */}
+			{/* 		<div className="coord-inputs space-y-6 mb-9"> */}
+			{/* 			<CanvasInput label="W" value={x} /> */}
+			{/**/}
+			{/* 			<CanvasInput label="H" value={x} /> */}
+			{/* 		</div> */}
+			{/* 	) */}
+			{/* })()} */}
 
 			{!showClearConfirmation ? (
 				<div className="absolute flex left-0 right-0 bottom-0">

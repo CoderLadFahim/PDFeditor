@@ -1,28 +1,22 @@
 import {useEffect, useState} from 'react'
 
-const useMousePosition = (element) => {
+const useMousePosition = (element?) => {
 	const [mousePosition, setMousePosition] = useState<{x: number; y: number}>(
 		{x: 0, y: 0}
 	)
 
 	const handleMouseMove = (e) => {
-		const rect = element.current?.getBoundingClientRect()
-		if (!rect) return
-		const x = Math.floor(e.clientX - rect.left)
-		const y = Math.floor(e.clientY - rect.top)
+		const rect = element?.current?.getBoundingClientRect()
+		let x = rect ? Math.floor(e.clientX - rect.left) : e.clientX
+		let y = rect ? Math.floor(e.clientY - rect.top) : e.clientY
 		setMousePosition(() => ({x, y}))
 	}
 
 	useEffect(() => {
-		if (element.current)
-			element.current.addEventListener('mousemove', handleMouseMove)
-		return () => {
-			if (element.current)
-				element.current.addEventListener(
-					'mousemove',
-					handleMouseMove
-				)
-		}
+		const elementToAddTheEventListenerTo = element?.current ?? document
+		elementToAddTheEventListenerTo.addEventListener('mousemove', handleMouseMove)
+
+		return () => elementToAddTheEventListenerTo.removeEventListener('mousemove', handleMouseMove)
 	}, [])
 
 	return mousePosition

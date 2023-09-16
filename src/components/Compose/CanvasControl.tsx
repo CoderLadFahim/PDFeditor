@@ -5,6 +5,7 @@ import {CanvasContext} from '../../contexts/CanvasContext'
 import {ICanvasChild} from '../../types/Reusables'
 import CanvasTool from './CanvasTool'
 import {useDraggable} from '@neodrag/react'
+import useMousePosition from '../../hooks/useMousePosition'
 
 function CanvasControl() {
 	const {state, dispatch} = useContext(CanvasContext)
@@ -12,6 +13,7 @@ function CanvasControl() {
 		{type: 'text', icon: () => <Type size={20} />},
 		{type: 'image', icon: () => <Image size={20} />},
 	]
+	const {x: mouseX, y: mouseY} = useMousePosition();
 
 	const selectedCanvasChild: ICanvasChild | undefined =
 		state.canvasChildren.find(

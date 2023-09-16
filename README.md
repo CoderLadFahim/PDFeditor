@@ -39,4 +39,4 @@
     - Fix canvas children remove logic
 
 # Upload
-    - Store the uploaded files in localStorage
+<!-- - Store the uploaded files in localStorage -->

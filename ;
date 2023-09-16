@@ -22,7 +22,6 @@ function Canvas() {
 	}, 100)
 
 	const handleCanvasClick = () => {
-		dispatch({type: 'SET_SELECTED_COMPONENT_ID', payload: null})
 		if (state.previewMode) return
 		if (state.selectedTool === 'zoom') return zoom()
 		if (!state.selectedTool) return

@@ -85,10 +85,9 @@ function CanvasChild({id, x, y, dragHandler, type}: ICanvasChildProps) {
 	}
 
 	const handleCanvasChildClick = (e: {
-		ctrlKey: any
 		stopPropagation: () => void
 	}) => {
-		if (e.ctrlKey) return
+		if (state.selectedTool === 'zoom') return
 		e.stopPropagation()
 		dispatch({
 			type: 'SET_SELECTED_COMPONENT_ID',
@@ -131,7 +130,7 @@ function CanvasChild({id, x, y, dragHandler, type}: ICanvasChildProps) {
 				id === state.selectedCanvasChild?.id
 					? 'green-400 border-2'
 					: 'transparent'
-			} `}
+			} ${state.previewMode ? 'border-none' : ''} `}
 		>
 			{isEditing ? (
 				<div className="flex items-center space-x-2">
@@ -180,25 +179,25 @@ function CanvasChild({id, x, y, dragHandler, type}: ICanvasChildProps) {
 			) : (
 				<div className="flex relative group">
 					{type === 'text' ? (
-						<p className="cursor-pointer">{value}</p>
+						<p className={state.selectedTool === 'zoom' ? 'pointer-events-none' : 'cursor-pointer'}>{value}</p>
 					) : imgSrc ? (
 						<img
 							src={imgSrc}
 							alt="sample image"
-							className='cursor-pointer'
+							className={state.selectedTool === 'zoom' ? 'pointer-events-none' : 'cursor-pointer'}
 							width="100"
 							height="100"
 							onDragStart={(e) => e.preventDefault()}
 						/>
 					) : (
-						<div className="w-[100px] h-[100px] bg-gray-100 flex flex-col items-center justify-center space-y-2 cursor-pointer">
+						<div className={`w-[100px] h-[100px] bg-gray-100 flex flex-col items-center justify-center space-y-2 ${state.selectedTool === 'zoom' ? 'pointer-events-none' : 'cursor-pointer'}` }>
 							<Camera />
 							<p className="text-center text-sm">
 								Image
 							</p>
 						</div>
 					)}
-					<div className="absolute space-x-1 -right-11 top-1/2 transform -translate-y-1/2 opacity-0 group-hover:opacity-100">
+					<div className={`absolute space-x-1 -right-11 top-1/2 transform -translate-y-1/2 opacity-0 group-hover:opacity-100 ${state.selectedTool === 'zoom' ? 'hidden' : ''}`}>
 						<button
 							className="text-green-600 transition group-hover:opacity-100"
 							onClick={handleEditBtnClick}

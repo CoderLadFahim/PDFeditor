@@ -5,7 +5,14 @@ import {FilePlus, X, Trash} from 'react-feather'
 function Upload() {
 	const [files, setFiles] = useState<any[]>([])
 
-	const convertFileToObject = (file) => {
+	const convertFileToObject = (file: {
+		name: any
+		size: any
+		type: any
+		path: any
+		webkitRelativePath: any
+		lastModifiedDate: any
+	}) => {
 		return {
 			name: file.name,
 			size: file.size,
@@ -20,8 +27,7 @@ function Upload() {
 		const filesConvertedToObjects = acceptedFiles.map(convertFileToObject)
 		setFiles((prevFiles) => [...prevFiles, ...filesConvertedToObjects])
 
-		console.log(files);
-		localStorage.setItem('files', JSON.stringify(files))
+		localStorage.setItem('files', JSON.stringify(filesConvertedToObjects))
 	}
 
 	const truncateString = (str: string, n: number): string => {
@@ -39,10 +45,15 @@ function Upload() {
 			prevFiles.filter((_: any, i: number) => i !== fileToDeleteIndex)
 		)
 
+	const handleClearBtnClick = () => {
+		setFiles(() => [])
+		localStorage.removeItem('files')
+	}
+
 	useEffect(() => {
-	    const existingFilesInLocalStorage = localStorage.getItem('files')
-	    if (!existingFilesInLocalStorage) return;
-	    setFiles(() => [...JSON.parse(existingFilesInLocalStorage)])
+		const existingFilesInLocalStorage = localStorage.getItem('files')
+		if (!existingFilesInLocalStorage) return
+		setFiles(() => [...JSON.parse(existingFilesInLocalStorage)])
 	}, [])
 
 	return (
@@ -72,7 +83,10 @@ function Upload() {
 			</Dropzone>
 
 			<div className="mt-16">
-				<button className="bg-red-500 px-3 py-2 rounded shadow flex space-x-2 text-white mb-12 absolute -bottom-6 right-6">
+				<button
+					className={`bg-red-500 px-3 py-2 rounded shadow flex space-x-2 text-white mb-12 absolute -bottom-6 right-6 ${files.length ? '' : 'hidden'}`}
+					onClick={handleClearBtnClick}
+				>
 					<Trash />
 					<span>Clear</span>
 				</button>
@@ -86,7 +100,7 @@ function Upload() {
 								{getFileType(file.path)}
 							</span>
 							<span className="file-name  ml-[3rem]">
-								{truncateString(file.path, 20)}
+								{truncateString(file.path, 25)}
 							</span>
 
 							<span className="absolute top-0 bottom-0 right-0 hidden w-[2rem] text-red-400 group-hover:grid place-items-center">

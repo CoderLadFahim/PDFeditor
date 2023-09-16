@@ -1,37 +1,46 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-import { Camera } from 'react-feather'
+import Sidebar from './components/Sidebar'
+import Navbar from './components/Navbar'
+import Upload from './components/Upload/Index'
+import Compose from './components/Compose/Index'
+
+import {BrowserRouter as Router, Route, Routes} from 'react-router-dom'
+import {useEffect, useReducer, useRef} from 'react'
+import {
+	CanvasContext,
+	canvasReducer,
+	initialCanvasState,
+} from './contexts/CanvasContext'
 
 function App() {
-  const [count, setCount] = useState(0)
+	const [state, dispatch] = useReducer(canvasReducer, initialCanvasState)
+	const hasMounted = useRef<boolean | null>(false)
 
-  return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        <Camera />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+	useEffect(() => {
+		const canvasStateInLocalStorage = localStorage.getItem('canvasState')
+		if (canvasStateInLocalStorage && !hasMounted.current) {
+			dispatch({
+				type: 'SET_CANVAS',
+				payload: JSON.parse(canvasStateInLocalStorage),
+			})
+			hasMounted.current = true;
+		}
+		localStorage.setItem('canvasState', JSON.stringify(state));
+	}, [state])
+
+	return (
+		<>
+			<CanvasContext.Provider value={{state, dispatch}}>
+				<Router>
+					<Navbar />
+					<Sidebar />
+					<Routes>
+						<Route path="/" element={<Upload />} />
+						<Route path="/compose" element={<Compose />} />
+					</Routes>
+				</Router>
+			</CanvasContext.Provider>
+		</>
+	)
 }
 
 export default App

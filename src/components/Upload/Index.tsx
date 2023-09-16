@@ -1,15 +1,20 @@
 import {useEffect, useState} from 'react'
 import 'react-dropzone-uploader/dist/styles.css'
 import Dropzone from 'react-dropzone-uploader'
-import { X } from 'react-feather'
+import {X} from 'react-feather'
 
 function Upload() {
 	const [fileStatuses, setFileStatuses] = useState<File[]>([])
-	const [locallyStoredFiles , setLocallyStoredFiles] = useState<any>([])
+	const [locallyStoredFileCount, setLocallyStoredFileCount] = useState<number>(0)
 
 	const getFileType = (path: string): string => {
 		const pathSplit: string[] = path.split('.')
 		return pathSplit[pathSplit.length - 1]
+	}
+
+	const truncateString = (str: string, n: number): string => {
+		if (str.length <= n) return str
+		return str.slice(0, n).concat('...')
 	}
 
 	const getUploadParams = () => {
@@ -42,14 +47,22 @@ function Upload() {
 		readFile(0)
 	}
 
-	const handleSubmit = (files: any[]) => {
-		const fileObjects = files.map((file: {file: any}) => file.file)
-        storeFilesInLocalStorage(fileObjects);
+	const checkFilesInLocalStorage = () => {
+        const filesInLocalStorage = localStorage.getItem('fileData')
+        if (filesInLocalStorage) setLocallyStoredFileCount(
+            JSON.parse(filesInLocalStorage).length
+        )
 	}
 
+	const handleSubmit = (files: any[]) => {
+		const fileObjects = files.map((file: {file: any}) => file.file)
+		storeFilesInLocalStorage(fileObjects)
+        checkFilesInLocalStorage()
+	}
+
+
 	useEffect(() => {
-	    const filesLocallyStored: any = localStorage.getItem('fileData')
-	    setLocallyStoredFiles(() => JSON.parse(filesLocallyStored))
+        checkFilesInLocalStorage()
 	}, [])
 
 	return (
@@ -66,32 +79,12 @@ function Upload() {
 				</small>
 				<Dropzone
 					getUploadParams={getUploadParams}
-					// maxSizeBytes={1048576}
+					maxSizeBytes={1048576}
 					onSubmit={handleSubmit}
 					onChangeStatus={handleChangeStatus}
 					accept="application/pdf"
 				/>
-			</div>
-
-            <div className="mt-16">
-				<ul className="flex flex-wrap justify-between gap-y-7">
-					{locallyStoredFiles?.map((file: any, i: number) => (
-						<li className="rounded-md relative shadow p-2 w-[17rem] bg-white overflow-hidden group">
-							<span className="absolute top-0 bottom-0 left-0 w-[3rem] bg-sky-400 text-white grid place-items-center">
-								getFileType(file.path)
-							</span>
-							<span className="file-name  ml-[3rem]">
-								truncateString(file.path, 20)
-							</span>
-
-							<span className="absolute top-0 bottom-0 right-0 hidden w-[2rem] text-red-400 group-hover:grid place-items-center">
-								<button className="cursor-pointer">
-								    <X />
-								</button>
-							</span>
-						</li>
-					))}
-				</ul>
+				<p className="text-gray-700">{locallyStoredFileCount} files uploaded. </p>
 			</div>
 		</div>
 	)

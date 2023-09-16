@@ -7,16 +7,6 @@ function Upload() {
 	const [fileStatuses, setFileStatuses] = useState<File[]>([])
 	const [locallyStoredFileCount, setLocallyStoredFileCount] = useState<number>(0)
 
-	const getFileType = (path: string): string => {
-		const pathSplit: string[] = path.split('.')
-		return pathSplit[pathSplit.length - 1]
-	}
-
-	const truncateString = (str: string, n: number): string => {
-		if (str.length <= n) return str
-		return str.slice(0, n).concat('...')
-	}
-
 	const getUploadParams = () => {
 		return {url: 'https://httpbin.org/post'}
 	}
@@ -31,8 +21,13 @@ function Upload() {
 
 		function readFile(index: number) {
 			if (index >= files.length) {
-				localStorage.setItem('fileData', JSON.stringify(fileData))
-				return
+				try {
+				    localStorage.setItem('fileData', JSON.stringify(fileData))
+				} catch (error) {
+                    alert('File limit exceeded')
+                    localStorage.removeItem('fileData')
+				}
+				return checkFilesInLocalStorage()
 			}
 
 			const file = files[index]
@@ -49,17 +44,13 @@ function Upload() {
 
 	const checkFilesInLocalStorage = () => {
         const filesInLocalStorage = localStorage.getItem('fileData')
-        if (filesInLocalStorage) setLocallyStoredFileCount(
-            JSON.parse(filesInLocalStorage).length
-        )
+        setLocallyStoredFileCount(filesInLocalStorage ? JSON.parse(filesInLocalStorage).length : 0)
 	}
 
 	const handleSubmit = (files: any[]) => {
 		const fileObjects = files.map((file: {file: any}) => file.file)
 		storeFilesInLocalStorage(fileObjects)
-        checkFilesInLocalStorage()
 	}
-
 
 	useEffect(() => {
         checkFilesInLocalStorage()
@@ -79,12 +70,13 @@ function Upload() {
 				</small>
 				<Dropzone
 					getUploadParams={getUploadParams}
-					maxSizeBytes={1048576}
+					// maxSizeBytes={1048576}
 					onSubmit={handleSubmit}
 					onChangeStatus={handleChangeStatus}
 					accept="application/pdf"
 				/>
-				<p className="text-gray-700">{locallyStoredFileCount} files uploaded. </p>
+				<p className="text-gray-700">{locallyStoredFileCount} files uploaded.  </p>
+                <p className="text-gray-700 text-xs">Max storage capacity: 5MB</p>
 			</div>
 		</div>
 	)

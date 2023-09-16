@@ -3,8 +3,11 @@ import {ICanvasInputProps} from '../../types/ComponentProps'
 function CanvasInput({label, value, onChange, onEnter}: ICanvasInputProps) {
 	const identifier: string = label.toLowerCase()
 
-	const handleKeyDown = (e) => {
-		if (e.key.toLowerCase() === 'enter') onEnter(+e.target.value)
+	const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+		if (e.key.toLowerCase() === 'enter') {
+			const target = e.target as HTMLInputElement
+			onEnter(+target.value)
+		}
 	}
 	return (
 		<label

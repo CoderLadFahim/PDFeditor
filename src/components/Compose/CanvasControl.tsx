@@ -4,16 +4,15 @@ import {Download, Eye, Image, Trash, Type, ZoomIn} from 'react-feather'
 import {CanvasContext} from '../../contexts/CanvasContext'
 import {ICanvasChild} from '../../types/Reusables'
 import CanvasTool from './CanvasTool'
-import useMousePosition from '../../hooks/useMousePosition'
+import { ICanvasToolProps } from '../../types/ComponentProps'
 
 function CanvasControl() {
 	const {state, dispatch} = useContext(CanvasContext)
-	const canvasTools = [
+	const canvasTools: ICanvasToolProps[] = [
 		{type: 'text', icon: () => <Type size={20} />},
 		{type: 'image', icon: () => <Image size={20} />},
 		{type: 'zoom', icon: () => <ZoomIn size={20} />},
 	]
-	const {x: mouseX, y: mouseY} = useMousePosition();
 
 	const selectedCanvasChild: ICanvasChild | undefined =
 		state.canvasChildren.find(

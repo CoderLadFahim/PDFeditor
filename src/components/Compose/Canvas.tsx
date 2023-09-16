@@ -21,9 +21,9 @@ function Canvas() {
 		dispatch({type: 'CHANGE_CANVAS_CHILD_COORDS', payload: {x, y, id}})
 	}, 100)
 
-	const handleCanvasClick = (e) => {
-		if (state.selectedTool === 'zoom') return zoom()
+	const handleCanvasClick = () => {
 		if (state.previewMode) return
+		if (state.selectedTool === 'zoom') return zoom()
 		if (!state.selectedTool) return
 		const newCanvasChild: ICanvasChild = {
 			type: state.selectedTool,
@@ -50,7 +50,7 @@ function Canvas() {
 		<div
 			ref={canvasComponent}
 			id="app-canvas"
-			className={`app-canvas ${state.selectedTool === 'zoom' ? 'cursor-zoom-in' : ''} bg-white shadow w-[595px] h-[842px] ${
+			className={`app-canvas ${state.selectedTool === 'zoom' && !state.previewMode  ? 'cursor-zoom-in' : ''} bg-white shadow w-[595px] h-[842px] ${
 				state.previewMode ? 'preview-mode' : ''
 			} ${enableZoom ? `transform scale-[2] cursor-zoom-out` : ''}`}
 			style={enableZoom ? { transformOrigin: `${coordsToZoomFrom.x}px ${coordsToZoomFrom.y}px` } : {}}

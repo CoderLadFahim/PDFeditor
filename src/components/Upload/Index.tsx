@@ -1,9 +1,9 @@
 import {useEffect, useState} from 'react'
 import 'react-dropzone-uploader/dist/styles.css'
 import Dropzone from 'react-dropzone-uploader'
-import {X} from 'react-feather'
 
 function Upload() {
+    // this is needed for RDU to function
 	const [fileStatuses, setFileStatuses] = useState<File[]>([])
 	const [locallyStoredFileCount, setLocallyStoredFileCount] = useState<number>(0)
 

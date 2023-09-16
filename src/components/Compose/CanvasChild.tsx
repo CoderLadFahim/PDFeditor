@@ -97,7 +97,8 @@ function CanvasChild({id, x, y, dragHandler, type}: ICanvasChildProps) {
 	}
 
 	const [imgSrc, setImgSrc] = useState<any>(value ?? '')
-	const handleImageUpload = (event: {target: {files: any[]}}) => {
+	const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+		if (!event.target.files) return;
 		const file = event.target.files[0]
 		const reader = new FileReader()
 
@@ -185,6 +186,7 @@ function CanvasChild({id, x, y, dragHandler, type}: ICanvasChildProps) {
 						<img
 							src={imgSrc}
 							alt="sample image"
+							className='cursor-pointer'
 							width="100"
 							height="100"
 							onDragStart={(e) => e.preventDefault()}

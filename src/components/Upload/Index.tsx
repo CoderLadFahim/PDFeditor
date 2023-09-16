@@ -1,90 +1,78 @@
-import {useEffect, useState} from 'react'
-import 'react-dropzone-uploader/dist/styles.css'
-import Dropzone from 'react-dropzone-uploader'
+import {useState} from 'react'
+import Dropzone from 'react-dropzone'
+import {FilePlus, X} from 'react-feather'
 
 function Upload() {
-    // this is needed for RDU to function
-    // @ts-ignore
-	const [fileStatuses, setFileStatuses] = useState<File[]>([])
-	const [locallyStoredFileCount, setLocallyStoredFileCount] = useState<number>(0)
+	const [files, setFiles] = useState<any[]>([])
 
-	const getUploadParams = () => {
-		return {url: 'https://httpbin.org/post'}
+	const handleDrop = (acceptedFiles: any) =>
+		setFiles((prevFiles) => [...prevFiles, ...acceptedFiles])
+
+	const truncateString = (str: string, n: number): string => {
+		if (str.length <= n) return str
+		return str.slice(0, n).concat('...')
 	}
 
-    // @ts-ignore
-	const handleChangeStatus = ({_, file}: any): void => {
-		setFileStatuses((prevFiles) => [...prevFiles, file])
+	const getFileType = (path: string): string => {
+		const pathSplit: string[] = path.split('.')
+		return pathSplit[pathSplit.length - 1]
 	}
 
-	function storeFilesInLocalStorage(files: string | any[]) {
-		const fileData: (string | ArrayBuffer | null)[] = []
-		const reader = new FileReader()
-
-		function readFile(index: number) {
-			if (index >= files.length) {
-				try {
-				    const existingFilesInStorage = localStorage.getItem('fileData')
-				    if (existingFilesInStorage) {
-				        const oldFilesParsed = JSON.parse(existingFilesInStorage)
-				        localStorage.setItem('fileData', JSON.stringify([...fileData, ...oldFilesParsed]))
-				    } else {
-				        localStorage.setItem('fileData', JSON.stringify(fileData))
-				    }
-				} catch (error) {
-                    alert('File limit exceeded')
-                    localStorage.removeItem('fileData')
-				}
-				return checkFilesInLocalStorage()
-			}
-
-			const file = files[index]
-			reader.onload = function (event) {
-				const dataUrl = event?.target?.result
-				if (dataUrl) fileData.push(dataUrl)
-				readFile(index + 1)
-			}
-			reader.readAsDataURL(file)
-		}
-
-		readFile(0)
-	}
-
-	const checkFilesInLocalStorage = () => {
-        const filesInLocalStorage = localStorage.getItem('fileData')
-        setLocallyStoredFileCount(filesInLocalStorage ? JSON.parse(filesInLocalStorage).length : 0)
-	}
-
-	const handleSubmit = (files: any[]) => {
-		const fileObjects = files.map((file: {file: any}) => file.file)
-		storeFilesInLocalStorage(fileObjects)
-	}
-
-	useEffect(() => {
-        checkFilesInLocalStorage()
-	}, [])
+	const handleFileDelete = (fileToDeleteIndex: number) =>
+		setFiles((prevFiles) =>
+			prevFiles.filter(
+				(_: any, i: number) => i !== fileToDeleteIndex
+			)
+		)
 
 	return (
 		<div className="content-wrapper bg-gray-200 p-6 pb-56 mb-5 rounded-xl relative">
 			<h2>Upload document</h2>
 
-			<div className="mt-5">
-				<small className="text-xs text-gray-700">
-					Accepted filetypes: pdf
-				</small>{' '}
-				<br />
-				<small className="text-xs text-gray-700">
-					Max file size: 1MB
-				</small>
-				<Dropzone
-					getUploadParams={getUploadParams}
-					// maxSizeBytes={1048576}
-					onSubmit={handleSubmit}
-					onChangeStatus={handleChangeStatus}
-					accept="application/pdf"
-				/>
-				<p className="text-gray-700">{locallyStoredFileCount} files uploaded.  </p>
-                <p className="text-gray-700 text-xs">Max storage capacity: 5MB</p>
+			<Dropzone onDrop={handleDrop}>
+				{({getRootProps, getInputProps}) => (
+					<section className="cursor-pointer">
+						<div
+							{...getRootProps()}
+							className="status-card bg-white rounded-xl w-[16rem] h-[15rem] flex flex-col items-center justify-center mx-auto space-y-3 mt-8"
+						>
+							<div className="text-green-500">
+								<FilePlus size={64} />
+							</div>
+							<h1 className="text-gray-800">
+								Click to Upload
+							</h1>
+							<p className="text-sm">
+								or drag and drop your files here
+							</p>
+							<input {...getInputProps()} />
+						</div>
+					</section>
+				)}
+			</Dropzone>
+
+			<div className="mt-16">
+				<ul className="flex flex-wrap justify-between gap-y-7">
+					{files?.map((file: any, i: number) => (
+						<li className="rounded-md relative shadow p-2 w-[17rem] bg-white overflow-hidden group">
+							<span className="absolute top-0 bottom-0 left-0 w-[3rem] bg-sky-400 text-white grid place-items-center">
+								{getFileType(file.path)}
+							</span>
+							<span className="file-name  ml-[3rem]">
+								{truncateString(file.path, 20)}
+							</span>
+
+							<span className="absolute top-0 bottom-0 right-0 hidden w-[2rem] text-red-400 group-hover:grid place-items-center">
+								<button
+									className="cursor-pointer"
+									onClick={() => handleFileDelete(i)}
+								>
+									<X />
+								</button>
+							</span>
+						</li>
+					))}
+				</ul>
 			</div>
 		</div>
 	)

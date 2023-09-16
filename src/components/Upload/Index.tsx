@@ -50,12 +50,6 @@ function Upload() {
 		localStorage.removeItem('files')
 	}
 
-	useEffect(() => {
-		const existingFilesInLocalStorage = localStorage.getItem('files')
-		if (!existingFilesInLocalStorage) return
-		setFiles(() => [...JSON.parse(existingFilesInLocalStorage)])
-	}, [])
-
 	return (
 		<div className="content-wrapper bg-gray-200 p-6 pb-56 mb-5 rounded-xl relative">
 			<h2>Upload document</h2>
@@ -84,7 +78,9 @@ function Upload() {
 
 			<div className="mt-16">
 				<button
-					className={`bg-red-500 px-3 py-2 rounded shadow flex space-x-2 text-white mb-12 absolute -bottom-6 right-6 ${files.length ? '' : 'hidden'}`}
+					className={`bg-red-500 px-3 py-2 rounded shadow flex space-x-2 text-white mb-12 absolute -bottom-6 right-6 ${
+						files.length ? '' : 'hidden'
+					}`}
 					onClick={handleClearBtnClick}
 				>
 					<Trash />

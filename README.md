@@ -1,42 +1,28 @@
-# Setup Dependencies
-<!-- - Install tailwind -->
-<!-- - Install neodrag -->
-<!-- - Install react-router -->
-<!-- - Install react-feather -->
+##### This piece of software can be used to create, edit and upload simple documents, directly from the web.
 
-# Layout
-<!-- - Create the left sidebar that has the two links -->
-<!-- - Create the two routes that are linked in the sidebar -->
-<!-- - Design the CanvasControl component with all the elements -->
-<!-- - Design the document canvas which is just a blank div -->
+The application consists of two modules:  
 
-# CanvasContext
-<!-- - Create a context that stores the n of elements in the document  -->
-<!-- - The context should keep track of every component's coords and dimensions -->
-<!-- - The context should link with localStorage -->
+    * Compose
+    * Upload
 
-# Text
-<!-- - Create a text field component with just hard coded text that can be dragged around in the document -->
-<!-- - Make the text field something that can be interacted with using inputs -->
-<!-- - User should be able to click and create this component as many times as they want all over the document   -->
-<!-- - Retain the component and its state in the document on refresh -->
+### Compose 
 
-# Image
-<!-- - Create and image component takes in an image as user input -->
-<!-- - Show the uploaded image in the document -->
-<!-- - Coordinates of other components get updated -->
+Features:
 
-# Canvas
-<!-- - Display the coords of the seleted component in CanvasControl -->
-<!-- - Show the coords of the selected component in the right sidebar -->
-<!-- - User should be able to delete any component on delete icon click -->
-<!-- - Hide the sidebar and canvas control on preview click -->
-<!-- - Add a confirmation for clearing -->
-<!-- - Clear everything when user presses the clear button -->
-<!-- - Print the document when user clicks download -->
-<!-- - Use custom hooks !! -->
-<!-- - User should be able to zoom in and out anywhere in the document -->
-<!-- - Fix canvas children remove logic -->
+    * Text and Image insertion on a blank canvas
+    * Dragging the canvas elements anywhere within the canvas
+    * Values and coordinates retention on refresh
+    * Document printing/downloading as PDFs
+    * Document preview
+    * Zoom in and out anywhere in the canvas 
+    * Coordinates display on any given element in the canvas
+    * Intuitive UI
 
-# Upload
-<!-- - Store the uploaded files in localStorage -->
+### Upload
+
+Features:
+    
+    * Upload documens including PDFs
+    * Lists the uploaded documents
+    * Stores a shallow copy of documents in localStorage
+    * Intuitive UI here as well

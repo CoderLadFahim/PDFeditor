@@ -193,7 +193,7 @@ function CanvasChild({id, x, y, dragHandler, type}: ICanvasChildProps) {
 						<div className="w-[100px] h-[100px] bg-gray-100 flex flex-col items-center justify-center space-y-2 cursor-pointer">
 							<Camera />
 							<p className="text-center text-sm">
-								Upload image
+								Image
 							</p>
 						</div>
 					)}

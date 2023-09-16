@@ -16,7 +16,7 @@ function Compose() {
 
 	return (
 		<div>
-			<Canvas />
+			<Canvas key={state.canvasChildren.length} />
 			<CanvasControl />
 
 			{state.previewMode ? (

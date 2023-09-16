@@ -36,7 +36,7 @@
 <!-- - Print the document when user clicks download -->
 <!-- - Use custom hooks !! -->
 <!-- - User should be able to zoom in and out anywhere in the document -->
-    - Fix canvas children remove logic
+<!-- - Fix canvas children remove logic -->
 
 # Upload
 <!-- - Store the uploaded files in localStorage -->

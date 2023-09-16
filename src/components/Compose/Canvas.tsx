@@ -22,8 +22,9 @@ function Canvas() {
 	}, 100)
 
 	const handleCanvasClick = (e) => {
-		if (e.ctrlKey) return zoom()
+		if (state.selectedTool === 'zoom') return zoom()
 		if (state.previewMode) return
+		if (!state.selectedTool) return
 		const newCanvasChild: ICanvasChild = {
 			type: state.selectedTool,
 			value: state.selectedTool === 'text' ? 'Click to add text' : null,
@@ -33,6 +34,10 @@ function Canvas() {
 		}
 
 		dispatch({type: 'CREATE_CANVAS_CHILD', payload: newCanvasChild})
+		dispatch({
+		    type: 'CHANGE_SELECTED_TOOL',
+		    payload: 'zoom'
+		})
 	}
 
 	const zoom = () => setZoom(prevValue => !prevValue)
@@ -44,9 +49,9 @@ function Canvas() {
 	return (
 		<div
 			ref={canvasComponent}
-			className={`app-canvas bg-white shadow w-[595px] h-[842px] ${
+			className={`app-canvas ${state.selectedTool === 'zoom' ? 'cursor-zoom-in' : ''} bg-white shadow w-[595px] h-[842px] ${
 				state.previewMode ? 'preview-mode' : ''
-			} ${enableZoom ? `transform scale-[2]` : ''}`}
+			} ${enableZoom ? `transform scale-[2] cursor-zoom-out` : ''}`}
 			style={enableZoom ? { transformOrigin: `${coordsToZoomFrom.x}px ${coordsToZoomFrom.y}px` } : {}}
 			onClick={handleCanvasClick}
 		>

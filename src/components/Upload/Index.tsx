@@ -23,7 +23,8 @@ function Upload() {
 			<h2>Upload document</h2>
 
             <div className='mt-5'>
-			    <small className="text-xs text-gray-700">Accepted filetypes: pdf</small>
+			    <small className="text-xs text-gray-700">Accepted filetypes: pdf</small> <br />
+			    <small className="text-xs text-gray-700">Max file size: 1MB</small>
 			    <Dropzone
 				    getUploadParams={getUploadParams}
 				    maxSizeBytes={1048576}

@@ -87,7 +87,7 @@ export function canvasReducer(
 }
 
 export const initialCanvasState: ICanvasState = {
-	selectedTool: 'text',
+	selectedTool: 'zoom',
 	selectedCanvasChild: null,
 	previewMode: false,
 	canvasChildren: [

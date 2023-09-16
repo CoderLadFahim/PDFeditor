@@ -1,6 +1,6 @@
 import {ChangeEvent, useContext, useEffect, useRef, useState} from 'react'
 import CanvasInput from './CanvasInput'
-import {AlertCircle, Download, Eye, Image, Trash, Type} from 'react-feather'
+import {AlertCircle, Download, Eye, Image, Trash, Type, ZoomIn} from 'react-feather'
 import {CanvasContext} from '../../contexts/CanvasContext'
 import {ICanvasChild} from '../../types/Reusables'
 import CanvasTool from './CanvasTool'
@@ -12,6 +12,7 @@ function CanvasControl() {
 	const canvasTools = [
 		{type: 'text', icon: () => <Type size={20} />},
 		{type: 'image', icon: () => <Image size={20} />},
+		{type: 'zoom', icon: () => <ZoomIn size={20} />},
 	]
 	const {x: mouseX, y: mouseY} = useMousePosition();
 
@@ -77,10 +78,6 @@ function CanvasControl() {
 				{canvasTools.map((tool, i) => (
 					<CanvasTool key={i} {...tool} />
 				))}
-			</div>
-			<div className="flex items-center space-x-2 text-gray-500 mb-10">
-				<AlertCircle size={13} />
-				<span className="italic text-sm">Ctrl+Click to zoom</span>
 			</div>
 
 			{!showClearConfirmation ? (

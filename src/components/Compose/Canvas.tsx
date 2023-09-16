@@ -36,7 +36,7 @@ function Canvas() {
 		dispatch({type: 'CREATE_CANVAS_CHILD', payload: newCanvasChild})
 		dispatch({
 		    type: 'CHANGE_SELECTED_TOOL',
-		    payload: 'zoom'
+		    payload: ''
 		})
 	}
 

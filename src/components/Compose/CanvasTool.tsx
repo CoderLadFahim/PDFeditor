@@ -27,7 +27,7 @@ function CanvasTool({type, icon}: ICanvasToolProps ) {
 			onClick={() =>
 				dispatch({
 					type: 'CHANGE_SELECTED_TOOL',
-					payload: type,
+					payload: state.selectedTool === type ? '' : type,
 				})
 			}
 		>

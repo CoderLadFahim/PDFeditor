@@ -1,12 +1,28 @@
-import {useState} from 'react'
+import {useState, useEffect} from 'react'
 import Dropzone from 'react-dropzone'
-import {FilePlus, X} from 'react-feather'
+import {FilePlus, X, Trash} from 'react-feather'
 
 function Upload() {
 	const [files, setFiles] = useState<any[]>([])
 
-	const handleDrop = (acceptedFiles: any) =>
-		setFiles((prevFiles) => [...prevFiles, ...acceptedFiles])
+	const convertFileToObject = (file) => {
+		return {
+			name: file.name,
+			size: file.size,
+			type: file.type,
+			path: file.path,
+			webkitRelativePath: file.webkitRelativePath,
+			lastModifiedDate: file.lastModifiedDate,
+		}
+	}
+
+	const handleDrop = (acceptedFiles: any) => {
+		const filesConvertedToObjects = acceptedFiles.map(convertFileToObject)
+		setFiles((prevFiles) => [...prevFiles, ...filesConvertedToObjects])
+
+		console.log(files);
+		localStorage.setItem('files', JSON.stringify(files))
+	}
 
 	const truncateString = (str: string, n: number): string => {
 		if (str.length <= n) return str
@@ -20,10 +36,14 @@ function Upload() {
 
 	const handleFileDelete = (fileToDeleteIndex: number) =>
 		setFiles((prevFiles) =>
-			prevFiles.filter(
-				(_: any, i: number) => i !== fileToDeleteIndex
-			)
+			prevFiles.filter((_: any, i: number) => i !== fileToDeleteIndex)
 		)
+
+	useEffect(() => {
+	    const existingFilesInLocalStorage = localStorage.getItem('files')
+	    if (!existingFilesInLocalStorage) return;
+	    setFiles(() => [...JSON.parse(existingFilesInLocalStorage)])
+	}, [])
 
 	return (
 		<div className="content-wrapper bg-gray-200 p-6 pb-56 mb-5 rounded-xl relative">
@@ -52,9 +72,16 @@ function Upload() {
 			</Dropzone>
 
 			<div className="mt-16">
-				<ul className="flex flex-wrap justify-between gap-y-7">
+				<button className="bg-red-500 px-3 py-2 rounded shadow flex space-x-2 text-white mb-12 absolute -bottom-6 right-6">
+					<Trash />
+					<span>Clear</span>
+				</button>
+				<ul className="flex flex-wrap gap-7 mb-16">
 					{files?.map((file: any, i: number) => (
-						<li className="rounded-md relative shadow p-2 w-[17rem] bg-white overflow-hidden group">
+						<li
+							key={i}
+							className="rounded-md relative shadow p-2 w-[17rem] bg-white overflow-hidden group"
+						>
 							<span className="absolute top-0 bottom-0 left-0 w-[3rem] bg-sky-400 text-white grid place-items-center">
 								{getFileType(file.path)}
 							</span>

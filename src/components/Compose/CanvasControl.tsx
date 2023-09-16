@@ -1,10 +1,9 @@
-import {ChangeEvent, useContext, useEffect, useRef, useState} from 'react'
+import {ChangeEvent, useContext, useEffect, useState} from 'react'
 import CanvasInput from './CanvasInput'
-import {AlertCircle, Download, Eye, Image, Trash, Type, ZoomIn} from 'react-feather'
+import {Download, Eye, Image, Trash, Type, ZoomIn} from 'react-feather'
 import {CanvasContext} from '../../contexts/CanvasContext'
 import {ICanvasChild} from '../../types/Reusables'
 import CanvasTool from './CanvasTool'
-import {useDraggable} from '@neodrag/react'
 import useMousePosition from '../../hooks/useMousePosition'
 
 function CanvasControl() {

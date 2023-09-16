@@ -1,18 +1,33 @@
 import {useDraggable} from '@neodrag/react'
-import {useContext, useRef, useState} from 'react'
-import { CanvasContext } from '../../contexts/CanvasContext'
+import {useContext, useEffect, useRef, useState} from 'react'
+import {CanvasContext} from '../../contexts/CanvasContext'
+import useMousePosition from '../../hooks/useMousePosition'
 
 function CanvasTool({type, icon}) {
 	const canvasTool = useRef(null)
 	const [canvasToolPosition, setCanvasToolPosition] = useState({x: 0, y: 0})
+	const [isInsideCanvas, setIsInsideCanvas] = useState(false)
 	const {state, dispatch} = useContext(CanvasContext)
+	const {x, y} = useMousePosition()
 
 	const {isDragging} = useDraggable(canvasTool, {
 		position: canvasToolPosition,
-		onDrag: ({offsetX, offsetY}) =>
-			setCanvasToolPosition({x: offsetX, y: offsetY}),
+		onDrag: (dragObj) => {
+			const {offsetY, offsetX} = dragObj
+			setCanvasToolPosition({x: offsetX, y: offsetY})
+		},
 		onDragEnd: () => setCanvasToolPosition({x: 0, y: 0}),
 	})
+
+	useEffect(() => {
+	    if (!isDragging) return;
+	    const canvasElement = document.getElementById('app-canvas')!
+	    const canvasElementRect = canvasElement?.getBoundingClientRect()
+	    if (!canvasElementRect) return;
+	    const {top, right, bottom ,left} = canvasElementRect;
+	    setIsInsideCanvas(() => (x >= left && x <= right) && (y >= top && y <= bottom))
+
+	}, [isDragging, x, y])
 
 	return (
 		<button

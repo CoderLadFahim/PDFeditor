@@ -49,6 +49,7 @@ function Canvas() {
 	return (
 		<div
 			ref={canvasComponent}
+			id="app-canvas"
 			className={`app-canvas ${state.selectedTool === 'zoom' ? 'cursor-zoom-in' : ''} bg-white shadow w-[595px] h-[842px] ${
 				state.previewMode ? 'preview-mode' : ''
 			} ${enableZoom ? `transform scale-[2] cursor-zoom-out` : ''}`}

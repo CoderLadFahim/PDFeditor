@@ -4,6 +4,7 @@ import Dropzone from 'react-dropzone-uploader'
 
 function Upload() {
     // this is needed for RDU to function
+    // @ts-ignore
 	const [fileStatuses, setFileStatuses] = useState<File[]>([])
 	const [locallyStoredFileCount, setLocallyStoredFileCount] = useState<number>(0)
 
@@ -11,6 +12,7 @@ function Upload() {
 		return {url: 'https://httpbin.org/post'}
 	}
 
+    // @ts-ignore
 	const handleChangeStatus = ({_, file}: any): void => {
 		setFileStatuses((prevFiles) => [...prevFiles, file])
 	}

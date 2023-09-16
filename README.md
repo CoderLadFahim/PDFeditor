@@ -26,3 +26,15 @@ Features:
     * Lists the uploaded documents
     * Stores a shallow copy of documents in localStorage
     * Intuitive UI here as well
+
+
+# Setup
+
+Just
+
+```
+npm install
+npm run dev
+```
+
+and you should be good to go

@@ -112,8 +112,6 @@ function CanvasChild({id, x, y, dragHandler, type}: ICanvasChildProps) {
 					value: reader.result,
 				},
 			})
-
-			console.log(state.canvasChildren)
 		}
 
 		if (file) {
@@ -155,6 +153,7 @@ function CanvasChild({id, x, y, dragHandler, type}: ICanvasChildProps) {
 						<input
 							className="border border-green-400 p-1 rounded outline-none"
 							type="file"
+							accept='image/*'
 							onChange={handleImageUpload}
 						/>
 					)}

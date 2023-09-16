@@ -22,7 +22,13 @@ function Upload() {
 		function readFile(index: number) {
 			if (index >= files.length) {
 				try {
-				    localStorage.setItem('fileData', JSON.stringify(fileData))
+				    const existingFilesInStorage = localStorage.getItem('fileData')
+				    if (existingFilesInStorage) {
+				        const oldFilesParsed = JSON.parse(existingFilesInStorage)
+				        localStorage.setItem('fileData', JSON.stringify([...fileData, ...oldFilesParsed]))
+				    } else {
+				        localStorage.setItem('fileData', JSON.stringify(fileData))
+				    }
 				} catch (error) {
                     alert('File limit exceeded')
                     localStorage.removeItem('fileData')

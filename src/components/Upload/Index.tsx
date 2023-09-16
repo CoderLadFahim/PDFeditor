@@ -1,4 +1,4 @@
-import {useState, useEffect} from 'react'
+import {useState} from 'react'
 import Dropzone from 'react-dropzone'
 import {FilePlus, X, Trash} from 'react-feather'
 

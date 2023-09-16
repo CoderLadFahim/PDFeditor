@@ -51,12 +51,7 @@ export function canvasReducer(
 		case 'DELETE_CANVAS_CHILD':
 			return {
 				...state,
-				canvasChildren: [
-					...state.canvasChildren.filter(
-						(canvasChild: ICanvasChild) =>
-							canvasChild.id !== action.payload
-					),
-				],
+				canvasChildren: state.canvasChildren.filter( (canvasChild: ICanvasChild) => canvasChild.id !== action.payload),
 			}
 			break
 		case 'SET_SELECTED_COMPONENT_ID':

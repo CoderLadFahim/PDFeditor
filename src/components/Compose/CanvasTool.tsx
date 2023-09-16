@@ -12,6 +12,7 @@ function CanvasTool({type, icon}) {
 
 	const {isDragging} = useDraggable(canvasTool, {
 		position: canvasToolPosition,
+		axis: 'none',
 		onDrag: (dragObj) => {
 			const {offsetY, offsetX} = dragObj
 			setCanvasToolPosition({x: offsetX, y: offsetY})

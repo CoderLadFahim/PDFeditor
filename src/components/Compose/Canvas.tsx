@@ -27,7 +27,7 @@ function Canvas() {
 		if (!state.selectedTool) return
 		const newCanvasChild: ICanvasChild = {
 			type: state.selectedTool,
-			value: state.selectedTool === 'text' ? 'Click to add text' : null,
+			value: state.selectedTool === 'text' ? 'Text field' : '',
 			id: v4(),
 			x,
 			y,

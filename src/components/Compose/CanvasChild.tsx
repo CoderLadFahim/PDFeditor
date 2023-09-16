@@ -128,7 +128,7 @@ function CanvasChild({id, x, y, dragHandler, type}: ICanvasChildProps) {
 					: 'border-transparent'
 			} border-${
 				id === state.selectedCanvasChild?.id
-					? 'green-400 border-2'
+					? 'green-400 border-2 print:border-none'
 					: 'transparent'
 			} ${state.previewMode ? 'border-none' : ''} `}
 		>

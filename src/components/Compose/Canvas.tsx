@@ -53,7 +53,7 @@ function Canvas() {
 			id="app-canvas"
 			className={`app-canvas ${state.selectedTool === 'zoom' && !state.previewMode  ? 'cursor-zoom-in' : ''} bg-white shadow w-[595px] h-[842px] ${
 				state.previewMode ? 'preview-mode' : ''
-			} ${enableZoom ? `transform scale-[2] cursor-zoom-out` : ''}`}
+			} ${enableZoom ? `transform scale-[2] print:scale-[1] cursor-zoom-out` : ''}`}
 			style={enableZoom ? { transformOrigin: `${coordsToZoomFrom.x}px ${coordsToZoomFrom.y}px` } : {}}
 			onClick={handleCanvasClick}
 		>

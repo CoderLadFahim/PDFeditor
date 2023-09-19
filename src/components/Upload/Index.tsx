@@ -2,32 +2,24 @@ import {useState} from 'react'
 import Dropzone from 'react-dropzone'
 import {FilePlus, X, Trash} from 'react-feather'
 
+import { pdfjs } from 'react-pdf';
+import { Document, Page } from 'react-pdf';
+
+pdfjs.GlobalWorkerOptions.workerSrc = new URL(
+  'pdfjs-dist/build/pdf.worker.min.js',
+  import.meta.url,
+).toString();
+
+
+
 function Upload() {
-	const [files, setFiles] = useState<any[]>([])
+	const [files, setFiles] = useState<File[]>([])
 
-	const convertFileToObject = (file: {
-		name: any
-		size: any
-		type: any
-		path: any
-		webkitRelativePath: any
-		lastModifiedDate: any
-	}) => {
-		return {
-			name: file.name,
-			size: file.size,
-			type: file.type,
-			path: file.path,
-			webkitRelativePath: file.webkitRelativePath,
-			lastModifiedDate: file.lastModifiedDate,
-		}
-	}
+    const [numPages, setNumPages] = useState<number | undefined>(undefined);
+    const [pageNumber, setPageNumber] = useState<number | undefined>(1);
 
-	const handleDrop = (acceptedFiles: any) => {
-		const filesConvertedToObjects = acceptedFiles.map(convertFileToObject)
-		setFiles((prevFiles) => [...prevFiles, ...filesConvertedToObjects])
-
-		localStorage.setItem('files', JSON.stringify(filesConvertedToObjects))
+	const handleDrop = (acceptedFiles: File[]) => {
+		setFiles(() => acceptedFiles)
 	}
 
 	const truncateString = (str: string, n: number): string => {
@@ -40,10 +32,9 @@ function Upload() {
 		return pathSplit[pathSplit.length - 1]
 	}
 
-	const handleFileDelete = (fileToDeleteIndex: number) =>
-		setFiles((prevFiles) =>
-			prevFiles.filter((_: any, i: number) => i !== fileToDeleteIndex)
-		)
+	const handleFileDelete = (fileToDeleteIndex: number) => {
+		console.log(fileToDeleteIndex)
+	}
 
 	const handleClearBtnClick = () => {
 		setFiles(() => [])
@@ -111,8 +102,18 @@ function Upload() {
 					))}
 				</ul>
 			</div>
+			{files[0] ? (
+				<Document
+					file={files[0]}
+					onLoadSuccess={() => console.log('yay')}
+				>
+					<Page pageNumber={pageNumber} />
+				</Document>
+			) : (
+				''
+			)}
 		</div>
 	)
 }
 
-export default Upload
+export default Upload; 

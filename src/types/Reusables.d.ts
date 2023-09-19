@@ -20,14 +20,20 @@ export interface ICanvasChild {
 	height?: number
 }
 
-export interface ICanvasState {
+export interface IDocument {
 	selectedTool: TCanvasChildType
 	canvasChildren: ICanvasChild[]
 	selectedCanvasChild: {type: ICanvasChildType, id: string} | null
 	previewMode: boolean
 }
 
+
+export interface ICanvasState {
+	activeDocument: string
+	documents: IDocument[]
+}
+
 export interface ICanvasContext {
-	state: ICanvasState
+	state: IDocument
 	dispatch: React.Dispatch<any>
 }

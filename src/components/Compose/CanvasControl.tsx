@@ -58,6 +58,8 @@ function CanvasControl() {
 			},
 		})
 		setShowClearConfirmation(() => false)
+		setX(() => 0);
+		setY(() => 0);
 	}
 
 	return (

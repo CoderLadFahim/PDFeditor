@@ -41,9 +41,14 @@ and you should be good to go
 
 
 # Things to do
-* Coords should clear when the document clears
+<!-- * Add some shadows -->
+<!-- * Coords should clear when the document clears -->
+* Clear as many 'any' types as possible
+* Make the documents iterable which means there should be multiple documents in the state 
 * Store the uploaded files in localStorage
 * Enforce a limit of 1 megabytes for PDF uploading
-* Look into dragging and dropping of selected tools (if not possible, implement a better UX with cursor indication)
-* Reproduce the sidebar disappearing error
 * Write some good documentation this time
+* Reproduce the sidebar disappearing error
+
+* Make the TCanvasContextActionType type actually work when dispatching actions
+* Look into dragging and dropping of selected tools (if not possible, implement a better UX with cursor indication)

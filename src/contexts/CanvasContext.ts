@@ -2,12 +2,12 @@ import React from 'react'
 import {
 	ICanvasChild,
 	ICanvasContext,
-	ICanvasState,
+	IDocument,
 	TCanvasContextActionType,
 } from '../types/Reusables'
 
 export function canvasReducer(
-	state: ICanvasState,
+	state: IDocument,
 	action: {type: TCanvasContextActionType; payload: any}
 ) {
 	switch (action.type) {
@@ -80,7 +80,7 @@ export function canvasReducer(
 	}
 }
 
-export const initialCanvasState: ICanvasState = {
+export const initialCanvasState: IDocument = {
 	selectedTool: 'zoom',
 	selectedCanvasChild: null,
 	previewMode: false,

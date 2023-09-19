@@ -1,4 +1,4 @@
-import {useState} from 'react'
+import {useEffect, useState} from 'react'
 import Dropzone from 'react-dropzone'
 import {FilePlus, X, Trash} from 'react-feather'
 
@@ -14,12 +14,35 @@ pdfjs.GlobalWorkerOptions.workerSrc = new URL(
 
 function Upload() {
 	const [files, setFiles] = useState<File[]>([])
-
     const [numPages, setNumPages] = useState<number | undefined>(undefined);
     const [pageNumber, setPageNumber] = useState<number | undefined>(1);
 
+    const [pdf, setPdf] = useState<Blob | null>(null);
+    useEffect(() => {
+        const pdfFromLocalStorage: (string | null) = localStorage.getItem('pdf')
+        if (!pdfFromLocalStorage) return;
+
+        fetch(pdfFromLocalStorage)
+            .then(res => res.blob())
+            .then(blob => {
+                console.log(blob);
+                setPdf(() => blob) 
+            })
+    }, [])
+
+    function toBase64(file: Blob): Promise<String> {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = () => resolve(reader.result as string);
+            reader.onerror = error => reject(error);
+        });
+    }
+
 	const handleDrop = (acceptedFiles: File[]) => {
 		setFiles(() => acceptedFiles)
+		// toBase64(acceptedFiles[0])
+		//     .then((res) => localStorage.setItem('pdf', res as string));
 	}
 
 	const truncateString = (str: string, n: number): string => {
@@ -102,16 +125,16 @@ function Upload() {
 					))}
 				</ul>
 			</div>
-			{files[0] ? (
+			{pdf ? (
 				<Document
-					file={files[0]}
+					file={pdf}
 					onLoadSuccess={() => console.log('yay')}
 				>
 					<Page pageNumber={pageNumber} />
 				</Document>
 			) : (
 				''
-			)}
+			 )}
 		</div>
 	)
 }

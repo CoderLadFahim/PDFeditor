@@ -130,7 +130,7 @@ function Upload() {
 					file={pdf}
 					onLoadSuccess={() => console.log('yay')}
 				>
-					<Page pageNumber={pageNumber} />
+					<Page width={595} height={842} pageNumber={pageNumber} />
 				</Document>
 			) : (
 				''

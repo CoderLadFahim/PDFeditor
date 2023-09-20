@@ -1,4 +1,4 @@
-export type TCanvasChildType = 'image' | 'text' | 'zoom'
+export type TCanvasChildType = 'image' | 'text' | 'zoom' | ''
 export type TCanvasContextActionType =
 	| 'CHANGE_CANVAS_CHILD_COORDS'
 	| 'CREATE_CANVAS_CHILD'
@@ -9,6 +9,14 @@ export type TCanvasContextActionType =
     | 'SET_PREVIEW_MODE'
     | 'SET_SELECTED_COMPONENT_ID' 
     | 'EDIT_CANVAS_CHILD_VALUE'
+    | 'SET_DOCUMENT'
+    | 'SET_ACTIVE_DOCUMENT_ID'
+    | 'DELETE_DOCUMENT'
+
+export interface IDispatchAction {
+    type: TCanvasContextActionType,
+    payload: any
+}
 
 export interface ICanvasChild {
 	type: TCanvasChildType
@@ -20,14 +28,27 @@ export interface ICanvasChild {
 	height?: number
 }
 
-export interface ICanvasState {
+export interface IDocument {
+	documentId: string,
 	selectedTool: TCanvasChildType
 	canvasChildren: ICanvasChild[]
 	selectedCanvasChild: {type: ICanvasChildType, id: string} | null
 	previewMode: boolean
 }
 
+
+export interface ICanvasState {
+	activeDocumentId: string
+	documents: IDocument[]
+}
+
 export interface ICanvasContext {
 	state: ICanvasState
-	dispatch: React.Dispatch<any>
+	dispatch: React.Dispatch<IDispatchAction>
+}
+
+interface IFileInLocalStorage {
+	documentId: string
+	fileBase64Url: string
+	filePath: string
 }

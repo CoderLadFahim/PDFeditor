@@ -2,11 +2,15 @@ import {ChangeEvent, useContext, useEffect, useState} from 'react'
 import CanvasInput from './CanvasInput'
 import {Download, Eye, Image, Trash, Type, ZoomIn} from 'react-feather'
 import {CanvasContext} from '../../contexts/CanvasContext'
-import {ICanvasChild} from '../../types/Reusables'
+import {
+	ICanvasChild,
+	IDocument,
+	IFileInLocalStorage,
+} from '../../types/Reusables'
 import CanvasTool from './CanvasTool'
-import { ICanvasToolProps } from '../../types/ComponentProps'
+import {ICanvasToolProps} from '../../types/ComponentProps'
 
-function CanvasControl() {
+function CanvasControl({activeDocument}: {activeDocument: IDocument | undefined}) {
 	const {state, dispatch} = useContext(CanvasContext)
 	const canvasTools: ICanvasToolProps[] = [
 		{type: 'text', icon: () => <Type size={20} />},
@@ -14,10 +18,20 @@ function CanvasControl() {
 		{type: 'zoom', icon: () => <ZoomIn size={20} />},
 	]
 
+	const [_, setUploadedDocuments] = useState<
+		IFileInLocalStorage[]
+	>([])
+	useEffect(() => {
+		const filesFromLocalStorage: null | string =
+			localStorage.getItem('uploadedFiles')
+		if (!filesFromLocalStorage) return;
+
+		setUploadedDocuments(() => JSON.parse(filesFromLocalStorage))
+	}, [])
+
 	const selectedCanvasChild: ICanvasChild | undefined =
-		state.canvasChildren.find(
-			(childComponent: ICanvasChild) =>
-				childComponent.id === state.selectedCanvasChild?.id
+		activeDocument?.canvasChildren.find(
+			(childComponent: ICanvasChild) => childComponent.id === activeDocument?.selectedCanvasChild?.id
 		)
 
 	const [x, setX] = useState<number>(selectedCanvasChild?.x ?? 0)
@@ -51,19 +65,30 @@ function CanvasControl() {
 		dispatch({
 			type: 'SET_CANVAS',
 			payload: {
-				selectedTool: state.selectedTool,
-				selectedCanvasChild: null,
-				previewMode: false,
-				canvasChildren: [],
+				...state,
+				documents: state.documents.map((documentObj: IDocument) =>
+					documentObj.documentId !== activeDocument?.documentId
+						? {...documentObj}
+						: {
+								...documentObj,
+								selectedTool:
+									activeDocument?.selectedTool,
+								selectedCanvasChild: null,
+								previewMode: false,
+								canvasChildren: [],
+						  }
+				),
 			},
 		})
 		setShowClearConfirmation(() => false)
+		setX(() => 0)
+		setY(() => 0)
 	}
 
 	return (
 		<section
 			className={`app-canvas-control transition bg-gray-800 px-6 pt-6 text-white relative z-10 ${
-				state.previewMode ? 'hidden' : ''
+				activeDocument?.previewMode ? 'hidden' : ''
 			}`}
 		>
 			<div className="coord-inputs space-y-6 mb-10">
@@ -97,7 +122,9 @@ function CanvasControl() {
 							setShowClearConfirmation(() => true)
 						}
 						className={`p-3 grid place-items-center bg-slate-700 hover:bg-red-600 flex-1 ${
-							!Boolean(state.canvasChildren.length)
+							!Boolean(
+								activeDocument?.canvasChildren.length
+							)
 								? 'opacity-30 pointer-events-none'
 								: ''
 						}`}

@@ -65,6 +65,8 @@ body {
     margin: 0 auto;
     transform: scale(0.65);
     transform-origin: 50% 10%;
+    margin-top: calc(var(--content-wrapper-additional-y-margin) + 1rem);
+    pointer-events: none;
 }
 
 @media print {
@@ -82,3 +84,14 @@ body {
         bottom: 0;
     }
 }
+
+/* .react-pdf__Page__canvas { */
+/*     margin: 0 auto; */
+/*     width: 80% !important; */
+/*     height: 100% !important; */
+/* } */
+
+.react-pdf__Page__textContent.textLayer {
+    display: none !important;
+}
+

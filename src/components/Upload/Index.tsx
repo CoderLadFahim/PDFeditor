@@ -1,60 +1,102 @@
-import {useState} from 'react'
+import {useContext, useEffect, useState} from 'react'
 import Dropzone from 'react-dropzone'
-import {FilePlus, X, Trash} from 'react-feather'
+import {FilePlus, Trash} from 'react-feather'
+
+import UploadedDocument from './UploadedDocument.tsx'
+import {IFileInLocalStorage} from '../../types/Reusables'
+import {v4} from 'uuid'
+import {CanvasContext, initialCanvasState} from '../../contexts/CanvasContext'
 
 function Upload() {
-	const [files, setFiles] = useState<any[]>([])
+	const [files, setFiles] = useState<IFileInLocalStorage[]>([])
+	const {dispatch} = useContext(CanvasContext)
 
-	const convertFileToObject = (file: {
-		name: any
-		size: any
-		type: any
-		path: any
-		webkitRelativePath: any
-		lastModifiedDate: any
-	}) => {
-		return {
-			name: file.name,
-			size: file.size,
-			type: file.type,
-			path: file.path,
-			webkitRelativePath: file.webkitRelativePath,
-			lastModifiedDate: file.lastModifiedDate,
-		}
+	const toBase64 = (file: Blob): Promise<string> => {
+		return new Promise((resolve, reject) => {
+			const reader = new FileReader()
+			reader.readAsDataURL(file)
+			reader.onload = () => resolve(reader.result as string)
+			reader.onerror = (error) => reject(error)
+		})
 	}
 
-	const handleDrop = (acceptedFiles: any) => {
-		const filesConvertedToObjects = acceptedFiles.map(convertFileToObject)
-		setFiles((prevFiles) => [...prevFiles, ...filesConvertedToObjects])
-
-		localStorage.setItem('files', JSON.stringify(filesConvertedToObjects))
-	}
-
-	const truncateString = (str: string, n: number): string => {
-		if (str.length <= n) return str
-		return str.slice(0, n).concat('...')
-	}
-
-	const getFileType = (path: string): string => {
-		const pathSplit: string[] = path.split('.')
-		return pathSplit[pathSplit.length - 1]
-	}
-
-	const handleFileDelete = (fileToDeleteIndex: number) =>
-		setFiles((prevFiles) =>
-			prevFiles.filter((_: any, i: number) => i !== fileToDeleteIndex)
+	const handleDrop = async (acceptedFiles: File[]) => {
+		const acceptedFilesToBase64 = acceptedFiles.map(
+			async (value): Promise<IFileInLocalStorage> => {
+				const fileBase64Url: string = await toBase64(value)
+				// ignoring this as creating a custom file interface extending File, conflicts with react-dropzone
+				// @ts-ignore
+				const filePath = value.path
+				return {documentId: v4(), fileBase64Url, filePath}
+			}
 		)
+		const fileDataToKeepTrackOf: IFileInLocalStorage[] =
+			await Promise.all(acceptedFilesToBase64)
+
+		setFiles((prevFiles) => [...prevFiles, ...fileDataToKeepTrackOf])
+	}
 
 	const handleClearBtnClick = () => {
 		setFiles(() => [])
-		localStorage.removeItem('files')
+		localStorage.removeItem('uploadedFiles')
+
+		dispatch({
+		    type: 'SET_CANVAS',
+		    payload: initialCanvasState
+		})
+	}
+
+	useEffect(() => {
+	    localStorage.removeItem('refreshed')
+
+		const uploadedFilesInLocalStorage =
+			localStorage.getItem('uploadedFiles')
+		if (!uploadedFilesInLocalStorage) return
+		const filesParsed = JSON.parse(uploadedFilesInLocalStorage)
+		setFiles(() => filesParsed)
+	}, [])
+
+	useEffect(() => {
+		if (!Boolean(files.length)) return
+
+		const filesStringified = JSON.stringify(files)
+        try {
+		    localStorage.setItem('uploadedFiles', filesStringified)
+        } catch(e: any) {
+            if (e.name === 'QuotaExceededError') alert('File size exceeded');
+            setFiles(() => [])
+            dispatch({
+                type: 'SET_CANVAS',
+                payload: initialCanvasState
+            })
+        }
+
+		for (const file of files) dispatch({
+			type: 'SET_DOCUMENT',
+			payload: {
+				documentId: file.documentId,
+				selectedTool: 'zoom',
+				selectedCanvasChild: null,
+				previewMode: false,
+				canvasChildren: [],
+			},
+		})
+
+	}, [files])
+
+	const handleFileDelete = (fileToDeleteId: string) => {
+	    setFiles(files => files.filter(file => file.documentId !== fileToDeleteId))
+	    dispatch({
+	        type: 'DELETE_DOCUMENT',
+	        payload: fileToDeleteId
+	    })
 	}
 
 	return (
 		<div className="content-wrapper bg-gray-200 p-6 pb-56 mb-5 rounded-xl relative">
 			<h2>Upload document</h2>
 
-			<Dropzone onDrop={handleDrop}>
+			<Dropzone onDrop={handleDrop} accept={{ 'application/pdf': ['.pdf'] }}>
 				{({getRootProps, getInputProps}) => (
 					<section className="cursor-pointer">
 						<div
@@ -86,30 +128,11 @@ function Upload() {
 					<Trash />
 					<span>Clear</span>
 				</button>
-				<ul className="flex flex-wrap gap-7 mb-16">
-					{files?.map((file: any, i: number) => (
-						<li
-							key={i}
-							className="rounded-md relative shadow p-2 w-[17rem] bg-white overflow-hidden group"
-						>
-							<span className="absolute top-0 bottom-0 left-0 w-[3rem] bg-sky-400 text-white grid place-items-center">
-								{getFileType(file.path)}
-							</span>
-							<span className="file-name  ml-[3rem]">
-								{truncateString(file.path, 25)}
-							</span>
-
-							<span className="absolute top-0 bottom-0 right-0 hidden w-[2rem] text-red-400 group-hover:grid place-items-center">
-								<button
-									className="cursor-pointer"
-									onClick={() => handleFileDelete(i)}
-								>
-									<X />
-								</button>
-							</span>
-						</li>
+				<div className="flex flex-wrap items-center gap-4">
+					{files.map((file, i) => (
+						<UploadedDocument file={file} key={i} fileDeleterFunction={handleFileDelete} />
 					))}
-				</ul>
+				</div>
 			</div>
 		</div>
 	)

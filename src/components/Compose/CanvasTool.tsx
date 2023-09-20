@@ -7,6 +7,7 @@ function CanvasTool({type, icon}: ICanvasToolProps ) {
 	const canvasTool = useRef(null)
 	const [canvasToolPosition, setCanvasToolPosition] = useState({x: 0, y: 0})
 	const {state, dispatch} = useContext(CanvasContext)
+	const activeDocument = state.documents.find(document => document.documentId === state.activeDocumentId);
 
 	useDraggable(canvasTool, {
 		position: canvasToolPosition,
@@ -22,12 +23,12 @@ function CanvasTool({type, icon}: ICanvasToolProps ) {
 		<button
 			ref={canvasTool}
 			className={`rounded p-2 bg-gray-700 ${
-				state.selectedTool === type ? 'bg-green-500' : ''
+				activeDocument?.selectedTool === type ? 'bg-green-500' : ''
 			}`}
 			onClick={() =>
 				dispatch({
 					type: 'CHANGE_SELECTED_TOOL',
-					payload: state.selectedTool === type ? '' : type,
+					payload: activeDocument?.selectedTool === type ? '' : type,
 				})
 			}
 		>

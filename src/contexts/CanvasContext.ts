@@ -8,65 +8,73 @@ import {
 } from '../types/Reusables'
 
 export function canvasReducer(
-	state: IDocument,
+	state: ICanvasState,
 	action: {type: TCanvasContextActionType; payload: any}
 ) {
 	switch (action.type) {
 		case 'CHANGE_CANVAS_CHILD_COORDS':
 			return {
 				...state,
-				canvasChildren: state.canvasChildren.map((canvasChild) =>
+				documents: state.documents.map((documentObj: IDocument) => documentObj.documentId !== state.activeDocumentId ? {...documentObj} : {
+				    ...documentObj,
+				    canvasChildren: documentObj.canvasChildren.map((canvasChild) =>
 					canvasChild.id !== action.payload.id
 						? canvasChild
-						: {
-								...canvasChild,
-								x: action.payload.x,
-								y: action.payload.y,
-						  }
-				),
+						: { ...canvasChild, x: action.payload.x, y: action.payload.y }
+				    )
+				}),
 			}
 			break
 		case 'EDIT_CANVAS_CHILD_VALUE':
 			return {
 				...state,
-				canvasChildren: state.canvasChildren.map((canvasChild) =>
+				documents: state.documents.map((documentObj: IDocument) => documentObj.documentId !== state.activeDocumentId ? {...documentObj} : {
+				    ...documentObj,
+				    canvasChildren: documentObj.canvasChildren.map((canvasChild) =>
 					canvasChild.id !== action.payload.id
 						? canvasChild
-						: {
-								...canvasChild,
-								value: action.payload.value,
-						  }
-				),
+						: { ...canvasChild, value: action.payload.value }
+				    )
+				}),
 			}
 			break
 		case 'CREATE_CANVAS_CHILD':
 			return {
 				...state,
-				canvasChildren: [
-					...state.canvasChildren,
-					{...action.payload},
-				],
+				documents: state.documents.map((documentObj: IDocument) => documentObj.documentId !== state.activeDocumentId ? {...documentObj} : {
+				    ...documentObj,
+				    canvasChildren: [
+					    ...documentObj.canvasChildren,
+					    {...action.payload},
+				    ]
+				}),
 			}
 			break
 		case 'DELETE_CANVAS_CHILD':
 			return {
 				...state,
-				canvasChildren: state.canvasChildren.filter(
-					(canvasChild: ICanvasChild) =>
-						canvasChild.id !== action.payload
-				),
+				documents: state.documents.map((documentObj: IDocument) => documentObj.documentId !== state.activeDocumentId ? {...documentObj} : {
+				    ...documentObj,
+				    canvasChildren: documentObj.canvasChildren.filter((canvasChild: ICanvasChild) => canvasChild.id !== action.payload)
+				}),
 			}
 			break
 		case 'SET_SELECTED_COMPONENT_ID':
 			return {
 				...state,
-				selectedCanvasChild: action.payload,
+				documents: state.documents.map((documentObj: IDocument) => documentObj.documentId !== state.activeDocumentId ? {...documentObj} : {
+				    ...documentObj,
+				    selectedCanvasChild: action.payload
+				}),
 			}
 			break
 		case 'CHANGE_SELECTED_TOOL':
 			return {
 				...state,
-				selectedTool: action.payload,
+				documents: state.documents.map((documentObj: IDocument) => documentObj.documentId !== state.activeDocumentId ? {...documentObj} : {
+				    ...documentObj,
+				    selectedTool: action.payload
+				}),
 			}
 			break
 		case 'SET_CANVAS':
@@ -75,7 +83,10 @@ export function canvasReducer(
 		case 'SET_PREVIEW_MODE':
 			return {
 				...state,
-				previewMode: action.payload,
+				documents: state.documents.map((documentObj: IDocument) => documentObj.documentId !== state.activeDocumentId ? {...documentObj} : {
+				    ...documentObj,
+				    previewMode: action.payload
+				}),
 			}
 			break
 		default:
@@ -85,10 +96,10 @@ export function canvasReducer(
 }
 
 export const initialCanvasState: ICanvasState = {
-	activeDocument: '',
+	activeDocumentId: 'BLANK_CANVAS',
 	documents: [
 		{
-			documentId: '',
+			documentId: 'BLANK_CANVAS',
 			selectedTool: 'zoom',
 			selectedCanvasChild: null,
 			previewMode: false,

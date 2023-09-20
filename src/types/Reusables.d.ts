@@ -35,7 +35,7 @@ export interface IDocument {
 
 
 export interface ICanvasState {
-	activeDocument: string
+	activeDocumentId: string
 	documents: IDocument[]
 }
 

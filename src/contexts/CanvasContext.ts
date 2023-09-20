@@ -2,6 +2,7 @@ import React from 'react'
 import {
 	ICanvasChild,
 	ICanvasContext,
+	IDispatchAction,
 	IDocument,
 	TCanvasContextActionType,
 } from '../types/Reusables'
@@ -89,5 +90,5 @@ export const initialCanvasState: IDocument = {
 
 export const CanvasContext = React.createContext<ICanvasContext>({
 	state: initialCanvasState,
-	dispatch: Function,
+	dispatch: () => {}
 })

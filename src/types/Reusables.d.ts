@@ -10,6 +10,11 @@ export type TCanvasContextActionType =
     | 'SET_SELECTED_COMPONENT_ID' 
     | 'EDIT_CANVAS_CHILD_VALUE'
 
+export interface IDispatchAction {
+    type: TCanvasContextActionType,
+    payload: any
+}
+
 export interface ICanvasChild {
 	type: TCanvasChildType
 	id: string
@@ -35,7 +40,7 @@ export interface ICanvasState {
 
 export interface ICanvasContext {
 	state: IDocument
-	dispatch: React.Dispatch<any>
+	dispatch: React.Dispatch<IDispatchAction>
 }
 
 interface IFileInLocalStorage {

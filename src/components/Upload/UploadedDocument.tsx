@@ -1,23 +1,22 @@
 import _ from 'lodash'
 import {Edit, Trash2} from 'react-feather'
 import {IFileInLocalStorage} from '../../types/Reusables'
-import {useEffect, useState} from 'react'
 
-import {pdfjs} from 'react-pdf'
-import {Document, Page} from 'react-pdf'
-pdfjs.GlobalWorkerOptions.workerSrc = new URL(
-	'pdfjs-dist/build/pdf.worker.min.js',
-	import.meta.url
-).toString()
+// import {pdfjs} from 'react-pdf'
+// import {Document, Page} from 'react-pdf'
+// pdfjs.GlobalWorkerOptions.workerSrc = new URL(
+// 	'pdfjs-dist/build/pdf.worker.min.js',
+// 	import.meta.url
+// ).toString()
 
 function UploadedDocument({file}: {file: IFileInLocalStorage}) {
-	const [fileBinary, setFileBinary] = useState<Blob | null>(null)
-
-	useEffect(() => {
-		fetch(file.fileBase64Url)
-			.then((data) => data.blob())
-			.then((blob) => setFileBinary(blob))
-	}, [])
+	// const [fileBinary, setFileBinary] = useState<Blob | null>(null)
+	//
+	// useEffect(() => {
+	// 	fetch(file.fileBase64Url)
+	// 		.then((data) => data.blob())
+	// 		.then((blob) => setFileBinary(blob))
+	// }, [])
 
 	return (
 		<div className="flex space-x-2">

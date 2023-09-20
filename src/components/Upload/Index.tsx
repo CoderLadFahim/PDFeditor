@@ -1,9 +1,10 @@
-import {useEffect, useRef, useState} from 'react'
+import {useEffect, useState} from 'react'
 import Dropzone from 'react-dropzone'
 import {FilePlus, Trash} from 'react-feather'
 
 import UploadedDocument from './UploadedDocument.tsx'
 import {IFileInLocalStorage} from '../../types/Reusables'
+import { v4 } from 'uuid'
 
 function Upload() {
 	const [files, setFiles] = useState<IFileInLocalStorage[]>([])
@@ -24,7 +25,7 @@ function Upload() {
 				// ignoring this as creating a custom file interface extending File, conflicts with react-dropzone
 				// @ts-ignore
 				const filePath = value.path
-				return {fileBase64Url, filePath}
+				return {documentId: v4(), fileBase64Url, filePath}
 			}
 		)
 		const fileDataToKeepTrackOf: IFileInLocalStorage[] =

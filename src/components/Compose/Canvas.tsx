@@ -15,7 +15,7 @@ pdfjs.GlobalWorkerOptions.workerSrc = new URL(
 
 function Canvas({activeDocument, queryParams}: {activeDocument: IDocument | undefined, [key: string]: any}) {
 	const canvasComponent = useRef<HTMLDivElement>(null)
-	const {state, dispatch} = useContext(CanvasContext)
+	const {dispatch} = useContext(CanvasContext)
 	const {x, y} = useMousePosition(canvasComponent)
 
 	const [enableZoom, setZoom] = useState<boolean>(false)
@@ -71,12 +71,10 @@ function Canvas({activeDocument, queryParams}: {activeDocument: IDocument | unde
 			.then((data) => data.blob())
 			.then((blob) => setFileBinary(blob));
 	}, [])
-	const scaleBy = 1;
 
 	return (
 		<div
 			ref={canvasComponent}
-			key={state.activeDocumentId}
 			id="app-canvas"
 			className={`app-canvas overflow-y-hidden ${activeDocument?.selectedTool === 'zoom' && !activeDocument?.previewMode  ? 'cursor-zoom-in' : ''} bg-white shadow w-[595px] h-[842px] ${
 				activeDocument?.previewMode ? 'preview-mode' : ''
@@ -92,12 +90,9 @@ function Canvas({activeDocument, queryParams}: {activeDocument: IDocument | unde
 				/>
 			))}
 
-{/* w-[595px] h-[842px] */}
-
 			{fileBinary ? (
 				    <Document file={fileBinary} onLoadSuccess={() => console.log('yay')}>
-					    <Page width={595 * scaleBy} height={842 * scaleBy} pageNumber={1} />
-					    {/* <Page pageNumber={1} /> */}
+					    <Page width={595} height={842} pageNumber={1} />
 				    </Document>
 				) : (
 					''

@@ -52,12 +52,12 @@ and you should be good to go
 <!--     * fix the document top margin for good -->
 <!--     * Fix the document height -->
 <!-- * Clear the coords when the selected component in deleted -->
+<!-- * Show the selected document in the canvas and make it bug free -->
+<!-- * Handle multiple file uploads and its connection to the state -->
 
-* Show the selected document in the canvas and make it bug free
+* CanvasChildren length change problem is back
 * Enforce a limit of 1 megabytes for PDF uploading !!!
-* Handle multiple file uploads and its connection to the state
 * Write some good documentation this time
-* CanvasChildren problem is back
 
 * Clear as many 'any' types as possible
 * Check for BS document ids

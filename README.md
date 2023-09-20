@@ -48,13 +48,15 @@ and you should be good to go
 <!-- * Make the documents iterable which means there should be multiple documents in the state  -->
 <!-- * Reproduce the sidebar disappearing error -->
 <!-- * Create a select list for selecting an active document -->
+<!-- * Fix the preview state -->
+<!--     * fix the document top margin for good -->
+<!--     * Fix the document height -->
 
 * Show the selected document in the canvas and make it bug free
 * Enforce a limit of 1 megabytes for PDF uploading !!!
 * Handle multiple file uploads and its connection to the state
 * Write some good documentation this time
 
-* Fix the preview state
 * Clear the coords when the selected component in deleted
 * Clear as many 'any' types as possible
 * Look into dragging and dropping of selected tools (if not possible, implement a better UX with cursor indication)

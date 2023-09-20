@@ -71,7 +71,7 @@ function Canvas({activeDocument}: {activeDocument: IDocument}) {
 			ref={canvasComponent}
 			key={state.activeDocumentId}
 			id="app-canvas"
-			className={`app-canvas ${activeDocument.selectedTool === 'zoom' && !activeDocument.previewMode  ? 'cursor-zoom-in' : ''} bg-white shadow w-[595px] h-[842px] ${
+			className={`app-canvas overflow-y-hidden ${activeDocument.selectedTool === 'zoom' && !activeDocument.previewMode  ? 'cursor-zoom-in' : ''} bg-white shadow w-[595px] h-[842px] ${
 				activeDocument.previewMode ? 'preview-mode' : ''
 			} ${enableZoom ? `transform scale-[2] print:scale-[1] cursor-zoom-out` : ''}`}
 			style={enableZoom ? { transformOrigin: `${coordsToZoomFrom.x}px ${coordsToZoomFrom.y}px` } : {}}

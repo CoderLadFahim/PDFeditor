@@ -50,6 +50,7 @@ function Canvas({activeDocument}: {activeDocument: IDocument}) {
 	return (
 		<div
 			ref={canvasComponent}
+			key={state.activeDocumentId}
 			id="app-canvas"
 			className={`app-canvas ${activeDocument.selectedTool === 'zoom' && !activeDocument.previewMode  ? 'cursor-zoom-in' : ''} bg-white shadow w-[595px] h-[842px] ${
 				activeDocument.previewMode ? 'preview-mode' : ''

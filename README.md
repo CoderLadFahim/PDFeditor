@@ -45,8 +45,8 @@ and you should be good to go
 <!-- * Coords should clear when the document clears -->
 <!-- * Store the uploaded files in localStorage -->
 <!-- * Make the TCanvasContextActionType type actually work when dispatching actions -->
+<!-- * Make the documents iterable which means there should be multiple documents in the state  -->
 
-* Make the documents iterable which means there should be multiple documents in the state 
 * Enforce a limit of 1 megabytes for PDF uploading
 * Clear the coords when the selected component in deleted
 * Reproduce the sidebar disappearing error

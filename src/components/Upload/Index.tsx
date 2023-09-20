@@ -2,41 +2,35 @@ import {useEffect, useState} from 'react'
 import Dropzone from 'react-dropzone'
 import {FilePlus, Trash} from 'react-feather'
 
-import { pdfjs } from 'react-pdf';
-import { Document, Page } from 'react-pdf';
-import UploadedDocument from './UploadedDocument.tsx';
-
-pdfjs.GlobalWorkerOptions.workerSrc = new URL(
-  'pdfjs-dist/build/pdf.worker.min.js',
-  import.meta.url,
-).toString();
-
-
+import UploadedDocument from './UploadedDocument.tsx'
+import { IFileInLocalStorage } from '../../types/Reusables'
 
 function Upload() {
-	const [files, setFiles] = useState<File[]>([])
+	const [files, setFiles] = useState<IFileInLocalStorage[]>([])
 
-    const toBase64 = (file: Blob): Promise<String> => {
-        return new Promise((resolve, reject) => {
-            const reader = new FileReader();
-            reader.readAsDataURL(file);
-            reader.onload = () => resolve(reader.result as string);
-            reader.onerror = error => reject(error);
-        });
-    }
+	const toBase64 = (file: Blob): Promise<string> => {
+		return new Promise((resolve, reject) => {
+			const reader = new FileReader()
+			reader.readAsDataURL(file)
+			reader.onload = () => resolve(reader.result as string)
+			reader.onerror = (error) => reject(error)
+		})
+	}
 
 	const handleDrop = async (acceptedFiles: File[]) => {
-		const acceptedFilesToBase64 = acceptedFiles.map(async value => {
-		    const fileBase64Url = await toBase64(value);
-            // ignoring this as creating a custom file interface extending File, conflicts with react-dropzone
-            // @ts-ignore 
-		    const filePath = value.path;
+		const acceptedFilesToBase64 = acceptedFiles.map(
+			async (value): Promise<IFileInLocalStorage> => {
+				const fileBase64Url: string = await toBase64(value)
+				// ignoring this as creating a custom file interface extending File, conflicts with react-dropzone
+				// @ts-ignore
+				const filePath = value.path
+				return {fileBase64Url, filePath}
+			}
+		)
+		const fileDataToKeepTrackOf: IFileInLocalStorage[] =
+			await Promise.all(acceptedFilesToBase64)
 
-		    return { fileBase64Url, filePath }
-		})
-        const dataUrls = await Promise.all(acceptedFilesToBase64);
-
-        localStorage.setItem('uploadedFiles', JSON.stringify(dataUrls))
+		setFiles((prevFiles) => [...prevFiles, ...fileDataToKeepTrackOf])
 	}
 
 	const handleClearBtnClick = () => {
@@ -80,44 +74,10 @@ function Upload() {
 					<Trash />
 					<span>Clear</span>
 				</button>
-				{/* <ul className="flex flex-wrap gap-7 mb-16"> */}
-				{/* 	{files?.map((file: any, i: number) => ( */}
-				{/* 		<li */}
-				{/* 			key={i} */}
-				{/* 			className="rounded-md relative shadow p-2 w-[17rem] bg-white overflow-hidden group" */}
-				{/* 		> */}
-				{/* 			<span className="absolute top-0 bottom-0 left-0 w-[3rem] bg-sky-400 text-white grid place-items-center"> */}
-				{/* 				{getFileType(file.path)} */}
-				{/* 			</span> */}
-				{/* 			<span className="file-name  ml-[3rem]"> */}
-				{/* 				{truncateString(file.path, 25)} */}
-				{/* 			</span> */}
-				{/**/}
-				{/* 			<span className="absolute top-0 bottom-0 right-0 hidden w-[2rem] text-red-400 group-hover:grid place-items-center"> */}
-				{/* 				<button */}
-				{/* 					className="cursor-pointer" */}
-				{/* 					onClick={() => handleFileDelete(i)} */}
-				{/* 				> */}
-				{/* 					<X /> */}
-				{/* 				</button> */}
-				{/* 			</span> */}
-				{/* 		</li> */}
-				{/* 	))} */}
-				{/* </ul> */}
-			    <UploadedDocument />
+				<UploadedDocument />
 			</div>
-			{pdf ? (
-				<Document
-					file={pdf}
-					onLoadSuccess={() => console.log('yay')}
-				>
-					<Page width={595} height={842} />
-				</Document>
-			) : (
-				''
-			 )}
 		</div>
 	)
 }
 
-export default Upload; 
+export default Upload

@@ -1,6 +1,13 @@
 import _ from 'lodash'
 import {Edit, Trash2} from 'react-feather'
 
+// import {pdfjs} from 'react-pdf'
+// import {Document, Page} from 'react-pdf'
+// pdfjs.GlobalWorkerOptions.workerSrc = new URL(
+// 	'pdfjs-dist/build/pdf.worker.min.js',
+// 	import.meta.url
+// ).toString()
+
 function UploadedDocument() {
 	return (
 		<div className="flex space-x-2">

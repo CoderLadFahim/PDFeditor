@@ -37,3 +37,8 @@ export interface ICanvasContext {
 	state: IDocument
 	dispatch: React.Dispatch<any>
 }
+
+interface IFileInLocalStorage {
+	fileBase64Url: string
+	filePath: string
+}

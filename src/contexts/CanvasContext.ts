@@ -84,14 +84,7 @@ export const initialCanvasState: IDocument = {
 	selectedTool: 'zoom',
 	selectedCanvasChild: null,
 	previewMode: false,
-	canvasChildren: [
-		// {
-		// 	type: 'text',
-		// 	id: v4(),
-		// 	x: 10,
-		// 	y: 10,
-		// },
-	],
+	canvasChildren: []
 }
 
 export const CanvasContext = React.createContext<ICanvasContext>({

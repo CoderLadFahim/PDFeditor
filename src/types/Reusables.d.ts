@@ -39,6 +39,7 @@ export interface ICanvasContext {
 }
 
 interface IFileInLocalStorage {
+	documentId: string
 	fileBase64Url: string
 	filePath: string
 }

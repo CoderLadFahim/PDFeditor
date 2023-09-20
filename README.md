@@ -47,11 +47,12 @@ and you should be good to go
 <!-- * Make the TCanvasContextActionType type actually work when dispatching actions -->
 <!-- * Make the documents iterable which means there should be multiple documents in the state  -->
 
+* Create a select list for selecting an active document
 * Enforce a limit of 1 megabytes for PDF uploading
-* Clear the coords when the selected component in deleted
 * Reproduce the sidebar disappearing error
 * Write some good documentation this time
 
 * Clear as many 'any' types as possible
 * Look into dragging and dropping of selected tools (if not possible, implement a better UX with cursor indication)
-* Add a confirmation prompt for file clearing in the Upload module
+* Check the preview state
+* Clear the coords when the selected component in deleted

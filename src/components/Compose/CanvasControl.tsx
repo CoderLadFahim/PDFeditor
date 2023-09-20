@@ -2,7 +2,11 @@ import {ChangeEvent, useContext, useEffect, useState} from 'react'
 import CanvasInput from './CanvasInput'
 import {Download, Eye, Image, Trash, Type, ZoomIn} from 'react-feather'
 import {CanvasContext} from '../../contexts/CanvasContext'
-import {ICanvasChild, IDocument} from '../../types/Reusables'
+import {
+	ICanvasChild,
+	IDocument,
+	IFileInLocalStorage,
+} from '../../types/Reusables'
 import CanvasTool from './CanvasTool'
 import {ICanvasToolProps} from '../../types/ComponentProps'
 
@@ -13,6 +17,25 @@ function CanvasControl({activeDocument}: {activeDocument: IDocument}) {
 		{type: 'image', icon: () => <Image size={20} />},
 		{type: 'zoom', icon: () => <ZoomIn size={20} />},
 	]
+
+	// let uploadedDocuments: IFileInLocalStorage[] = [];
+	const [uploadedDocuments, setUploadedDocuments] = useState<
+		IFileInLocalStorage[]
+	>([])
+	useEffect(() => {
+		const filesFromLocalStorage: null | string =
+			localStorage.getItem('uploadedFiles')
+		if (!filesFromLocalStorage) return
+
+		setUploadedDocuments(() => JSON.parse(filesFromLocalStorage))
+
+		console.log({uploadedDocuments})
+	}, [])
+
+	const handleDocumentOptionClick = (documentObj: IFileInLocalStorage) => {
+	    console.log(documentObj);
+
+	}
 
 	const selectedCanvasChild: ICanvasChild | undefined =
 		activeDocument.canvasChildren.find(
@@ -56,7 +79,7 @@ function CanvasControl({activeDocument}: {activeDocument: IDocument}) {
 					documentObj.documentId !== activeDocument.documentId
 						? {...documentObj}
 						: {
-							    ...documentObj,
+								...documentObj,
 								selectedTool:
 									activeDocument.selectedTool,
 								selectedCanvasChild: null,
@@ -77,6 +100,29 @@ function CanvasControl({activeDocument}: {activeDocument: IDocument}) {
 				activeDocument.previewMode ? 'hidden' : ''
 			}`}
 		>
+			<div className="mb-10">
+				<label
+					htmlFor="countries"
+					className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+				>
+					Select a document
+				</label>
+				<select
+					id="countries"
+					className="bg-gray-50 text-gray-400 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500"
+				>
+					{uploadedDocuments
+						? uploadedDocuments.map(
+								(documentObj: IFileInLocalStorage) => (
+									<option key={documentObj.documentId} value={documentObj.documentId} onClick={() => handleDocumentOptionClick(documentObj)}>
+										{documentObj.filePath}
+									</option>
+								)
+						  )
+						: ''}
+				</select>
+			</div>
+
 			<div className="coord-inputs space-y-6 mb-10">
 				<CanvasInput label="X" value={x} onChange={handleXChange} />
 

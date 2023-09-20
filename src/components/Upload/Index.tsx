@@ -39,17 +39,18 @@ function Upload() {
 	}
 
 	useEffect(() => {
-		const uploadedFilesInLocalStorage = localStorage.getItem('uploadedFiles')
+		const uploadedFilesInLocalStorage =
+			localStorage.getItem('uploadedFiles')
 		if (!uploadedFilesInLocalStorage) return
 		const filesParsed = JSON.parse(uploadedFilesInLocalStorage)
 		setFiles(() => filesParsed)
 	}, [])
 
 	useEffect(() => {
-	    if (!Boolean(files.length)) return;
+		if (!Boolean(files.length)) return
 
-	    const filesStringified = JSON.stringify(files)
-	    localStorage.setItem('uploadedFiles', filesStringified)
+		const filesStringified = JSON.stringify(files)
+		localStorage.setItem('uploadedFiles', filesStringified)
 	}, [files])
 
 	return (
@@ -88,9 +89,9 @@ function Upload() {
 					<Trash />
 					<span>Clear</span>
 				</button>
-				{
-				    files.map(file => <UploadedDocument file={file} />)
-				}
+				{files.map((file, i) => (
+					<UploadedDocument file={file} key={i} />
+				))}
 			</div>
 		</div>
 	)

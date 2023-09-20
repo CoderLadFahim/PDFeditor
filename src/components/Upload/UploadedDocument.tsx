@@ -1,28 +1,37 @@
 import _ from 'lodash'
 import {Edit, Trash2} from 'react-feather'
 import {IFileInLocalStorage} from '../../types/Reusables'
-import { useEffect, useState } from 'react';
+import {useEffect, useState} from 'react'
 
-// import {pdfjs} from 'react-pdf'
-// import {Document, Page} from 'react-pdf'
-// pdfjs.GlobalWorkerOptions.workerSrc = new URL(
-// 	'pdfjs-dist/build/pdf.worker.min.js',
-// 	import.meta.url
-// ).toString()
+import {pdfjs} from 'react-pdf'
+import {Document, Page} from 'react-pdf'
+pdfjs.GlobalWorkerOptions.workerSrc = new URL(
+	'pdfjs-dist/build/pdf.worker.min.js',
+	import.meta.url
+).toString()
 
 function UploadedDocument({file}: {file: IFileInLocalStorage}) {
+	const [fileBinary, setFileBinary] = useState<Blob | null>(null)
 
-    const [fileBinary, setFileBinary] = useState<Blob | null>(null);
-
-    useEffect(() => {
-        fetch(file.fileBase64Url)
-            .then(data => data.blob())
-            .then(blob => setFileBinary(blob))
-    }, [])
+	useEffect(() => {
+		fetch(file.fileBase64Url)
+			.then((data) => data.blob())
+			.then((blob) => setFileBinary(blob))
+	}, [])
 
 	return (
 		<div className="flex space-x-2">
 			<div className="w-56 h-52 shadow group border rounded-xl border-sky-400 flex relative">
+				{fileBinary ? (
+					<Document
+						file={fileBinary}
+						onLoadSuccess={() => console.log('yay')}
+					>
+						<Page width={128} height={192} pageNumber={1} />
+					</Document>
+				) : (
+					''
+				)}
 				<div className="description bg-white w-full p-2 self-end rounded-b-xl">
 					<p>{_.truncate('Name', {length: 45})}</p>
 				</div>

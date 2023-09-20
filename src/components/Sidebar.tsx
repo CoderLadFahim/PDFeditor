@@ -15,10 +15,10 @@ function Sidebar() {
 				    <Upload />
 				    <p className="nav-link-text"><Link to="/">Upload</Link></p>
 				</li>
-                <li className={`${location.pathname === '/compose' ? 'active-nav-link' : ''} nav-link`}>
-				    <Edit />
-				    <p className="nav-link-text"><Link to="/compose">Compose</Link></p>
-				</li>
+    {/*             <li className={`${location.pathname === '/compose' ? 'active-nav-link' : ''} nav-link`}> */}
+				{/*     <Edit /> */}
+				{/*     <p className="nav-link-text"><Link to="/compose">Compose</Link></p> */}
+				{/* </li> */}
 			</ul>
 		</nav>
 	)

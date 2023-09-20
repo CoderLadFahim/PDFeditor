@@ -6,6 +6,13 @@ import _ from 'lodash'
 import {CanvasContext} from '../../contexts/CanvasContext'
 import useMousePosition from '../../hooks/useMousePosition'
 
+import {pdfjs} from 'react-pdf'
+import {Document, Page} from 'react-pdf'
+pdfjs.GlobalWorkerOptions.workerSrc = new URL(
+	'pdfjs-dist/build/pdf.worker.min.js',
+	import.meta.url
+).toString()
+
 function Canvas({activeDocument}: {activeDocument: IDocument}) {
 	const canvasComponent = useRef<HTMLDivElement>(null)
 	const {state, dispatch} = useContext(CanvasContext)
@@ -47,6 +54,18 @@ function Canvas({activeDocument}: {activeDocument: IDocument}) {
 	    setCoordsToZoomFrom(() => ({x, y}))
 	}, [enableZoom])
 
+	const [fileBinary, setFileBinary] = useState<Blob | null>(null)
+
+	useEffect(() => {
+        // @ts-ignore
+	    const [file] = JSON.parse(localStorage.getItem('uploadedFiles'))
+	    
+		fetch(file.fileBase64Url)
+			.then((data) => data.blob())
+			.then((blob) => setFileBinary(blob))
+	}, [])
+	const scaleBy = 1;
+
 	return (
 		<div
 			ref={canvasComponent}
@@ -65,6 +84,18 @@ function Canvas({activeDocument}: {activeDocument: IDocument}) {
 					dragHandler={handleDrag}
 				/>
 			))}
+
+{/* w-[595px] h-[842px] */}
+
+			{fileBinary ? (
+				    <Document file={fileBinary} onLoadSuccess={() => console.log('yay')}>
+					    <Page width={595 * scaleBy} height={842 * scaleBy} pageNumber={1} />
+					    {/* <Page pageNumber={1} /> */}
+				    </Document>
+				) : (
+					''
+			)}
+
 		</div>
 	)
 }

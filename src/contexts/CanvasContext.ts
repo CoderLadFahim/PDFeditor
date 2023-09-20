@@ -131,7 +131,7 @@ export function canvasReducer(
 		case 'SET_DOCUMENT':
 		    return {
 		        ...state,
-		        documents: [ action.payload ]
+		        documents: [ ...state.documents, action.payload ]
 		    }
 			break
 		case 'SET_ACTIVE_DOCUMENT_ID':

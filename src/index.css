@@ -82,3 +82,14 @@ body {
         bottom: 0;
     }
 }
+
+/* .react-pdf__Page__canvas { */
+/*     margin: 0 auto; */
+/*     width: 80% !important; */
+/*     height: 100% !important; */
+/* } */
+
+.react-pdf__Page__textContent.textLayer {
+    display: none !important;
+}
+

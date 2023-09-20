@@ -54,7 +54,7 @@ and you should be good to go
 * Handle multiple file uploads and its connection to the state
 * Write some good documentation this time
 
+* Fix the preview state
+* Clear the coords when the selected component in deleted
 * Clear as many 'any' types as possible
 * Look into dragging and dropping of selected tools (if not possible, implement a better UX with cursor indication)
-* Check the preview state
-* Clear the coords when the selected component in deleted

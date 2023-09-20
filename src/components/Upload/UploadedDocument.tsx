@@ -1,6 +1,7 @@
 import _ from 'lodash'
 import {Edit, Trash2} from 'react-feather'
 import {IFileInLocalStorage} from '../../types/Reusables'
+import { useNavigate } from 'react-router-dom'
 
 // import {pdfjs} from 'react-pdf'
 // import {Document, Page} from 'react-pdf'
@@ -17,6 +18,16 @@ function UploadedDocument({file}: {file: IFileInLocalStorage}) {
 	// 		.then((data) => data.blob())
 	// 		.then((blob) => setFileBinary(blob))
 	// }, [])
+	//
+    const navigate = useNavigate()
+
+    const handleEditClick = () => {
+        navigate('/compose', {
+            state: {
+                document_id : file.documentId
+            }
+        })
+    }
 
 	return (
 		<div className="flex space-x-2">
@@ -38,7 +49,7 @@ function UploadedDocument({file}: {file: IFileInLocalStorage}) {
 				</div>
 
 				<div className="calls-to-action space-y-3 absolute right-2 top-2">
-					<button className="bg-green-400 transform transition opacity-0 group-hover:opacity-100 hover:scale-[1.15] rounded-full w-8 h-8 grid place-items-center text-white">
+					<button className="bg-green-400 transform transition opacity-0 group-hover:opacity-100 hover:scale-[1.15] rounded-full w-8 h-8 grid place-items-center text-white" onClick={handleEditClick}>
 						<Edit size="15" />
 					</button>
 					<button className="bg-red-400 transform transition opacity-0 group-hover:opacity-100 hover:scale-[1.15]  rounded-full w-8 h-8 grid place-items-center text-white">

@@ -1,8 +1,9 @@
 import CanvasControl from './CanvasControl'
 import Canvas from './Canvas'
 import {EyeOff} from 'react-feather'
-import {useContext} from 'react'
+import {useContext, useEffect} from 'react'
 import {CanvasContext} from '../../contexts/CanvasContext'
+import { useLocation } from "react-router-dom";
 
 function Compose() {
 	const {state, dispatch} = useContext(CanvasContext)
@@ -15,9 +16,12 @@ function Compose() {
         })
     }
 
+    // const location = useLocation();
+    // let document_id = location.state.document_id;
+
 	return (
 		<div>
-			{ activeDocument ? <Canvas activeDocument={activeDocument} key={activeDocument?.canvasChildren.length} /> : '' }
+			{ activeDocument ? <Canvas activeDocument={activeDocument} /> : '' }
 			{ activeDocument ? <CanvasControl activeDocument={activeDocument} /> : '' }
 
 			{activeDocument?.previewMode ? (

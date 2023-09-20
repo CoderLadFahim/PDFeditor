@@ -22,11 +22,7 @@ function UploadedDocument({file}: {file: IFileInLocalStorage}) {
     const navigate = useNavigate()
 
     const handleEditClick = () => {
-        navigate('/compose', {
-            state: {
-                document_id : file.documentId
-            }
-        })
+        navigate(`/compose?document_id=${file.documentId}`)
     }
 
 	return (

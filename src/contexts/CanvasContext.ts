@@ -160,7 +160,7 @@ export function canvasReducer(
 }
 
 export const initialCanvasState: ICanvasState = {
-	activeDocumentId: 'BLANK_CANVAS',
+	activeDocumentId: '',
 	documents: [
 		{
 			documentId: 'BLANK_CANVAS',

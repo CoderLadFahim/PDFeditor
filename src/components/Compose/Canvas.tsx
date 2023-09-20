@@ -1,6 +1,6 @@
 import {useContext, useEffect, useRef, useState} from 'react'
 import CanvasChild from './CanvasChild'
-import {ICanvasChild, IDocument} from '../../types/Reusables'
+import {ICanvasChild, IDocument, IFileInLocalStorage} from '../../types/Reusables'
 import {v4} from 'uuid'
 import _ from 'lodash'
 import {CanvasContext} from '../../contexts/CanvasContext'
@@ -13,7 +13,7 @@ pdfjs.GlobalWorkerOptions.workerSrc = new URL(
 	import.meta.url
 ).toString()
 
-function Canvas({activeDocument}: {activeDocument: IDocument}) {
+function Canvas({activeDocument, queryParams}: {activeDocument: IDocument | undefined, [key: string]: any}) {
 	const canvasComponent = useRef<HTMLDivElement>(null)
 	const {state, dispatch} = useContext(CanvasContext)
 	const {x, y} = useMousePosition(canvasComponent)
@@ -30,12 +30,12 @@ function Canvas({activeDocument}: {activeDocument: IDocument}) {
 
 	const handleCanvasClick = () => {
 		dispatch({type: 'SET_SELECTED_COMPONENT_ID', payload: null})
-		if (activeDocument.previewMode) return
-		if (activeDocument.selectedTool === 'zoom') return zoom()
-		if (!activeDocument.selectedTool) return
+		if (activeDocument?.previewMode) return
+		if (activeDocument?.selectedTool === 'zoom') return zoom()
+		if (!activeDocument?.selectedTool) return
 		const newCanvasChild: ICanvasChild = {
-			type: activeDocument.selectedTool,
-			value: activeDocument.selectedTool === 'text' ? 'Text field' : '',
+			type: activeDocument?.selectedTool,
+			value: activeDocument?.selectedTool === 'text' ? 'Text field' : '',
 			id: v4(),
 			x,
 			y,
@@ -56,13 +56,20 @@ function Canvas({activeDocument}: {activeDocument: IDocument}) {
 
 	const [fileBinary, setFileBinary] = useState<Blob | null>(null)
 
+
+	const document_id = queryParams.get('document_id')
+
 	useEffect(() => {
+	    if (!document_id) return;
+	    console.log('this is running', activeDocument?.documentId);
         // @ts-ignore
-	    const [file] = JSON.parse(localStorage.getItem('uploadedFiles'))
-	    
-		fetch(file.fileBase64Url)
+	    const files = JSON.parse(localStorage.getItem('uploadedFiles'))
+	    const fileToShow = files.find((file: IFileInLocalStorage) => file.documentId === document_id)
+
+        if (!fileToShow) return;
+		fetch(fileToShow.fileBase64Url)
 			.then((data) => data.blob())
-			.then((blob) => setFileBinary(blob))
+			.then((blob) => setFileBinary(blob));
 	}, [])
 	const scaleBy = 1;
 
@@ -71,13 +78,13 @@ function Canvas({activeDocument}: {activeDocument: IDocument}) {
 			ref={canvasComponent}
 			key={state.activeDocumentId}
 			id="app-canvas"
-			className={`app-canvas overflow-y-hidden ${activeDocument.selectedTool === 'zoom' && !activeDocument.previewMode  ? 'cursor-zoom-in' : ''} bg-white shadow w-[595px] h-[842px] ${
-				activeDocument.previewMode ? 'preview-mode' : ''
+			className={`app-canvas overflow-y-hidden ${activeDocument?.selectedTool === 'zoom' && !activeDocument?.previewMode  ? 'cursor-zoom-in' : ''} bg-white shadow w-[595px] h-[842px] ${
+				activeDocument?.previewMode ? 'preview-mode' : ''
 			} ${enableZoom ? `transform scale-[2] print:scale-[1] cursor-zoom-out` : ''}`}
 			style={enableZoom ? { transformOrigin: `${coordsToZoomFrom.x}px ${coordsToZoomFrom.y}px` } : {}}
 			onClick={handleCanvasClick}
 		>
-			{activeDocument.canvasChildren.map((child, i) => (
+			{activeDocument?.canvasChildren.map((child, i) => (
 				<CanvasChild
 					{...child}
 					key={i}

@@ -60,4 +60,5 @@ and you should be good to go
 * CanvasChildren problem is back
 
 * Clear as many 'any' types as possible
+* Check for BS document ids
 * Look into dragging and dropping of selected tools (if not possible, implement a better UX with cursor indication)

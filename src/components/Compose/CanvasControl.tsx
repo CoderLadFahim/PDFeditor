@@ -10,7 +10,7 @@ import {
 import CanvasTool from './CanvasTool'
 import {ICanvasToolProps} from '../../types/ComponentProps'
 
-function CanvasControl({activeDocument}: {activeDocument: IDocument}) {
+function CanvasControl({activeDocument}: {activeDocument: IDocument | undefined}) {
 	const {state, dispatch} = useContext(CanvasContext)
 	const canvasTools: ICanvasToolProps[] = [
 		{type: 'text', icon: () => <Type size={20} />},
@@ -37,8 +37,8 @@ function CanvasControl({activeDocument}: {activeDocument: IDocument}) {
 	}
 
 	const selectedCanvasChild: ICanvasChild | undefined =
-		activeDocument.canvasChildren.find(
-			(childComponent: ICanvasChild) => childComponent.id === activeDocument.selectedCanvasChild?.id
+		activeDocument?.canvasChildren.find(
+			(childComponent: ICanvasChild) => childComponent.id === activeDocument?.selectedCanvasChild?.id
 		)
 
 	const [x, setX] = useState<number>(selectedCanvasChild?.x ?? 0)
@@ -74,12 +74,12 @@ function CanvasControl({activeDocument}: {activeDocument: IDocument}) {
 			payload: {
 				...state,
 				documents: state.documents.map((documentObj: IDocument) =>
-					documentObj.documentId !== activeDocument.documentId
+					documentObj.documentId !== activeDocument?.documentId
 						? {...documentObj}
 						: {
 								...documentObj,
 								selectedTool:
-									activeDocument.selectedTool,
+									activeDocument?.selectedTool,
 								selectedCanvasChild: null,
 								previewMode: false,
 								canvasChildren: [],
@@ -95,36 +95,36 @@ function CanvasControl({activeDocument}: {activeDocument: IDocument}) {
 	return (
 		<section
 			className={`app-canvas-control transition bg-gray-800 px-6 pt-6 text-white relative z-10 ${
-				activeDocument.previewMode ? 'hidden' : ''
+				activeDocument?.previewMode ? 'hidden' : ''
 			}`}
 		>
-			<div className="mb-10">
-				<label
-					htmlFor="countries"
-					className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-				>
-					Select a document
-				</label>
-				<select
-					id="countries"
-					className="bg-gray-50 text-gray-400 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500"
-				>
-					{uploadedDocuments
-						? uploadedDocuments.map(
-								(documentObj: IFileInLocalStorage) => (
-									<option
-									    key={documentObj.documentId}
-									    value={documentObj.documentId}
-									    selected={documentObj.documentId === activeDocument.documentId}
-									    onClick={() => handleDocumentOptionClick(documentObj.documentId)}
-									>
-										{documentObj.filePath}
-									</option>
-								)
-						  )
-						: ''}
-				</select>
-			</div>
+			{/* <div className="mb-10"> */}
+			{/* 	<label */}
+			{/* 		htmlFor="countries" */}
+			{/* 		className="block mb-2 text-sm font-medium text-gray-900 dark:text-white" */}
+			{/* 	> */}
+			{/* 		Select a document */}
+			{/* 	</label> */}
+			{/* 	<select */}
+			{/* 		id="countries" */}
+			{/* 		className="bg-gray-50 text-gray-400 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500" */}
+			{/* 	> */}
+			{/* 		{uploadedDocuments */}
+			{/* 			? uploadedDocuments.map( */}
+			{/* 					(documentObj: IFileInLocalStorage) => ( */}
+			{/* 						<option */}
+			{/* 						    key={documentObj.documentId} */}
+			{/* 						    value={documentObj.documentId} */}
+			{/* 						    selected={documentObj.documentId === activeDocument.documentId} */}
+			{/* 						    onClick={() => handleDocumentOptionClick(documentObj.documentId)} */}
+			{/* 						> */}
+			{/* 							{documentObj.filePath} */}
+			{/* 						</option> */}
+			{/* 					) */}
+			{/* 			  ) */}
+			{/* 			: ''} */}
+			{/* 	</select> */}
+			{/* </div> */}
 
 			<div className="coord-inputs space-y-6 mb-10">
 				<CanvasInput label="X" value={x} onChange={handleXChange} />
@@ -158,7 +158,7 @@ function CanvasControl({activeDocument}: {activeDocument: IDocument}) {
 						}
 						className={`p-3 grid place-items-center bg-slate-700 hover:bg-red-600 flex-1 ${
 							!Boolean(
-								activeDocument.canvasChildren.length
+								activeDocument?.canvasChildren.length
 							)
 								? 'opacity-30 pointer-events-none'
 								: ''

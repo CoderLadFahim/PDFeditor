@@ -1,6 +1,6 @@
 import {useEffect, useState} from 'react'
 import Dropzone from 'react-dropzone'
-import {FilePlus, X, Trash} from 'react-feather'
+import {FilePlus, Trash} from 'react-feather'
 
 import { pdfjs } from 'react-pdf';
 import { Document, Page } from 'react-pdf';
@@ -15,23 +15,8 @@ pdfjs.GlobalWorkerOptions.workerSrc = new URL(
 
 function Upload() {
 	const [files, setFiles] = useState<File[]>([])
-    const [numPages, setNumPages] = useState<number | undefined>(undefined);
-    const [pageNumber, setPageNumber] = useState<number | undefined>(1);
 
-    const [pdf, setPdf] = useState<Blob | null>(null);
-    useEffect(() => {
-        const pdfFromLocalStorage: (string | null) = localStorage.getItem('pdf')
-        if (!pdfFromLocalStorage) return;
-
-        fetch(pdfFromLocalStorage)
-            .then(res => res.blob())
-            .then(blob => {
-                console.log(blob);
-                setPdf(() => blob) 
-            })
-    }, [])
-
-    function toBase64(file: Blob): Promise<String> {
+    const toBase64 = (file: Blob): Promise<String> => {
         return new Promise((resolve, reject) => {
             const reader = new FileReader();
             reader.readAsDataURL(file);
@@ -39,40 +24,24 @@ function Upload() {
             reader.onerror = error => reject(error);
         });
     }
-    // {
-    //     files: [
-    //         {
-    //             fileName: string,
-    //             filePath: base64Url
-    //         }
-    //
-    //     ]
-    //
-    // }
 
 	const handleDrop = async (acceptedFiles: File[]) => {
-		const acceptedFilesToBase64 = acceptedFiles.map(value => toBase64(value))
+		const acceptedFilesToBase64 = acceptedFiles.map(async value => {
+		    const fileBase64Url = await toBase64(value);
+            // ignoring this as creating a custom file interface extending File, conflicts with react-dropzone
+            // @ts-ignore 
+		    const filePath = value.path;
+
+		    return { fileBase64Url, filePath }
+		})
         const dataUrls = await Promise.all(acceptedFilesToBase64);
-        console.log({dataUrls});
-	}
 
-	const truncateString = (str: string, n: number): string => {
-		if (str.length <= n) return str
-		return str.slice(0, n).concat('...')
-	}
-
-	const getFileType = (path: string): string => {
-		const pathSplit: string[] = path.split('.')
-		return pathSplit[pathSplit.length - 1]
-	}
-
-	const handleFileDelete = (fileToDeleteIndex: number) => {
-		console.log(fileToDeleteIndex)
+        localStorage.setItem('uploadedFiles', JSON.stringify(dataUrls))
 	}
 
 	const handleClearBtnClick = () => {
 		setFiles(() => [])
-		localStorage.removeItem('files')
+		localStorage.removeItem('uploadedFiles')
 	}
 
 	return (
@@ -142,7 +111,7 @@ function Upload() {
 					file={pdf}
 					onLoadSuccess={() => console.log('yay')}
 				>
-					<Page width={595} height={842} pageNumber={pageNumber} />
+					<Page width={595} height={842} />
 				</Document>
 			) : (
 				''

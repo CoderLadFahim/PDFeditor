@@ -43,7 +43,7 @@ and you should be good to go
 # Things to do
 <!-- * Add some shadows -->
 <!-- * Coords should clear when the document clears -->
-* Store the uploaded files in localStorage
+<!-- * Store the uploaded files in localStorage -->
 * Make the documents iterable which means there should be multiple documents in the state 
 * Enforce a limit of 1 megabytes for PDF uploading
 * Write some good documentation this time
@@ -52,3 +52,4 @@ and you should be good to go
 * Clear as many 'any' types as possible
 * Make the TCanvasContextActionType type actually work when dispatching actions
 * Look into dragging and dropping of selected tools (if not possible, implement a better UX with cursor indication)
+* Add a confirmation prompt for file clearing in the Upload module

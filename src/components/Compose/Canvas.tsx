@@ -61,7 +61,6 @@ function Canvas({activeDocument, queryParams}: {activeDocument: IDocument | unde
 
 	useEffect(() => {
 	    if (!document_id) return;
-	    console.log('this is running', activeDocument?.documentId);
         // @ts-ignore
 	    const files = JSON.parse(localStorage.getItem('uploadedFiles'))
 	    const fileToShow = files.find((file: IFileInLocalStorage) => file.documentId === document_id)

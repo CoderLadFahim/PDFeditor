@@ -61,4 +61,6 @@ and you should be good to go
 
 * Clear as many 'any' types as possible
 * Check for BS document ids
+* Show a peek of the document in uploadedDocuments
+* Add a select list in canvascontrol
 * Look into dragging and dropping of selected tools (if not possible, implement a better UX with cursor indication)

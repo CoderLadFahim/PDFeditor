@@ -2,7 +2,7 @@ import React from 'react'
 import {
 	ICanvasChild,
 	ICanvasContext,
-	IDispatchAction,
+	ICanvasState,
 	IDocument,
 	TCanvasContextActionType,
 } from '../types/Reusables'
@@ -34,7 +34,7 @@ export function canvasReducer(
 						? canvasChild
 						: {
 								...canvasChild,
-							value: action.payload.value
+								value: action.payload.value,
 						  }
 				),
 			}
@@ -51,7 +51,10 @@ export function canvasReducer(
 		case 'DELETE_CANVAS_CHILD':
 			return {
 				...state,
-				canvasChildren: state.canvasChildren.filter((canvasChild: ICanvasChild) => canvasChild.id !== action.payload),
+				canvasChildren: state.canvasChildren.filter(
+					(canvasChild: ICanvasChild) =>
+						canvasChild.id !== action.payload
+				),
 			}
 			break
 		case 'SET_SELECTED_COMPONENT_ID':
@@ -81,14 +84,20 @@ export function canvasReducer(
 	}
 }
 
-export const initialCanvasState: IDocument = {
-	selectedTool: 'zoom',
-	selectedCanvasChild: null,
-	previewMode: false,
-	canvasChildren: []
+export const initialCanvasState: ICanvasState = {
+	activeDocument: '',
+	documents: [
+		{
+			documentId: '',
+			selectedTool: 'zoom',
+			selectedCanvasChild: null,
+			previewMode: false,
+			canvasChildren: [],
+		},
+	],
 }
 
 export const CanvasContext = React.createContext<ICanvasContext>({
 	state: initialCanvasState,
-	dispatch: () => {}
+	dispatch: () => {},
 })

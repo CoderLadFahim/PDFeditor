@@ -26,6 +26,7 @@ export interface ICanvasChild {
 }
 
 export interface IDocument {
+	documentId: string,
 	selectedTool: TCanvasChildType
 	canvasChildren: ICanvasChild[]
 	selectedCanvasChild: {type: ICanvasChildType, id: string} | null
@@ -39,7 +40,7 @@ export interface ICanvasState {
 }
 
 export interface ICanvasContext {
-	state: IDocument
+	state: ICanvasState
 	dispatch: React.Dispatch<IDispatchAction>
 }
 

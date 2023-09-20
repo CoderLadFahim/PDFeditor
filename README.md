@@ -51,12 +51,13 @@ and you should be good to go
 <!-- * Fix the preview state -->
 <!--     * fix the document top margin for good -->
 <!--     * Fix the document height -->
+<!-- * Clear the coords when the selected component in deleted -->
 
 * Show the selected document in the canvas and make it bug free
 * Enforce a limit of 1 megabytes for PDF uploading !!!
 * Handle multiple file uploads and its connection to the state
 * Write some good documentation this time
+* CanvasChildren problem is back
 
-* Clear the coords when the selected component in deleted
 * Clear as many 'any' types as possible
 * Look into dragging and dropping of selected tools (if not possible, implement a better UX with cursor indication)

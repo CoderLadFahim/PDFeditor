@@ -22,7 +22,7 @@ function Compose() {
 	return (
 		<div>
 			{ activeDocument ? <Canvas activeDocument={activeDocument} /> : '' }
-			{ activeDocument ? <CanvasControl activeDocument={activeDocument} /> : '' }
+			{ activeDocument ? <CanvasControl key={activeDocument.canvasChildren.length} activeDocument={activeDocument} /> : '' }
 
 			{activeDocument?.previewMode ? (
 				<button onClick={handleExitPreviewButtonClick} className="px-3 py-1 bg-gray-800 rounded-full shadow text-white fixed bottom-3 right-3 flex items-center opacity-10 hover:opacity-100 transition justify-between space-x-3">

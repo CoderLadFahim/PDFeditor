@@ -1,9 +1,9 @@
-import {useEffect, useState} from 'react'
+import {useEffect, useRef, useState} from 'react'
 import Dropzone from 'react-dropzone'
 import {FilePlus, Trash} from 'react-feather'
 
 import UploadedDocument from './UploadedDocument.tsx'
-import { IFileInLocalStorage } from '../../types/Reusables'
+import {IFileInLocalStorage} from '../../types/Reusables'
 
 function Upload() {
 	const [files, setFiles] = useState<IFileInLocalStorage[]>([])
@@ -37,6 +37,20 @@ function Upload() {
 		setFiles(() => [])
 		localStorage.removeItem('uploadedFiles')
 	}
+
+	useEffect(() => {
+		const uploadedFilesInLocalStorage = localStorage.getItem('uploadedFiles')
+		if (!uploadedFilesInLocalStorage) return
+		const filesParsed = JSON.parse(uploadedFilesInLocalStorage)
+		setFiles(() => filesParsed)
+	}, [])
+
+	useEffect(() => {
+	    if (!Boolean(files.length)) return;
+
+	    const filesStringified = JSON.stringify(files)
+	    localStorage.setItem('uploadedFiles', filesStringified)
+	}, [files])
 
 	return (
 		<div className="content-wrapper bg-gray-200 p-6 pb-56 mb-5 rounded-xl relative">
@@ -74,7 +88,9 @@ function Upload() {
 					<Trash />
 					<span>Clear</span>
 				</button>
-				<UploadedDocument />
+				{
+				    files.map(file => <UploadedDocument file={file} />)
+				}
 			</div>
 		</div>
 	)

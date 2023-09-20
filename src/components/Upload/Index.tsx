@@ -4,6 +4,7 @@ import {FilePlus, X, Trash} from 'react-feather'
 
 import { pdfjs } from 'react-pdf';
 import { Document, Page } from 'react-pdf';
+import UploadedDocument from './UploadedDocument.tsx';
 
 pdfjs.GlobalWorkerOptions.workerSrc = new URL(
   'pdfjs-dist/build/pdf.worker.min.js',
@@ -38,11 +39,21 @@ function Upload() {
             reader.onerror = error => reject(error);
         });
     }
+    // {
+    //     files: [
+    //         {
+    //             fileName: string,
+    //             filePath: base64Url
+    //         }
+    //
+    //     ]
+    //
+    // }
 
-	const handleDrop = (acceptedFiles: File[]) => {
-		setFiles(() => acceptedFiles)
-		// toBase64(acceptedFiles[0])
-		//     .then((res) => localStorage.setItem('pdf', res as string));
+	const handleDrop = async (acceptedFiles: File[]) => {
+		const acceptedFilesToBase64 = acceptedFiles.map(value => toBase64(value))
+        const dataUrls = await Promise.all(acceptedFilesToBase64);
+        console.log({dataUrls});
 	}
 
 	const truncateString = (str: string, n: number): string => {
@@ -100,30 +111,31 @@ function Upload() {
 					<Trash />
 					<span>Clear</span>
 				</button>
-				<ul className="flex flex-wrap gap-7 mb-16">
-					{files?.map((file: any, i: number) => (
-						<li
-							key={i}
-							className="rounded-md relative shadow p-2 w-[17rem] bg-white overflow-hidden group"
-						>
-							<span className="absolute top-0 bottom-0 left-0 w-[3rem] bg-sky-400 text-white grid place-items-center">
-								{getFileType(file.path)}
-							</span>
-							<span className="file-name  ml-[3rem]">
-								{truncateString(file.path, 25)}
-							</span>
-
-							<span className="absolute top-0 bottom-0 right-0 hidden w-[2rem] text-red-400 group-hover:grid place-items-center">
-								<button
-									className="cursor-pointer"
-									onClick={() => handleFileDelete(i)}
-								>
-									<X />
-								</button>
-							</span>
-						</li>
-					))}
-				</ul>
+				{/* <ul className="flex flex-wrap gap-7 mb-16"> */}
+				{/* 	{files?.map((file: any, i: number) => ( */}
+				{/* 		<li */}
+				{/* 			key={i} */}
+				{/* 			className="rounded-md relative shadow p-2 w-[17rem] bg-white overflow-hidden group" */}
+				{/* 		> */}
+				{/* 			<span className="absolute top-0 bottom-0 left-0 w-[3rem] bg-sky-400 text-white grid place-items-center"> */}
+				{/* 				{getFileType(file.path)} */}
+				{/* 			</span> */}
+				{/* 			<span className="file-name  ml-[3rem]"> */}
+				{/* 				{truncateString(file.path, 25)} */}
+				{/* 			</span> */}
+				{/**/}
+				{/* 			<span className="absolute top-0 bottom-0 right-0 hidden w-[2rem] text-red-400 group-hover:grid place-items-center"> */}
+				{/* 				<button */}
+				{/* 					className="cursor-pointer" */}
+				{/* 					onClick={() => handleFileDelete(i)} */}
+				{/* 				> */}
+				{/* 					<X /> */}
+				{/* 				</button> */}
+				{/* 			</span> */}
+				{/* 		</li> */}
+				{/* 	))} */}
+				{/* </ul> */}
+			    <UploadedDocument />
 			</div>
 			{pdf ? (
 				<Document

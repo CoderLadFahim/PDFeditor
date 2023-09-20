@@ -21,19 +21,21 @@ function UploadedDocument({file}: {file: IFileInLocalStorage}) {
 
 	return (
 		<div className="flex space-x-2">
-			<div className="w-56 h-52 shadow group border rounded-xl border-sky-400 flex relative">
-				{fileBinary ? (
-					<Document
-						file={fileBinary}
-						onLoadSuccess={() => console.log('yay')}
-					>
-						<Page width={128} height={192} pageNumber={1} />
-					</Document>
-				) : (
-					''
-				)}
+			<div className="w-56 h-52 shadow group border overflow-hidden rounded-xl border-sky-400 flex justify-center relative">
+        {/*         <div className='w-20 mx-auto'> */}
+				    {/* {fileBinary ? ( */}
+					   {/*  <Document */}
+						  {/*   file={fileBinary} */}
+						  {/*   onLoadSuccess={() => console.log('yay')} */}
+					   {/*      > */}
+						  {/*   <Page width={128} height={192} pageNumber={1} /> */}
+					   {/*  </Document> */}
+				    {/*     ) : ( */}
+					   {/*      '' */}
+				    {/* )} */}
+        {/*         </div> */}
 				<div className="description bg-white w-full p-2 self-end rounded-b-xl">
-					<p>{_.truncate('Name', {length: 45})}</p>
+					<p>{_.truncate(file.filePath, {length: 25})}</p>
 				</div>
 
 				<div className="calls-to-action space-y-3 absolute right-2 top-2">

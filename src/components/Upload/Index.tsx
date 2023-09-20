@@ -89,9 +89,11 @@ function Upload() {
 					<Trash />
 					<span>Clear</span>
 				</button>
-				{files.map((file, i) => (
-					<UploadedDocument file={file} key={i} />
-				))}
+                <div className='flex flex-wrap items-center gap-4'>
+				    {files.map((file, i) => (
+					    <UploadedDocument file={file} key={i} />
+				    ))}
+                </div>
 			</div>
 		</div>
 	)

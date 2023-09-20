@@ -46,11 +46,12 @@ and you should be good to go
 <!-- * Store the uploaded files in localStorage -->
 <!-- * Make the TCanvasContextActionType type actually work when dispatching actions -->
 <!-- * Make the documents iterable which means there should be multiple documents in the state  -->
-
+<!-- * Reproduce the sidebar disappearing error -->
 <!-- * Create a select list for selecting an active document -->
+
 * Show the selected document in the canvas and make it bug free
-* Enforce a limit of 1 megabytes for PDF uploading
-* Reproduce the sidebar disappearing error
+* Enforce a limit of 1 megabytes for PDF uploading !!!
+* Handle multiple file uploads and its connection to the state
 * Write some good documentation this time
 
 * Clear as many 'any' types as possible

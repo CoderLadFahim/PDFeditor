@@ -58,7 +58,11 @@ function Upload() {
 		if (!Boolean(files.length)) return
 
 		const filesStringified = JSON.stringify(files)
-		localStorage.setItem('uploadedFiles', filesStringified)
+        try {
+		    localStorage.setItem('uploadedFiles', filesStringified)
+        } catch(e: any) {
+            if (e.name === 'QuotaExceededError') alert('File size exceeded');
+        }
 
 		for (const file of files) dispatch({
 			type: 'SET_DOCUMENT',

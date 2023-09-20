@@ -96,7 +96,7 @@ function Upload() {
 		<div className="content-wrapper bg-gray-200 p-6 pb-56 mb-5 rounded-xl relative">
 			<h2>Upload document</h2>
 
-			<Dropzone onDrop={handleDrop}>
+			<Dropzone onDrop={handleDrop} accept={{ 'application/pdf': ['.pdf'] }}>
 				{({getRootProps, getInputProps}) => (
 					<section className="cursor-pointer">
 						<div

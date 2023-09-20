@@ -49,6 +49,7 @@ function Compose() {
 			    },
 		    })
 
+		    window.location.reload()
         } else {
             console.log('This page has been refreshed');
         }

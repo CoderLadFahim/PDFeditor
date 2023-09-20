@@ -63,6 +63,7 @@ function Canvas({activeDocument, queryParams}: {activeDocument: IDocument | unde
 	    if (!document_id) return;
         // @ts-ignore
 	    const files = JSON.parse(localStorage.getItem('uploadedFiles'))
+	    if (!files) return;
 	    const fileToShow = files.find((file: IFileInLocalStorage) => file.documentId === document_id)
 
         if (!fileToShow) return;

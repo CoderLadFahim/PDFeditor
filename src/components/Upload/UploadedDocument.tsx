@@ -25,10 +25,7 @@ function UploadedDocument({file, fileDeleterFunction}: {file: IFileInLocalStorag
 				    >
 					<Edit size={18} />
 				</button>
-                <button
-					className="cursor-pointer bg-red-400 h-full flex-1 grid place-items-center"
-					onClick={() => fileDeleterFunction(file.documentId)}
-				    >
+                <button className="cursor-pointer bg-red-400 h-full flex-1 grid place-items-center" onClick={() => fileDeleterFunction(file.documentId)}>
 					<Trash2 size={18} />
 				</button>
 			</span>

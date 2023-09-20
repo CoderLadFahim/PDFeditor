@@ -22,29 +22,37 @@ function Compose() {
 	}
 
 	useEffect(() => {
-		const document_id = queryParams.get('document_id')
-		if (!document_id) return dispatch({
-			type: 'SET_ACTIVE_DOCUMENT_ID',
-			payload: 'BLANK_CANVAS',
-		})
+        if (localStorage.getItem('refreshed') === null) {
+            localStorage.setItem('refreshed', '1');
 
-		dispatch({
-			type: 'SET_CANVAS',
-			payload: {
-				...state,
-				activeDocumentId: document_id,
-				documents: [
-					...state.documents,
-					{
-						documentId: document_id,
-						selectedTool: 'zoom',
-						selectedCanvasChild: null,
-						previewMode: false,
-						canvasChildren: [],
-					},
-				],
-			},
-		})
+		    const document_id = queryParams.get('document_id')
+		    if (!document_id) return dispatch({
+			    type: 'SET_ACTIVE_DOCUMENT_ID',
+			    payload: 'BLANK_CANVAS',
+		    })
+
+		    dispatch({
+			    type: 'SET_CANVAS',
+			    payload: {
+				    ...state,
+				    activeDocumentId: document_id,
+				    documents: [
+					    ...state.documents,
+					    {
+						    documentId: document_id,
+						    selectedTool: 'zoom',
+						    selectedCanvasChild: null,
+						    previewMode: false,
+						    canvasChildren: [],
+					    },
+				    ],
+			    },
+		    })
+
+        } else {
+            console.log('This page has been refreshed');
+        }
+
 	}, [])
 
 	return (

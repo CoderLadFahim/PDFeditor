@@ -47,6 +47,8 @@ function Upload() {
 	}
 
 	useEffect(() => {
+	    localStorage.removeItem('refreshed')
+
 		const uploadedFilesInLocalStorage =
 			localStorage.getItem('uploadedFiles')
 		if (!uploadedFilesInLocalStorage) return

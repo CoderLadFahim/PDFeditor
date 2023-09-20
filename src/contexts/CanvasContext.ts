@@ -168,13 +168,13 @@ export function canvasReducer(
 export const initialCanvasState: ICanvasState = {
 	activeDocumentId: '',
 	documents: [
-		{
-			documentId: 'BLANK_CANVAS',
-			selectedTool: 'zoom',
-			selectedCanvasChild: null,
-			previewMode: false,
-			canvasChildren: [],
-		},
+		// {
+		// 	documentId: 'BLANK_CANVAS',
+		// 	selectedTool: 'zoom',
+		// 	selectedCanvasChild: null,
+		// 	previewMode: false,
+		// 	canvasChildren: [],
+		// },
 	],
 }
 

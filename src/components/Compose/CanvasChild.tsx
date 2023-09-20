@@ -8,7 +8,7 @@ import {CanvasContext} from '../../contexts/CanvasContext'
 
 function CanvasChild({id, x, y, dragHandler, type}: ICanvasChildProps) {
 	const {state, dispatch} = useContext(CanvasContext)
-	const activeDocument = state.documents.find(document => document.documentId === state.activeDocumentId);
+	const activeDocument = state.documents.find(documentObj => documentObj.documentId === state.activeDocumentId);
 
 	const objectInContext = activeDocument?.canvasChildren.find(
 		(canvasChild) => canvasChild.id === id

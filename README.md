@@ -63,3 +63,4 @@ and you should be good to go
 
 -- no drag and drop
 -- file limit is 5MB
+-- document refreshes everytime canvasChildren change

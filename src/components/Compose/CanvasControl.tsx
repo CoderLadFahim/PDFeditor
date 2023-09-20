@@ -18,7 +18,7 @@ function CanvasControl({activeDocument}: {activeDocument: IDocument | undefined}
 		{type: 'zoom', icon: () => <ZoomIn size={20} />},
 	]
 
-	const [uploadedDocuments, setUploadedDocuments] = useState<
+	const [_, setUploadedDocuments] = useState<
 		IFileInLocalStorage[]
 	>([])
 	useEffect(() => {
@@ -28,13 +28,6 @@ function CanvasControl({activeDocument}: {activeDocument: IDocument | undefined}
 
 		setUploadedDocuments(() => JSON.parse(filesFromLocalStorage))
 	}, [])
-
-	const handleDocumentOptionClick = (documentId: string): void => {
-	    dispatch({
-	        type: 'SET_ACTIVE_DOCUMENT_ID',
-	        payload: documentId
-	    })
-	}
 
 	const selectedCanvasChild: ICanvasChild | undefined =
 		activeDocument?.canvasChildren.find(
@@ -98,34 +91,6 @@ function CanvasControl({activeDocument}: {activeDocument: IDocument | undefined}
 				activeDocument?.previewMode ? 'hidden' : ''
 			}`}
 		>
-			{/* <div className="mb-10"> */}
-			{/* 	<label */}
-			{/* 		htmlFor="countries" */}
-			{/* 		className="block mb-2 text-sm font-medium text-gray-900 dark:text-white" */}
-			{/* 	> */}
-			{/* 		Select a document */}
-			{/* 	</label> */}
-			{/* 	<select */}
-			{/* 		id="countries" */}
-			{/* 		className="bg-gray-50 text-gray-400 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500" */}
-			{/* 	> */}
-			{/* 		{uploadedDocuments */}
-			{/* 			? uploadedDocuments.map( */}
-			{/* 					(documentObj: IFileInLocalStorage) => ( */}
-			{/* 						<option */}
-			{/* 						    key={documentObj.documentId} */}
-			{/* 						    value={documentObj.documentId} */}
-			{/* 						    selected={documentObj.documentId === activeDocument.documentId} */}
-			{/* 						    onClick={() => handleDocumentOptionClick(documentObj.documentId)} */}
-			{/* 						> */}
-			{/* 							{documentObj.filePath} */}
-			{/* 						</option> */}
-			{/* 					) */}
-			{/* 			  ) */}
-			{/* 			: ''} */}
-			{/* 	</select> */}
-			{/* </div> */}
-
 			<div className="coord-inputs space-y-6 mb-10">
 				<CanvasInput label="X" value={x} onChange={handleXChange} />
 

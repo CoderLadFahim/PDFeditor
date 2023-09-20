@@ -7,18 +7,6 @@ import {IFileInLocalStorage} from '../../types/Reusables'
 import {v4} from 'uuid'
 import {CanvasContext, initialCanvasState} from '../../contexts/CanvasContext'
 
-
-const getLocalStorageSizeBykey = (key: string): number => {
-	let allStrings = ''
-	for (const localStorageKey in window.localStorage) {
-		if (window.localStorage.hasOwnProperty(localStorageKey)) {
-			if (localStorageKey !== key) continue; 
-			allStrings += window.localStorage[localStorageKey]
-		}
-	}
-	return (3 + (allStrings.length * 16) / (8 * 1024)) / 1024;
-}
-
 function Upload() {
 	const [files, setFiles] = useState<IFileInLocalStorage[]>([])
 	const {dispatch} = useContext(CanvasContext)

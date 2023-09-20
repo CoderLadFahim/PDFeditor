@@ -52,7 +52,7 @@ function Compose() {
 			{/*    <Canvas activeDocument={state.documents.find( (document) => document.documentId === state.activeDocumentId)} /> */}
 			{/* <CanvasControl activeDocument={state.documents.find( (document) => document.documentId === state.activeDocumentId)} /> */}
 
-			<Canvas queryParams={queryParams} activeDocument={activeDocument} />
+			<Canvas key={activeDocument?.canvasChildren.length} queryParams={queryParams} activeDocument={activeDocument} />
 			<CanvasControl activeDocument={activeDocument} />
 
 			{activeDocument?.previewMode ? (

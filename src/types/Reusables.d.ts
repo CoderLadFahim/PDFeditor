@@ -11,6 +11,7 @@ export type TCanvasContextActionType =
     | 'EDIT_CANVAS_CHILD_VALUE'
     | 'SET_DOCUMENT'
     | 'SET_ACTIVE_DOCUMENT_ID'
+    | 'DELETE_DOCUMENT'
 
 export interface IDispatchAction {
     type: TCanvasContextActionType,

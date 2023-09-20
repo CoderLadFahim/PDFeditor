@@ -140,6 +140,12 @@ export function canvasReducer(
 		        activeDocumentId: action.payload
 		    }
 			break
+		case 'DELETE_DOCUMENT':
+		    return {
+		        ...state,
+		        documents: state.documents.filter(doc => doc.documentId !== action.payload)
+		    }
+			break
 		case 'SET_PREVIEW_MODE':
 			return {
 				...state,

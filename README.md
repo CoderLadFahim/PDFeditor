@@ -54,13 +54,12 @@ and you should be good to go
 <!-- * Clear the coords when the selected component in deleted -->
 <!-- * Show the selected document in the canvas and make it bug free -->
 <!-- * Handle multiple file uploads and its connection to the state -->
+<!-- * Handle file delete -->
+<!-- * CanvasChildren length change problem is back -->
+<!-- * Enforce a limit of 1 megabytes for PDF uploading !!! -->
+<!-- * Handle the clear btn logic -->
 
-* CanvasChildren length change problem is back
-* Enforce a limit of 1 megabytes for PDF uploading !!!
 * Write some good documentation this time
 
-* Clear as many 'any' types as possible
-* Check for BS document ids
-* Show a peek of the document in uploadedDocuments
-* Add a select list in canvascontrol
-* Look into dragging and dropping of selected tools (if not possible, implement a better UX with cursor indication)
+-- no drag and drop
+-- file limit is 5MB

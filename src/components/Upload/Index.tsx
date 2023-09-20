@@ -7,6 +7,7 @@ import {IFileInLocalStorage} from '../../types/Reusables'
 import {v4} from 'uuid'
 import {CanvasContext, initialCanvasState} from '../../contexts/CanvasContext'
 
+
 const getLocalStorageSizeBykey = (key: string): number => {
 	let allStrings = ''
 	for (const localStorageKey in window.localStorage) {
@@ -20,7 +21,7 @@ const getLocalStorageSizeBykey = (key: string): number => {
 
 function Upload() {
 	const [files, setFiles] = useState<IFileInLocalStorage[]>([])
-	const {state, dispatch} = useContext(CanvasContext)
+	const {dispatch} = useContext(CanvasContext)
 
 	const toBase64 = (file: Blob): Promise<string> => {
 		return new Promise((resolve, reject) => {
@@ -73,6 +74,11 @@ function Upload() {
 		    localStorage.setItem('uploadedFiles', filesStringified)
         } catch(e: any) {
             if (e.name === 'QuotaExceededError') alert('File size exceeded');
+            setFiles(() => [])
+            dispatch({
+                type: 'SET_CANVAS',
+                payload: initialCanvasState
+            })
         }
 
 		for (const file of files) dispatch({
@@ -87,6 +93,14 @@ function Upload() {
 		})
 
 	}, [files])
+
+	const handleFileDelete = (fileToDeleteId: string) => {
+	    setFiles(files => files.filter(file => file.documentId !== fileToDeleteId))
+	    dispatch({
+	        type: 'DELETE_DOCUMENT',
+	        payload: fileToDeleteId
+	    })
+	}
 
 	return (
 		<div className="content-wrapper bg-gray-200 p-6 pb-56 mb-5 rounded-xl relative">
@@ -126,7 +140,7 @@ function Upload() {
 				</button>
 				<div className="flex flex-wrap items-center gap-4">
 					{files.map((file, i) => (
-						<UploadedDocument file={file} key={i} />
+						<UploadedDocument file={file} key={i} fileDeleterFunction={handleFileDelete} />
 					))}
 				</div>
 			</div>

@@ -3,7 +3,7 @@ import {Edit, Trash2} from 'react-feather'
 import {IFileInLocalStorage} from '../../types/Reusables'
 import { useNavigate } from 'react-router-dom'
 
-function UploadedDocument({file}: {file: IFileInLocalStorage}) {
+function UploadedDocument({file, fileDeleterFunction}: {file: IFileInLocalStorage, fileDeleterFunction: Function}) {
     const navigate = useNavigate()
 
     const handleEditClick = () => {
@@ -11,22 +11,28 @@ function UploadedDocument({file}: {file: IFileInLocalStorage}) {
     }
 
 	return (
-		<div className="flex space-x-2">
-			<div className="w-56 --h-52 shadow group border overflow-hidden rounded-xl border-sky-400 flex justify-center relative">
-				<div className="description bg-white w-full p-2 self-end rounded-b-xl">
-					<p>{_.truncate(file.filePath, {length: 25})}</p>
-				</div>
+		<li
+			className="rounded-md relative shadow p-2 w-[17rem] bg-white overflow-hidden group"
+		>
+			<span className="file-name">
+				{_.truncate(file.filePath, {length: 32})}
+			</span>
 
-				<div className="calls-to-action space-y-3 --absolute right-2 top-2">
-					<button className="bg-green-400 transform transition opacity-0 group-hover:opacity-100 hover:scale-[1.15] rounded-full w-8 h-8 grid place-items-center text-white" onClick={handleEditClick}>
-						<Edit size="15" />
-					</button>
-					<button className="bg-red-400 transform transition opacity-0 group-hover:opacity-100 hover:scale-[1.15]  rounded-full w-8 h-8 grid place-items-center text-white">
-						<Trash2 size="15" />
-					</button>
-				</div>
-			</div>
-		</div>
+			<span className="absolute top-0 bottom-0 flex text-white transition right-0 opacity-0 w-[5rem] group-hover:opacity-100">
+                <button
+					className="cursor-pointer bg-sky-400 h-full flex-1 grid place-items-center"
+					onClick={() => handleEditClick()}
+				    >
+					<Edit size={18} />
+				</button>
+                <button
+					className="cursor-pointer bg-red-400 h-full flex-1 grid place-items-center"
+					onClick={() => fileDeleterFunction(file.documentId)}
+				    >
+					<Trash2 size={18} />
+				</button>
+			</span>
+		</li>
 	)
 }
 

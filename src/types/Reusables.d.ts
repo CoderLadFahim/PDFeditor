@@ -9,6 +9,8 @@ export type TCanvasContextActionType =
     | 'SET_PREVIEW_MODE'
     | 'SET_SELECTED_COMPONENT_ID' 
     | 'EDIT_CANVAS_CHILD_VALUE'
+    | 'SET_DOCUMENT'
+    | 'SET_ACTIVE_DOCUMENT_ID'
 
 export interface IDispatchAction {
     type: TCanvasContextActionType,

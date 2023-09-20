@@ -18,29 +18,27 @@ function CanvasControl({activeDocument}: {activeDocument: IDocument}) {
 		{type: 'zoom', icon: () => <ZoomIn size={20} />},
 	]
 
-	// let uploadedDocuments: IFileInLocalStorage[] = [];
 	const [uploadedDocuments, setUploadedDocuments] = useState<
 		IFileInLocalStorage[]
 	>([])
 	useEffect(() => {
 		const filesFromLocalStorage: null | string =
 			localStorage.getItem('uploadedFiles')
-		if (!filesFromLocalStorage) return
+		if (!filesFromLocalStorage) return;
 
 		setUploadedDocuments(() => JSON.parse(filesFromLocalStorage))
-
-		console.log({uploadedDocuments})
 	}, [])
 
-	const handleDocumentOptionClick = (documentObj: IFileInLocalStorage) => {
-	    console.log(documentObj);
-
+	const handleDocumentOptionClick = (documentId: string): void => {
+	    dispatch({
+	        type: 'SET_ACTIVE_DOCUMENT_ID',
+	        payload: documentId
+	    })
 	}
 
 	const selectedCanvasChild: ICanvasChild | undefined =
 		activeDocument.canvasChildren.find(
-			(childComponent: ICanvasChild) =>
-				childComponent.id === activeDocument.selectedCanvasChild?.id
+			(childComponent: ICanvasChild) => childComponent.id === activeDocument.selectedCanvasChild?.id
 		)
 
 	const [x, setX] = useState<number>(selectedCanvasChild?.x ?? 0)
@@ -114,7 +112,12 @@ function CanvasControl({activeDocument}: {activeDocument: IDocument}) {
 					{uploadedDocuments
 						? uploadedDocuments.map(
 								(documentObj: IFileInLocalStorage) => (
-									<option key={documentObj.documentId} value={documentObj.documentId} onClick={() => handleDocumentOptionClick(documentObj)}>
+									<option
+									    key={documentObj.documentId}
+									    value={documentObj.documentId}
+									    selected={documentObj.documentId === activeDocument.documentId}
+									    onClick={() => handleDocumentOptionClick(documentObj.documentId)}
+									>
 										{documentObj.filePath}
 									</option>
 								)

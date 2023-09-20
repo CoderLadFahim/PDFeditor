@@ -1,13 +1,15 @@
-import {useEffect, useState} from 'react'
+import {useContext, useEffect, useState} from 'react'
 import Dropzone from 'react-dropzone'
 import {FilePlus, Trash} from 'react-feather'
 
 import UploadedDocument from './UploadedDocument.tsx'
 import {IFileInLocalStorage} from '../../types/Reusables'
-import { v4 } from 'uuid'
+import {v4} from 'uuid'
+import {CanvasContext, initialCanvasState} from '../../contexts/CanvasContext'
 
 function Upload() {
 	const [files, setFiles] = useState<IFileInLocalStorage[]>([])
+	const {state, dispatch} = useContext(CanvasContext)
 
 	const toBase64 = (file: Blob): Promise<string> => {
 		return new Promise((resolve, reject) => {
@@ -37,6 +39,11 @@ function Upload() {
 	const handleClearBtnClick = () => {
 		setFiles(() => [])
 		localStorage.removeItem('uploadedFiles')
+
+		dispatch({
+		    type: 'SET_CANVAS',
+		    payload: initialCanvasState
+		})
 	}
 
 	useEffect(() => {
@@ -52,6 +59,18 @@ function Upload() {
 
 		const filesStringified = JSON.stringify(files)
 		localStorage.setItem('uploadedFiles', filesStringified)
+
+		for (const file of files) dispatch({
+			type: 'SET_DOCUMENT',
+			payload: {
+				documentId: file.documentId,
+				selectedTool: 'zoom',
+				selectedCanvasChild: null,
+				previewMode: false,
+				canvasChildren: [],
+			},
+		})
+
 	}, [files])
 
 	return (
@@ -90,11 +109,11 @@ function Upload() {
 					<Trash />
 					<span>Clear</span>
 				</button>
-                <div className='flex flex-wrap items-center gap-4'>
-				    {files.map((file, i) => (
-					    <UploadedDocument file={file} key={i} />
-				    ))}
-                </div>
+				<div className="flex flex-wrap items-center gap-4">
+					{files.map((file, i) => (
+						<UploadedDocument file={file} key={i} />
+					))}
+				</div>
 			</div>
 		</div>
 	)

@@ -128,6 +128,21 @@ export function canvasReducer(
 		case 'SET_CANVAS':
 			return action.payload
 			break
+		case 'SET_DOCUMENT':
+		    return {
+		        ...state,
+		        documents: [ 
+		            ...state.documents,
+		            { ...action.payload } 
+		        ]
+		    }
+			break
+		case 'SET_ACTIVE_DOCUMENT_ID':
+		    return {
+		        ...state,
+		        activeDocumentId: action.payload
+		    }
+			break
 		case 'SET_PREVIEW_MODE':
 			return {
 				...state,

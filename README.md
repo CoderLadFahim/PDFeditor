@@ -47,7 +47,8 @@ and you should be good to go
 <!-- * Make the TCanvasContextActionType type actually work when dispatching actions -->
 <!-- * Make the documents iterable which means there should be multiple documents in the state  -->
 
-* Create a select list for selecting an active document
+<!-- * Create a select list for selecting an active document -->
+* Show the selected document in the canvas and make it bug free
 * Enforce a limit of 1 megabytes for PDF uploading
 * Reproduce the sidebar disappearing error
 * Write some good documentation this time

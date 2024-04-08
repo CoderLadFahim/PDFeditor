@@ -1,5 +1,6 @@
 import { useContext } from 'react'
 import { CanvasContext } from '../contexts/CanvasContext'
+import { Settings } from 'react-feather';
 
 function Navbar() {
 	const {state} = useContext(CanvasContext)
@@ -7,8 +8,9 @@ function Navbar() {
 
 	return (
 		<nav className={`app-navbar shadow transition bg-gray-200 w-100 z-10 ${activeDocument?.previewMode ? 'hidden' : '' }`}>
-			<div className="logo-wrapper bg-gray-50 grid text-white place-items-center text-2xl">
-				<!-- <img className='w-52'  src="https://jouleslabs.com/wp-content/uploads/2021/07/cropped-JoulesLab-Logo-without-tagline.png" alt="applicaion logo" /> -->
+			<div className="logo-wrapper bg-gray-50 flex justify-center items-center text-2xl space-x-2">
+				<Settings className='text-green-500' />
+				<p className='font-bold text-gray-600 -skew-x-12'>PDF Mechanic</p>
 			</div>
 		</nav>
 	)

@@ -1,6 +1,6 @@
 import { useContext } from 'react'
 import { CanvasContext } from '../contexts/CanvasContext'
-import { Settings, Info } from 'react-feather';
+import { Settings } from 'react-feather';
 
 function Navbar() {
     const { state } = useContext(CanvasContext)
